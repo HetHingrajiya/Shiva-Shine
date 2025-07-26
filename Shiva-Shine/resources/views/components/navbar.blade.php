@@ -65,7 +65,7 @@
     </div>
 
     <!-- Navigation Links - Always Visible on Desktop -->
-    <div class="mt-2 hidden sm:flex space-x-6 text-sm text-gray-700 font-medium overflow-x-auto pb-2">
+    <div class="mt-2 hidden sm:flex space-x-6 text-lg text-gray-700 font-medium overflow-x-auto pb-2">
       <a href="#" class="hover:text-pink-500 whitespace-nowrap">Shop by Category</a>
       <a href="#" class="hover:text-pink-500 whitespace-nowrap">Gold with Lab Diamonds</a>
       <a href="#" class="hover:text-pink-500 whitespace-nowrap">Women's Jewellery</a>
@@ -104,7 +104,7 @@
       <a href="#" class="block hover:text-pink-500">More at Shiva Shine</a>
 
       <!-- Mobile Icons -->
-      <div class="flex justify-around pt-3 text-pink-600">
+      <div class="flex justify-around pt-3 text-black-600">
         @foreach ($icons as $icon)
         <a href="#" class="flex flex-col items-center text-xs">
           <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">

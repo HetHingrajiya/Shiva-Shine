@@ -34,13 +34,18 @@
       <img src="{{ asset('images/files/58_silver_jewellery_offer_hero_web_1_-mind2de.jpg') }}" class="w-full h-[550px] object-cover flex-shrink-0" alt="Banner 2">
       <img src="{{ asset('images/files/35-Personalised_Rakhi_Hero_Web-min7bb2.jpg') }}" class="w-full h-[550px] object-cover flex-shrink-0" alt="Banner 3">
     </div>
-    <!-- Controls -->
-    <button id="prevDesktopSlide" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow z-10">
-      <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+   <!-- Controls -->
+    <button id="prevDesktopSlide" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 p-2 rounded-full shadow z-10">
+    <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M15 19l-7-7 7-7"/>
+    </svg>
     </button>
-    <button id="nextDesktopSlide" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow z-10">
-      <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    <button id="nextDesktopSlide" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 p-2 rounded-full shadow z-10">
+    <svg class="w-6 h-6 text-white/70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M9 5l7 7-7 7"/>
+    </svg>
     </button>
+
   </div>
 
   <!-- ===== Mobile Slideshow ===== -->
@@ -65,7 +70,7 @@
   <!-- Left Arrow -->
   <button
     onclick="scrollSlider('left')"
-    class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-pink-100 text-pink-200 rounded-full p-2 shadow-md z-10 transition"
+    class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-pink-100 text-pink-400 rounded-full p-2 shadow-md z-10 transition"
     aria-label="Scroll Left"
   >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,7 +115,7 @@
   <!-- Right Arrow -->
   <button
     onclick="scrollSlider('right')"
-    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-pink-100 text-pink-200 rounded-full p-2 shadow-md z-10 transition"
+    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-pink-100 text-pink-400 rounded-full p-2 shadow-md z-10 transition"
     aria-label="Scroll Right"
   >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
