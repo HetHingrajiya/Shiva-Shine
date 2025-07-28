@@ -65,7 +65,7 @@
 
     <!-- Scrollable Slider -->
     <div class="px-4 md:px-6">
-      <div id="category-slider" class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide pb-4 scroll-smooth">
+      <div id="category-slider" class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide py-4 scroll-smooth">
         @foreach([
           ['label' => 'Personalised', 'src' => 'images/files/8_5c398.jpg'],
           ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'],
@@ -110,21 +110,26 @@
 
       <!-- Him -->
       <div class="w-1/2 max-w-[160px] md:max-w-none md:w-1/2">
-        <img src="{{ asset('images/files/him_4_-min_9a1111cf-2eb7-4f4f-af34-fd85f064584c2034.jpg') }}"
-             alt="Him"
-             class="w-full h-auto object-cover rounded-xl">
+        <div class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
+          <img src="{{ asset('images/files/him_4_-min_9a1111cf-2eb7-4f4f-af34-fd85f064584c2034.jpg') }}"
+               alt="Him"
+               class="w-full h-auto object-cover">
+        </div>
       </div>
 
       <!-- Her -->
       <div class="w-1/2 max-w-[160px] md:max-w-none md:w-1/2">
-        <img src="{{ asset('images/files/her_1_-min_68668776-8dc0-4f43-a333-a630a36fddee2034.jpg') }}"
-             alt="Her"
-             class="w-full h-auto object-cover rounded-xl">
+        <div class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
+          <img src="{{ asset('images/files/her_1_-min_68668776-8dc0-4f43-a333-a630a36fddee2034.jpg') }}"
+               alt="Her"
+               class="w-full h-auto object-cover">
+        </div>
       </div>
 
     </div>
   </div>
 </section>
+
 
 <!-- Horizontal Product Recycler View -->
 <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
@@ -199,47 +204,49 @@
       </svg>
     </button>
 
-    <!-- Product Cards -->
-    <div id="product-scroll" class="flex overflow-x-auto space-x-4 scrollbar-hide scroll-smooth px-10 py-2">
-      @foreach($products as $product)
-        <div class="relative min-w-[400px] min-h-[540px] bg-white border border-gray-200 rounded-xl p-5 shadow hover:shadow-xl transition overflow-hidden">
+<!-- Product Cards -->
+<div id="product-scroll" class="flex overflow-x-auto space-x-4 scrollbar-hide scroll-smooth px-10 py-6">
+  @foreach($products as $product)
+    <div class="relative min-w-[400px] min-h-[540px] bg-white border border-gray-200 rounded-xl p-5 shadow transition duration-300">
 
-        <!-- Wishlist Icon -->
-        <button class="absolute top-4 right-4 text-gray-400 hover:text-pink-500 focus:outline-none">
-            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-            <path d="M12.1 8.64l-.1.1-.11-.1C10.14 6.86 7.5 7.22 6.15 9.04c-1.32 1.75-.96 4.32.99 6.29L12 21.35l4.86-6.01c1.94-1.97 2.31-4.54.99-6.29-1.35-1.82-3.99-2.18-5.75-.41z"/>
-            </svg>
-        </button>
+      <!-- Wishlist Icon -->
+      <button class="absolute top-4 right-4 text-gray-400 hover:text-pink-500 focus:outline-none transition-colors duration-200">
+        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+          <path d="M12.1 8.64l-.1.1-.11-.1C10.14 6.86 7.5 7.22 6.15 9.04c-1.32 1.75-.96 4.32.99 6.29L12 21.35l4.86-6.01c1.94-1.97 2.31-4.54.99-6.29-1.35-1.82-3.99-2.18-5.75-.41z"/>
+        </svg>
+      </button>
 
-        <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
-            class="w-full h-[280px] object-cover rounded-lg mb-4 shadow-sm">
+      <!-- Product Image with Hover -->
+      <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
+        class="w-full h-[280px] object-cover rounded-lg mb-4 shadow-sm transition-transform duration-300 hover:scale-105">
 
-        <div class="text-sm text-gray-600 mb-1">{{ $product['category'] }}</div>
-        <h3 class="font-semibold text-xl text-gray-800 mb-2">{{ $product['name'] }}</h3>
+      <div class="text-sm text-gray-600 mb-1">{{ $product['category'] }}</div>
+      <h3 class="font-semibold text-xl text-gray-800 mb-2 transition-colors duration-300 hover:text-pink-600">{{ $product['name'] }}</h3>
 
-        <div class="flex items-center gap-2 mb-2">
-            <span class="text-pink-600 font-bold text-lg">₹{{ $product['price'] }}</span>
-            <span class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
-        </div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-pink-600 font-bold text-lg">₹{{ $product['price'] }}</span>
+        <span class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
+      </div>
 
-        <div class="flex items-center mb-3">
-            <span class="text-yellow-400 text-base">★ 4.8</span>
-            <span class="text-sm text-gray-400 ml-2">(100+)</span>
-        </div>
+      <div class="flex items-center mb-3">
+        <span class="text-yellow-400 text-base">★ 4.8</span>
+        <span class="text-sm text-gray-400 ml-2">(100+)</span>
+      </div>
 
-        <button class="w-full bg-pink-100 hover:bg-pink-200 text-pink-600 font-semibold py-2 rounded-lg transition">
-            Add to Cart
-        </button>
-        </div>
-
-      @endforeach
+      <button class="w-full bg-pink-100 hover:bg-pink-200 text-pink-600 font-semibold py-2 rounded-lg transition duration-200">
+        Add to Cart
+      </button>
     </div>
+  @endforeach
+</div>
+
+
   </div>
 </section>
 
 
 <!-- ===== Men's Collection Horizontal Scroll ===== -->
-<section class="w-full bg-white py-20">
+<section class="bg-white py-10">
   <div class="max-w-[1440px] mx-auto px-4">
     <h2 class="text-center text-3xl md:text-4xl font-semibold text-[#633d2e] mb-2">
       Men's Collection
@@ -248,26 +255,29 @@
 
     @php
       $mensCards = [
-        ['title' => 'Work Picks', 'image' => 'images/files/work_chain.jpg'],
-        ['title' => 'Party Picks', 'image' => 'images/files/party_tag.jpg'],
-        ['title' => 'Spiritual Picks', 'image' => 'images/files/shiv_trishul.jpg'],
-        ['title' => 'Daily Picks', 'image' => 'images/files/plain_ring.jpg'],
-        ['title' => 'Wedding Picks', 'image' => 'images/files/wedding_ring.jpg'],
+        ['title' => 'Work Picks', 'image' => 'images/files/Men_5-min2876.png'],
+        ['title' => 'Party Picks', 'image' => 'images/files/Men1-1-minebc4.jpg'],
+        ['title' => 'Spiritual Picks', 'image' => 'images/files/Men2-min2876.png'],
+        ['title' => 'Daily Picks', 'image' => 'images/files/Men3-min2876.png'],
+        ['title' => 'Wedding Picks', 'image' => 'images/files/Men4-min2876.png'],
       ];
     @endphp
 
-    <!-- Scrollable Card Container -->
-    <div class="flex overflow-x-auto gap-8 scrollbar-hide scroll-smooth px-6 py-2">
-      @foreach($mensCards as $card)
-        <div class="min-w-[220px] sm:min-w-[240px] md:min-w-[260px] bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 flex-shrink-0">
-          <img src="{{ asset($card['image']) }}" alt="{{ $card['title'] }}"
-               class="w-full h-[300px] object-cover rounded-t-3xl" />
-          <div class="py-5 px-4 text-center">
-            <h3 class="text-lg md:text-xl font-semibold text-gray-800">{{ $card['title'] }}</h3>
+    <!-- Scrollable Container -->
+    <div class="overflow-x-auto scrollbar-hide -mx-4 px-4">
+      <div class="flex gap-6 w-max scroll-smooth">
+        @foreach($mensCards as $card)
+          <div class="min-w-[220px] sm:min-w-[240px] md:min-w-[260px] bg-white rounded-3xl transition duration-300 flex-shrink-0">
+            <img src="{{ asset($card['image']) }}" alt="{{ $card['title'] }}"
+                 class="w-[300px] h-[410px] object-cover rounded-3xl" />
           </div>
-        </div>
-      @endforeach
+        @endforeach
+      </div>
     </div>
+  </div>
+</section>
+
+
   </div>
 </section>
 
