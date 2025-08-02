@@ -34,11 +34,11 @@
         <div class="relative w-full overflow-hidden hidden md:block mt-10">
             <div id="desktopSlideshow" class="flex transition-transform duration-700 ease-in-out">
                 <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}"
-                    class="w-full h-[550px] object-cover flex-shrink-0" alt="Banner 1">
+                    class="w-full h-[auto] object-cover flex-shrink-0" alt="Banner 1">
                 <img src="{{ asset('images/files/58_silver_jewellery_offer_hero_web_1_-mind2de.jpg') }}"
-                    class="w-full h-[550px] object-cover flex-shrink-0" alt="Banner 2">
+                    class="w-full h-[auto] object-cover flex-shrink-0" alt="Banner 2">
                 <img src="{{ asset('images/files/35-Personalised_Rakhi_Hero_Web-min7bb2.jpg') }}"
-                    class="w-full h-[550px] object-cover flex-shrink-0" alt="Banner 3">
+                    class="w-full h-[auto] object-cover flex-shrink-0" alt="Banner 3">
             </div>
 
             <!-- Arrows -->
@@ -59,7 +59,7 @@
         </div>
 
         <!-- ===== Mobile Slideshow ===== -->
-        <div class="relative w-full overflow-hidden md:hidden px-4 mt-10">
+        <div class="relative w-full overflow-hidden md:hidden  mt-10">
             <div id="mobileSlideshow" class="flex transition-transform duration-700 ease-in-out">
                 <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}"
                     class="w-full rounded shadow-md flex-shrink-0" alt="Mobile Banner 1">
@@ -87,7 +87,7 @@
         </div>
 
         <!-- ===== Circular Category Slider Section ===== -->
-        <div class="px-4 mt-10 relative">
+        <div class="lg:px-4 mt-10 relative">
             <!-- Left Arrow -->
             <button onclick="scrollSlider('left')"
                 class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white hover:bg-pink-100 text-pink-400 rounded-full p-2 shadow-md z-10">
@@ -97,24 +97,24 @@
             </button>
 
             <!-- Scrollable Slider -->
-            <div class="px-4 md:px-6">
-                <div id="category-slider"
-                    class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide py-4 scroll-smooth">
-                    @foreach ([['label' => 'Personalised', 'src' => 'images/files/8_5c398.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg']] as $item)
-                        <div class="flex flex-col items-center min-w-[110px] md:min-w-[220px]">
-                            <div
-                                class="w-[90px] h-[90px] md:w-[200px] md:h-[200px] flex items-center justify-center hover:scale-105 transition-transform border border-[#D4AF37] rounded-[40px] md:rounded-[80px]">
-                                <img src="{{ asset($item['src']) }}" alt="{{ $item['label'] }}"
-                                    class="object-cover w-full h-full rounded-[39px] md:rounded-[79px]" />
-                            </div>
-                            <span class="mt-1 text-xl md:text-2xl font-medium text-gray-800 text-center">
-                                {{ $item['label'] }}
-                            </span>
 
+            <div id="category-slider"
+                class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide py-2 scroll-smooth">
+                @foreach ([['label' => 'Personalised', 'src' => 'images/files/8_5c398.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg']] as $item)
+                    <div class="flex flex-col items-center min-w-[110px] md:min-w-[220px]">
+                        <div
+                            class="w-[90px] h-[90px] md:w-[200px] md:h-[200px] flex items-center justify-center hover:scale-105 transition-transform border border-[#D4AF37] rounded-[40px] md:rounded-[80px]">
+                            <img src="{{ asset($item['src']) }}" alt="{{ $item['label'] }}"
+                                class="object-cover w-full h-full rounded-[39px] md:rounded-[79px]" />
                         </div>
-                    @endforeach
-                </div>
+                        <span class="mt-1 text-xl md:text-2xl font-medium text-gray-800 text-center">
+                            {{ $item['label'] }}
+                        </span>
+
+                    </div>
+                @endforeach
             </div>
+
 
             <!-- Right Arrow -->
             <button onclick="scrollSlider('right')"
@@ -136,7 +136,7 @@
                 <div class="flex justify-center items-center flex-wrap md:flex-nowrap gap-4 md:gap-10">
 
                     <!-- Him -->
-                    <div class="w-1/2 max-w-[160px] md:max-w-none md:w-1/2">
+                    <div class="w-1/2 max-w-[100px] md:max-w-none md:w-1/2">
                         <div
                             class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
                             <img src="{{ asset('images/files/him_4_-min_9a1111cf-2eb7-4f4f-af34-fd85f064584c2034.jpg') }}"
@@ -145,7 +145,7 @@
                     </div>
 
                     <!-- Her -->
-                    <div class="w-1/2 max-w-[160px] md:max-w-none md:w-1/2">
+                    <div class="w-1/2 max-w-[100px] md:max-w-none md:w-1/2">
                         <div
                             class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
                             <img src="{{ asset('images/files/her_1_-min_68668776-8dc0-4f43-a333-a630a36fddee2034.jpg') }}"
@@ -159,7 +159,7 @@
 
 
         <!-- ===== For Partners in Crime Section ===== -->
-        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
+        <section class="lg:px-4 lg:py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
             <h2 class="text-2xl md:text-3xl font-semibold text-center text-[#633d2e] mb-6">
                 For Partners in Crime
             </h2>
@@ -348,8 +348,9 @@
 
             </div>
         </section>
+
         <!-- =====Most Gifted Section ===== -->
-        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
+        <section class="lg:px-4 lg:py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
             <h2 class="text-2xl md:text-3xl font-semibold text-center text-[#633d2e] mb-6">
                 Most Gifted
             </h2>
