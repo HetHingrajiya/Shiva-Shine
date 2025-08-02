@@ -236,7 +236,7 @@
                 <div id="product-scroll" class="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth px-2 py-6">
                     @foreach ($products as $product)
                         <div
-                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
+                            class="w-[calc(50vw-2rem)] sm:w-[auto] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
                             <!-- Image Wrapper with group -->
                             <div class="relative group">
                                 <!-- Product Image -->
@@ -304,15 +304,13 @@
                     <div class="flex gap-4 sm:gap-6 md:gap-10 w-max py-2">
                         @foreach ($mensCards as $card)
                             <div
-                                class="min-w-[180px] sm:min-w-[220px] md:min-w-[280px] lg:min-w-[320px] h-[400px] sm:h-[450px] md:h-[470px] rounded-3xl overflow-hidden flex-shrink-0 transition-transform duration-300">
+                                class="w-[calc(53vw-2rem)] sm:w-[auto] md:w-[340px] flex-shrink-0 bg-white rounded-xl   transition duration-300 relative flex flex-col justify-between">
                                 <img src="{{ asset($card['image']) }}" alt="{{ $card['title'] }}"
                                     class="w-full h-full object-cover object-center" />
                             </div>
                         @endforeach
                     </div>
                 </div>
-
-
             </div>
         </section>
 
@@ -339,7 +337,7 @@
                     <div class="flex gap-4 sm:gap-6 md:gap-10 w-max py-2">
                         @foreach ($mensCards as $card)
                             <div
-                                class="min-w-[180px] sm:min-w-[220px] md:min-w-[280px] lg:min-w-[320px] h-[400px] sm:h-[450px] md:h-[470px] rounded-3xl overflow-hidden flex-shrink-0 transition-transform duration-300">
+                                class="w-[calc(53vw-2rem)] sm:w-[auto] md:w-[340px] flex-shrink-0 bg-white rounded-xl   transition duration-300 relative flex flex-col justify-between">
                                 <img src="{{ asset($card['image']) }}" alt="{{ $card['title'] }}"
                                     class="w-full h-full object-cover object-center" />
                             </div>
@@ -428,7 +426,7 @@
                 <div id="product-scroll" class="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth px-2 py-6">
                     @foreach ($products as $product)
                         <div
-                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
+                            class="w-[calc(50vw-2rem)] sm:w-[auto] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
 
                             <!-- Image Wrapper with group -->
                             <div class="relative group">
