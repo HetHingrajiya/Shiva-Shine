@@ -1,6 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+ <!-- ===== Fullscreen Banners Section ===== -->
+    <section class="w-full bg-[#fffaf7]">
+
+        <!-- Desktop Banner (visible on md and up) -->
+        <div class="hidden md:block mt-14">
+            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}" alt="Desktop Banner"
+                class="w-full h-auto object-cover" />
+        </div>
+
+        <!-- Mobile Banner (visible below md) -->
+        <div class="md:hidden mt-20">
+            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}" alt="Mobile Banner"
+                class="w-full h-auto object-cover" />
+        </div>
+
+    </section>
     <h2 class="text-2xl font-bold text-center mb-6">Men's Jewellery</h2>
 
     @php
