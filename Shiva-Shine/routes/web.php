@@ -7,3 +7,4 @@ Route::get('/', function () {
 });
 
 Route::get('/all_category', [CategoryController::class, 'all'])->name('Category.all_category');
+Route::get('/mens-jewellery', [CategoryController::class, 'mensJewellery'])->name('category.mens.mens_jewellery');

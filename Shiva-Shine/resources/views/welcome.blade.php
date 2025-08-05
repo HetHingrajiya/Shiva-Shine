@@ -1,34 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shiva Shine</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-    <!-- Hide Scrollbar -->
-    <style>
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
-</head>
-
-<body>
-
-    {{-- Navbar --}}
-    @include('components.navbar')
+@extends('layouts.app')
+@section('content')
     <section class="pt-20">
         <!-- ===== Desktop Slideshow ===== -->
         <div class="relative w-full overflow-hidden hidden md:block mt-10">
@@ -98,8 +69,7 @@
 
             <!-- Scrollable Slider -->
 
-            <div id="category-slider"
-                class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide py-2 scroll-smooth">
+            <div id="category-slider" class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide py-2 scroll-smooth">
                 @foreach ([['label' => 'Personalised', 'src' => 'images/files/8_5c398.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg']] as $item)
                     <div class="flex flex-col items-center min-w-[110px] md:min-w-[220px]">
                         <div
@@ -137,8 +107,7 @@
 
                     <!-- Him -->
                     <div class="w-1/2 max-w-[100px] md:max-w-none md:w-1/2">
-                        <div
-                            class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
+                        <div class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
                             <img src="{{ asset('images/files/him_4_-min_9a1111cf-2eb7-4f4f-af34-fd85f064584c2034.jpg') }}"
                                 alt="Him" class="w-full h-auto object-cover">
                         </div>
@@ -146,8 +115,7 @@
 
                     <!-- Her -->
                     <div class="w-1/2 max-w-[100px] md:max-w-none md:w-1/2">
-                        <div
-                            class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
+                        <div class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
                             <img src="{{ asset('images/files/her_1_-min_68668776-8dc0-4f43-a333-a630a36fddee2034.jpg') }}"
                                 alt="Her" class="w-full h-auto object-cover">
                         </div>
@@ -261,8 +229,7 @@
 
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="text-pink-600 font-bold text-base">₹{{ $product['price'] }}</span>
-                                <span
-                                    class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
+                                <span class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
                             </div>
 
                             <div class="flex items-center mb-2">
@@ -453,8 +420,7 @@
 
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="text-pink-600 font-bold text-base">₹{{ $product['price'] }}</span>
-                                <span
-                                    class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
+                                <span class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
                             </div>
 
                             <div class="flex items-center mb-2">
@@ -475,8 +441,6 @@
         </div>
     </section>
 
-    <!-- ===== Footer ===== -->
-    @include('components.footer')
 
     </section>
 
@@ -554,6 +518,5 @@
         }
     </script>
 
-</body>
 
-</html>
+    </html>
