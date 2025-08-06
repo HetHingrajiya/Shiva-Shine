@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <section class="pt-20">
+    <section class="pt-20 ">
         <!-- ===== Desktop Slideshow ===== -->
         <div class="relative w-full overflow-hidden hidden md:block mt-10">
             <div id="desktopSlideshow" class="flex transition-transform duration-700 ease-in-out">
@@ -30,7 +30,7 @@
         </div>
 
         <!-- ===== Mobile Slideshow ===== -->
-        <div class="relative w-full overflow-hidden md:hidden px-4 mt-10">
+        <div class="relative w-full overflow-hidden md:hidden  mt-10">
             <div id="mobileSlideshow" class="flex transition-transform duration-700 ease-in-out">
                 <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}"
                     class="w-full rounded shadow-md flex-shrink-0" alt="Mobile Banner 1">
@@ -82,16 +82,6 @@
                                 {{ $item['label'] }}
                             </span>
 
-<<<<<<< HEAD
-            <div id="category-slider" class="flex space-x-1 md:space-x-6 overflow-x-auto scrollbar-hide py-2 scroll-smooth">
-                @foreach ([['label' => 'Personalised', 'src' => 'images/files/8_5c398.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg'], ['label' => 'Earrings', 'src' => 'images/files/ER0584_3f06c.jpg'], ['label' => 'Bracelet', 'src' => 'images/files/BR01176_5cc57.jpg'], ['label' => 'Rings', 'src' => 'images/files/GDLBBR012_56e78.jpg']] as $item)
-                    <div class="flex flex-col items-center min-w-[110px] md:min-w-[220px]">
-                        <div
-                            class="w-[90px] h-[90px] md:w-[200px] md:h-[200px] flex items-center justify-center hover:scale-105 transition-transform border border-[#D4AF37] rounded-[40px] md:rounded-[80px]">
-                            <img src="{{ asset($item['src']) }}" alt="{{ $item['label'] }}"
-                                class="object-cover w-full h-full rounded-[39px] md:rounded-[79px]" />
-=======
->>>>>>> 2fb9806071477553cb310c5d945a5dcc03271050
                         </div>
                     @endforeach
                 </div>
@@ -117,28 +107,18 @@
                 <div class="flex justify-center items-center flex-wrap md:flex-nowrap gap-4 md:gap-10">
 
                     <!-- Him -->
-<<<<<<< HEAD
-                    <div class="w-1/2 max-w-[100px] md:max-w-none md:w-1/2">
-                        <div class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
-=======
                     <div class="w-1/2 max-w-[160px] md:max-w-none md:w-1/2">
                         <div
                             class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
->>>>>>> 2fb9806071477553cb310c5d945a5dcc03271050
                             <img src="{{ asset('images/files/him_4_-min_9a1111cf-2eb7-4f4f-af34-fd85f064584c2034.jpg') }}"
                                 alt="Him" class="w-full h-auto object-cover">
                         </div>
                     </div>
 
                     <!-- Her -->
-<<<<<<< HEAD
-                    <div class="w-1/2 max-w-[100px] md:max-w-none md:w-1/2">
-                        <div class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
-=======
                     <div class="w-1/2 max-w-[160px] md:max-w-none md:w-1/2">
                         <div
                             class="overflow-hidden rounded-xl transition-transform duration-300 hover:scale-105 hover:lg">
->>>>>>> 2fb9806071477553cb310c5d945a5dcc03271050
                             <img src="{{ asset('images/files/her_1_-min_68668776-8dc0-4f43-a333-a630a36fddee2034.jpg') }}"
                                 alt="Her" class="w-full h-auto object-cover">
                         </div>
