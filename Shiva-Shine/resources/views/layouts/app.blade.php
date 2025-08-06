@@ -30,8 +30,10 @@
     <!-- Header / Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="{{ url('/') }}" class="text-2xl font-bold text-[#d33f5f]">Shiva Shine</a>
+            <a href="{{ url('/') }}" class="block">
+                <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-10 w-auto">
+            </a>
+
 
             <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200"
                 x-data="{ open: false }">
@@ -54,10 +56,13 @@
                         </button>
 
                         <!-- Logo Center -->
-                        <a href="{{ url('/') }}" class="text-xl font-bold text-gray-900">Shiva Shine</a>
+                        <a href="{{ url('/') }}" class="block">
+                            <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-10 w-auto">
+                        </a>
+
 
                         <!-- Icons Right -->
-                       <div class="flex space-x-4 text-gray-700">
+                        <div class="flex space-x-4 text-gray-700">
                             @php
                                 $navItems = [
                                     [
@@ -67,13 +72,15 @@
                                     ],
                                     [
                                         'label' => 'Wishlist',
-                                        'icon' => 'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
+                                        'icon' =>
+                                            'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
                                         'link' => route('wishlist.index'), // Route for wishlist
                                         //'count' => session('wishlist_count', 0), // optional count from session
                                     ],
                                     [
                                         'label' => 'Cart',
-                                        'icon' => 'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
+                                        'icon' =>
+                                            'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
                                         'link' => route('cart.index'), // Route for cart
                                         //'count' => session('cart_count', 0), // optional cart count
                                     ],
@@ -81,8 +88,10 @@
                             @endphp
 
                             @foreach ($navItems as $item)
-                                <a href="{{ $item['link'] }}" class="relative flex flex-col items-center text-xs hover:text-pink-600 transition">
-                                    <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <a href="{{ $item['link'] }}"
+                                    class="relative flex flex-col items-center text-xs hover:text-pink-600 transition">
+                                    <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5"
+                                        viewBox="0 0 24 24">
                                         <path d="{{ $item['icon'] }}" />
                                     </svg>
                                     <span>{{ $item['label'] }}</span>
@@ -118,7 +127,11 @@
                     <div class="hidden sm:flex justify-between items-center h-16">
                         <!-- Left: Logo & Location -->
                         <div class="flex items-center gap-3">
-                            <a href="{{ url('/') }}" class="text-2xl font-bold text-gray-900">Shiva Shine</a>
+                            <a href="{{ url('/') }}" class="block">
+                                <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo"
+                                    class="h-30 w-auto">
+                            </a>
+
                             <button
                                 class="hidden sm:flex bg-[#ffe9f1] text-xs text-gray-700 px-3 py-1.5 rounded-full items-center gap-1.5">
                                 <svg class="w-4 h-4 text-pink-500" fill="currentColor" viewBox="0 0 20 20">
@@ -155,12 +168,14 @@
                                     ],
                                     [
                                         'label' => 'Wishlist',
-                                        'icon' => 'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
+                                        'icon' =>
+                                            'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
                                         'link' => route('wishlist.index'),
                                     ],
                                     [
                                         'label' => 'Cart',
-                                        'icon' => 'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
+                                        'icon' =>
+                                            'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
                                         'link' => route('cart.index'),
                                     ],
                                 ];
@@ -168,7 +183,8 @@
 
                             @foreach ($desktopNavItems as $item)
                                 <a href="{{ $item['link'] }}" class="hover:text-pink-500 flex flex-col items-center">
-                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor"
+                                        stroke-width="1.8" viewBox="0 0 24 24">
                                         <path d="{{ $item['icon'] }}" />
                                     </svg>
                                     <span>{{ $item['label'] }}</span>
@@ -181,7 +197,8 @@
                     <div class="mt-2 hidden sm:flex space-x-6 text-lg text-gray-700 font-medium overflow-x-auto pb-2">
                         <a href="{{ route('Category.all_category') }}"class="hover:text-pink-500 whitespace-nowrap">Shop
                             by Category</a>
-                        <a href="{{ route('Category.latest_collections_category') }}" class="hover:text-pink-500 whitespace-nowrap">Latest
+                        <a href="{{ route('Category.latest_collections_category') }}"
+                            class="hover:text-pink-500 whitespace-nowrap">Latest
                             Collections</a>
                         <a href="{{ route('category.Womens.womens_jewellery') }}"
                             class="hover:text-pink-500 whitespace-nowrap">Women's Jewellery</a>
@@ -208,9 +225,12 @@
                         <!-- Navigation Links -->
                         <a href="{{ route('Category.all_category') }}" class="block hover:text-pink-500">Shop by
                             Category</a>
-                        <a href="{{ route('Category.latest_collections_category') }}" class="block hover:text-pink-500">Latest Collections</a>
-                        <a href="{{ route('category.Womens.womens_jewellery') }}" class="block hover:text-pink-500">Women's Jewellery</a>
-                        <a href="{{ route('category.mens.mens_jewellery') }}" class="block hover:text-pink-500">Men's Jewellery</a>            </a>
+                        <a href="{{ route('Category.latest_collections_category') }}"
+                            class="block hover:text-pink-500">Latest Collections</a>
+                        <a href="{{ route('category.Womens.womens_jewellery') }}"
+                            class="block hover:text-pink-500">Women's Jewellery</a>
+                        <a href="{{ route('category.mens.mens_jewellery') }}" class="block hover:text-pink-500">Men's
+                            Jewellery</a> </a>
                         <a href="#" class="block hover:text-pink-500">More at Shiva Shine</a>
                     </div>
                 </div>
