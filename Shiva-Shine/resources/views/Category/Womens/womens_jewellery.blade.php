@@ -1,124 +1,132 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- ===== Fullscreen Banners Section ===== -->
+<!-- ======= Hero Banner Section ======= -->
 <section class="w-full bg-[#fffaf7]">
     <!-- Desktop Banner -->
     <div class="hidden md:block mt-14">
         <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}" alt="Desktop Banner"
-            class="w-full h-auto object-cover" />
+            class="w-full object-cover rounded-md shadow-md" />
     </div>
+
     <!-- Mobile Banner -->
     <div class="md:hidden mt-20">
         <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}" alt="Mobile Banner"
-            class="w-full h-auto object-cover" />
+            class="w-full object-cover rounded-md shadow-md" />
     </div>
 </section>
-<!-- Filter Dropdown -->
-<div class="mb-6 text-right mt-10 max-w-6xl mx-auto px-4">
-    <label for="categoryFilter" class="mr-2 font-semibold text-[#633d2e]">Filter by Category:</label>
-    <select id="categoryFilter" onchange="filterProducts()"
-        class="border border-[#d7ccc8] rounded px-4 py-2 text-sm text-[#633d2e] bg-white shadow-sm focus:ring-2 focus:ring-pink-300">
-        <option value="all">All</option>
-        <option value="Earrings">Earrings</option>
-        <option value="Necklace">Necklace</option>
-        <option value="Ring">Ring</option>
-        <option value="Bracelet">Bracelet</option>
-        <option value="Bangles">Bangles</option>
-    </select>
-</div>
 
-<!-- Section Heading -->
-<h2 class="text-3xl font-bold text-center text-[#633d2e] mb-8">Women's Jewellery Collection</h2>
+<!-- ======= Women's Jewellery Section ======= -->
+<section class="py-14 bg-[#fffaf7]">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Section Header with Filter -->
+        <div class="flex justify-between items-center mb-8 flex-col sm:flex-row gap-4">
+            <h2 class="text-3xl font-bold text-[#633d2e]">Women's Jewellery Collection</h2>
 
-@php
-    $products = [
-        [
-            'name' => 'Gold Earrings',
-            'image' => 'images/women-earrings.jpg',
-            'price' => 1899,
-            'category' => 'Earrings',
-        ],
-        [
-            'name' => 'Diamond Necklace',
-            'image' => 'images/diamond-necklace.jpg',
-            'price' => 4999,
-            'category' => 'Necklace',
-        ],
-        [
-            'name' => 'Rose Gold Ring',
-            'image' => 'images/rose-gold-ring.jpg',
-            'price' => 1599,
-            'category' => 'Ring',
-        ],
-        [
-            'name' => 'Pearl Bracelet',
-            'image' => 'images/pearl-bracelet.jpg',
-            'price' => 1399,
-            'category' => 'Bracelet',
-        ],
-        [
-            'name' => 'Traditional Bangles',
-            'image' => 'images/traditional-bangles.jpg',
-            'price' => 1799,
-            'category' => 'Bangles',
-        ],
-    ];
-@endphp
-
-<!-- Products Grid -->
-<div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4 pb-16">
-    @foreach ($products as $product)
-        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition transform hover:-translate-y-1 duration-300"
-            data-category="{{ $product['category'] }}">
-            <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
-                class="w-full aspect-square object-cover">
-            <div class="p-4">
-                <h3 class="font-semibold text-lg text-[#2f2f2f] truncate mb-1">{{ $product['name'] }}</h3>
-                <p class="text-pink-600 font-bold text-xl mb-3">₹{{ number_format($product['price']) }}</p>
-                <button
-                    class="w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">Add
-                    to Cart</button>
+            <!-- Category Filter -->
+            <div class="flex items-center gap-2">
+                <label for="categoryFilter" class="text-sm font-semibold text-[#633d2e]">Category:</label>
+                <select id="categoryFilter" onchange="filterProducts()"
+                    class="border border-[#e0c4ae] rounded-lg px-3 py-1.5 text-sm bg-white shadow-sm text-[#633d2e] focus:outline-none">
+                    <option value="all">All</option>
+                    <option value="Earrings">Earrings</option>
+                    <option value="Necklace">Necklace</option>
+                    <option value="Ring">Ring</option>
+                    <option value="Bracelet">Bracelet</option>
+                    <option value="Bangles">Bangles</option>
+                </select>
             </div>
         </div>
-    @endforeach
-</div>
 
-<!-- Coming Soon Layout -->
-<div id="comingSoon" class="hidden text-center py-20 max-w-xl mx-auto">
-    <img src="{{ asset('images/coming-soon.png') }}" alt="Coming Soon"
-        class="mx-auto w-52 h-52 object-contain mb-6 opacity-90">
-    <h3 class="text-2xl font-bold text-[#633d2e] mb-2">Coming Soon</h3>
-    <p class="text-gray-600">We're working on adding more products in this category. Stay tuned!</p>
-</div>
+        <!-- Products Grid -->
+        <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
+            @php
+                $products = [
+                    ['name' => 'Gold Earrings', 'image' => 'images/files/Untitled-1.jpg', 'price' => 1899, 'category' => 'Earrings'],
+                    ['name' => 'Diamond Necklace', 'image' => 'images/files/Untitled-1.jpg', 'price' => 4999, 'category' => 'Necklace'],
+                    ['name' => 'Rose Gold Ring', 'image' => 'images/files/Untitled-1.jpg', 'price' => 1599, 'category' => 'Ring'],
+                    ['name' => 'Pearl Bracelet', 'image' => 'images/files/Untitled-1.jpg', 'price' => 1399, 'category' => 'Bracelet'],
+                    ['name' => 'Traditional Bangles', 'image' => 'images/files/Untitled-1.jpg', 'price' => 1799, 'category' => 'Bangles'],
+                ];
+            @endphp
 
-<!-- Filter Script -->
+            @foreach ($products as $product)
+                <div data-category="{{ $product['category'] }}"
+                    class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
+
+                    <!-- Wishlist Button -->
+                    <button class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M12.1 21.35l-1.45-1.32C5.4 15.36 2
+                            12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74
+                            0 3.41 0.81 4.5 2.09C13.09 3.81
+                            14.76 3 16.5 3 19.58 3 22 5.42
+                            22 8.5c0 3.78-3.4 6.86-8.55
+                            11.54l-1.35 1.31z" />
+                        </svg>
+                    </button>
+
+                    <!-- Product Image -->
+                    <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
+                        class="w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+
+                    <!-- Product Info -->
+                    <div class="p-4 text-center">
+                        <h3 class="text-md font-semibold text-gray-800 truncate">{{ $product['name'] }}</h3>
+                        <p class="text-[#d33f5f] font-bold text-lg">
+                            ₹{{ number_format($product['price']) }}
+                            <span class="line-through text-sm text-gray-400 ml-1">
+                                ₹{{ number_format($product['price'] + 1500) }}
+                            </span>
+                        </p>
+
+                        <!-- Rating -->
+                        <div class="flex items-center justify-center mt-1 gap-1 text-yellow-500 text-sm">
+                            <span>4.8</span>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 .587l3.668 7.568L24 9.423l-6 5.845
+                                    1.416 8.232L12 18.896l-7.416 4.604L6
+                                    15.268 0 9.423l8.332-1.268z" />
+                            </svg>
+                            <span class="text-gray-600">(134)</span>
+                        </div>
+
+                        <!-- Add to Cart -->
+                        <button
+                            class="w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <!-- Coming Soon Placeholder -->
+        <div id="comingSoon" class="hidden text-center py-20 max-w-xl mx-auto">
+            <img src="{{ asset('images/coming-soon.png') }}" alt="Coming Soon"
+                class="mx-auto w-52 h-52 object-contain mb-6 opacity-90">
+            <h3 class="text-2xl font-bold text-[#633d2e] mb-2">Coming Soon</h3>
+            <p class="text-gray-600">We're working on adding more products in this category. Stay tuned!</p>
+        </div>
+    </div>
+</section>
+
+<!-- ======= Filter Script ======= -->
 <script>
     function filterProducts() {
-        const selectedCategory = document.getElementById('categoryFilter').value;
-        const cards = document.querySelectorAll('.product-card');
-        let anyVisible = false;
+        const selected = document.getElementById('categoryFilter').value;
+        const cards = document.querySelectorAll('[data-category]');
+        let visibleCount = 0;
 
         cards.forEach(card => {
-            const cardCategory = card.getAttribute('data-category');
-            if (selectedCategory === 'all' || cardCategory === selectedCategory) {
-                card.classList.remove('hidden');
-                anyVisible = true;
-            } else {
-                card.classList.add('hidden');
-            }
+            const cat = card.getAttribute('data-category');
+            const isVisible = selected === 'all' || cat === selected;
+            card.classList.toggle('hidden', !isVisible);
+            if (isVisible) visibleCount++;
         });
 
-        const comingSoon = document.getElementById('comingSoon');
-        const productGrid = document.getElementById('productGrid');
-
-        if (!anyVisible) {
-            comingSoon.classList.remove('hidden');
-            productGrid.classList.add('hidden');
-        } else {
-            comingSoon.classList.add('hidden');
-            productGrid.classList.remove('hidden');
-        }
+        document.getElementById('productGrid').classList.toggle('hidden', visibleCount === 0);
+        document.getElementById('comingSoon').classList.toggle('hidden', visibleCount > 0);
     }
 </script>
 @endsection

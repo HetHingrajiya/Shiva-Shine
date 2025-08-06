@@ -130,7 +130,7 @@
 
 
         <!-- ===== For Partners in Crime Section ===== -->
-        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
+        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80 ">
             <h2 class="text-2xl md:text-3xl font-semibold text-center text-[#633d2e] mb-6">
                 For Partners in Crime
             </h2>
@@ -207,7 +207,7 @@
                 <div id="product-scroll" class="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth px-2 py-6">
                     @foreach ($products as $product)
                         <div
-                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
+                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-2xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
                             <!-- Image Wrapper with group -->
                             <div class="relative group">
                                 <!-- Product Image -->
@@ -403,7 +403,7 @@
                 <div id="product-scroll" class="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth px-2 py-6">
                     @foreach ($products as $product)
                         <div
-                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
+                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-2xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
 
                             <!-- Image Wrapper with group -->
                             <div class="relative group">
