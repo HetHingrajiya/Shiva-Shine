@@ -30,7 +30,7 @@
     <!-- Header / Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
 
-            <nav class="fixed top-2 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200"
+            <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200"
                 x-data="{ open: false }">
                 <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -188,21 +188,27 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Links (Desktop) -->
-                    <div class="mt-2 hidden sm:flex space-x-6 text-lg text-gray-700 font-medium overflow-x-auto pb-2">
-                        <a href="{{ route('Category.all_category') }}"class="hover:text-pink-500 whitespace-nowrap">Shop
-                            by Category</a>
-                        <a href="{{ route('Category.latest_collections_category') }}"
-                            class="hover:text-pink-500 whitespace-nowrap">Latest
-                            Collections</a>
-                        <a href="{{ route('category.Womens.womens_jewellery') }}"
-                            class="hover:text-pink-500 whitespace-nowrap">Women's Jewellery</a>
-                        <a href="{{ route('category.mens.mens_jewellery') }}"
-                            class="hover:text-pink-500 whitespace-nowrap">
-                            Men's Jewellery
-                        </a>
-                        <a href="#" class="hover:text-pink-500 whitespace-nowrap">More at Shiva Shine</a>
+                  <!-- Navigation Links (Desktop) -->
+                    <div class="w-full flex justify-center">
+                        <div class="mt-2 hidden sm:flex space-x-6 text-lg text-gray-700 font-medium overflow-x-auto pb-2">
+                            <a href="{{ route('Category.all_category') }}" class="hover:text-pink-500 whitespace-nowrap">
+                                Shop by Category
+                            </a>
+                            <a href="{{ route('Category.latest_collections_category') }}" class="hover:text-pink-500 whitespace-nowrap">
+                                Latest Collections
+                            </a>
+                            <a href="{{ route('category.Womens.womens_jewellery') }}" class="hover:text-pink-500 whitespace-nowrap">
+                                Women's Jewellery
+                            </a>
+                            <a href="{{ route('category.mens.mens_jewellery') }}" class="hover:text-pink-500 whitespace-nowrap">
+                                Men's Jewellery
+                            </a>
+                            <a href="#" class="hover:text-pink-500 whitespace-nowrap">
+                                More at Shiva Shine
+                            </a>
+                        </div>
                     </div>
+
 
                     <!-- Mobile Dropdown Menu -->
                     <div x-show="open" x-transition
