@@ -29,13 +29,8 @@
 
     <!-- Header / Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="{{ url('/') }}" class="block">
-                <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-10 w-auto">
-            </a>
 
-
-            <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200"
+            <nav class="fixed top-2 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200"
                 x-data="{ open: false }">
                 <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 
