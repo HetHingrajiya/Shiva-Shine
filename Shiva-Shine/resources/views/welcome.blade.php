@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <section class="pt-20 ">
+    <section class="pt-20  ">
         <!-- ===== Desktop Slideshow ===== -->
-        <div class="relative w-full overflow-hidden hidden md:block mt-10">
+        <div class="relative w-full overflow-hidden hidden md:block mt-8">
             <div id="desktopSlideshow" class="flex transition-transform duration-700 ease-in-out">
                 <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}"
                     class="w-full h-[550px] object-cover flex-shrink-0" alt="Banner 1">
@@ -30,7 +30,7 @@
         </div>
 
         <!-- ===== Mobile Slideshow ===== -->
-        <div class="relative w-full overflow-hidden md:hidden  mt-10">
+        <div class="relative w-full overflow-hidden md:hidden  mt-14">
             <div id="mobileSlideshow" class="flex transition-transform duration-700 ease-in-out">
                 <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}"
                     class="w-full rounded shadow-md flex-shrink-0" alt="Mobile Banner 1">
