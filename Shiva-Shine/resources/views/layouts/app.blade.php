@@ -29,10 +29,6 @@
 
     <!-- Header / Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="{{ url('/') }}" class="block">
-                <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-10 w-auto">
-            </a>
 
 
             <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200"
@@ -143,7 +139,7 @@
                         </div>
 
                         <!-- Center: Search Bar -->
-                        <div class="hidden md:flex flex-1 max-w-xl mx-6">
+                        <div class="hidden md:flex flex-1 max-w-xl mx-6 mt-3">
                             <form class="w-full flex bg-white border border-gray-200 rounded-full px-2 py-1 shadow-sm">
                                 <input type="text" placeholder="Search..."
                                     class="flex-1 px-3 py-2 text-sm outline-none bg-transparent text-gray-700" />
