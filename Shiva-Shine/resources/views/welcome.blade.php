@@ -30,7 +30,7 @@
         </div>
 
         <!-- ===== Mobile Slideshow ===== -->
-        <div class="relative w-full overflow-hidden md:hidden  mt-14">
+        <div class="relative w-full overflow-hidden md:hidden  mt-20">
             <div id="mobileSlideshow" class="flex transition-transform duration-700 ease-in-out">
                 <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}"
                     class="w-full rounded shadow-md flex-shrink-0" alt="Mobile Banner 1">
