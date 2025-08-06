@@ -52,7 +52,7 @@
 
                         <!-- Logo Center -->
                         <a href="{{ url('/') }}" class="block">
-                            <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-20 w-auto">
+                            <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-15 w-80">
                         </a>
 
 
