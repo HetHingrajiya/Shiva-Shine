@@ -57,7 +57,7 @@
 
                         <!-- Logo Center -->
                         <a href="{{ url('/') }}" class="block">
-                            <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-10 w-auto">
+                            <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo" class="h-20 w-auto">
                         </a>
 
 
@@ -129,7 +129,7 @@
                         <div class="flex items-center gap-3">
                             <a href="{{ url('/') }}" class="block">
                                 <img src="{{ asset('images/files/logo.png') }}" alt="Shiva Shine Logo"
-                                    class="h-30 w-auto">
+                                    class="h-20 w-160">
                             </a>
 
                             <button
