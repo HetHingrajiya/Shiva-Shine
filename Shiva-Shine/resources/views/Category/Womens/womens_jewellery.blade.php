@@ -14,49 +14,54 @@
             class="w-full h-auto object-cover" />
     </div>
 </section>
-
 <!-- Filter Dropdown -->
 <div class="mb-6 text-right mt-10 max-w-6xl mx-auto px-4">
     <label for="categoryFilter" class="mr-2 font-semibold text-[#633d2e]">Filter by Category:</label>
     <select id="categoryFilter" onchange="filterProducts()"
         class="border border-[#d7ccc8] rounded px-4 py-2 text-sm text-[#633d2e] bg-white shadow-sm focus:ring-2 focus:ring-pink-300">
         <option value="all">All</option>
-        <option value="Rings">Rings</option>
+        <option value="Earrings">Earrings</option>
+        <option value="Necklace">Necklace</option>
+        <option value="Ring">Ring</option>
         <option value="Bracelet">Bracelet</option>
-        <option value="Pendant">Pendant</option>
-        <option value="Watch">Watch</option>
-        <option value="Chain">Chain</option>
+        <option value="Bangles">Bangles</option>
     </select>
 </div>
 
 <!-- Section Heading -->
-<h2 class="text-3xl font-bold text-center text-[#633d2e] mb-8">Men's Jewellery Collection</h2>
+<h2 class="text-3xl font-bold text-center text-[#633d2e] mb-8">Women's Jewellery Collection</h2>
 
 @php
     $products = [
         [
-            'name' => 'Silver Bracelet',
-            'image' => 'images/mens-bracelet.jpg',
-            'price' => 1499,
+            'name' => 'Gold Earrings',
+            'image' => 'images/women-earrings.jpg',
+            'price' => 1899,
+            'category' => 'Earrings',
+        ],
+        [
+            'name' => 'Diamond Necklace',
+            'image' => 'images/diamond-necklace.jpg',
+            'price' => 4999,
+            'category' => 'Necklace',
+        ],
+        [
+            'name' => 'Rose Gold Ring',
+            'image' => 'images/rose-gold-ring.jpg',
+            'price' => 1599,
+            'category' => 'Ring',
+        ],
+        [
+            'name' => 'Pearl Bracelet',
+            'image' => 'images/pearl-bracelet.jpg',
+            'price' => 1399,
             'category' => 'Bracelet',
         ],
         [
-            'name' => 'Black Leather Chain',
-            'image' => 'images/leather-chain.jpg',
-            'price' => 1299,
-            'category' => 'Chain',
-        ],
-        [
-            'name' => 'Steel Ring',
-            'image' => 'images/steel-ring.jpg',
-            'price' => 999,
-            'category' => 'Rings',
-        ],
-        [
-            'name' => 'Classic Watch',
-            'image' => 'images/classic-watch.jpg',
-            'price' => 2999,
-            'category' => 'Watch',
+            'name' => 'Traditional Bangles',
+            'image' => 'images/traditional-bangles.jpg',
+            'price' => 1799,
+            'category' => 'Bangles',
         ],
     ];
 @endphp

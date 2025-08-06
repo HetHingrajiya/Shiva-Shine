@@ -57,23 +57,46 @@
                         <a href="{{ url('/') }}" class="text-xl font-bold text-gray-900">Shiva Shine</a>
 
                         <!-- Icons Right -->
-                        <div class="flex space-x-4 text-gray-700">
-                            @foreach (['Account', 'Wishlist', 'Cart'] as $i => $label)
-                                @php
-                                    $iconsPath = [
-                                        'M12 12a5 5 0 100-10 5 5 0 000 10z M4 22a8 8 0 0116 0',
-                                        'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
-                                        'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
-                                    ];
-                                @endphp
-                                <a href="#" class="flex flex-col items-center text-xs">
-                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5"
-                                        viewBox="0 0 24 24">
-                                        <path d="{{ $iconsPath[$i] }}" />
+                       <div class="flex space-x-4 text-gray-700">
+                            @php
+                                $navItems = [
+                                    [
+                                        'label' => 'Account',
+                                        'icon' => 'M12 12a5 5 0 100-10 5 5 0 000 10z M4 22a8 8 0 0116 0',
+                                        'link' => route('account.index'), // Example route
+                                    ],
+                                    [
+                                        'label' => 'Wishlist',
+                                        'icon' => 'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
+                                        'link' => route('wishlist.index'), // Route for wishlist
+                                        //'count' => session('wishlist_count', 0), // optional count from session
+                                    ],
+                                    [
+                                        'label' => 'Cart',
+                                        'icon' => 'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
+                                        'link' => route('cart.index'), // Route for cart
+                                        //'count' => session('cart_count', 0), // optional cart count
+                                    ],
+                                ];
+                            @endphp
+
+                            @foreach ($navItems as $item)
+                                <a href="{{ $item['link'] }}" class="relative flex flex-col items-center text-xs hover:text-pink-600 transition">
+                                    <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                        <path d="{{ $item['icon'] }}" />
                                     </svg>
+                                    <span>{{ $item['label'] }}</span>
+
+                                    @if (!empty($item['count']) && $item['count'] > 0)
+                                        <span
+                                            class="absolute top-0 right-0 -mt-1 -mr-2 bg-pink-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                            {{ $item['count'] }}
+                                        </span>
+                                    @endif
                                 </a>
                             @endforeach
                         </div>
+
                     </div>
 
                     <!-- Mobile Search Bar Below -->
@@ -121,33 +144,34 @@
                             </form>
                         </div>
 
-                        <!-- Right: Icons -->
+                        <!-- Right: Icons (Desktop) -->
                         <div class="hidden sm:flex space-x-6 text-sm text-gray-700">
                             @php
-                                $icons = [
+                                $desktopNavItems = [
                                     [
                                         'label' => 'Account',
                                         'icon' => 'M12 12a5 5 0 100-10 5 5 0 000 10z M4 22a8 8 0 0116 0',
+                                        'link' => route('account.index'),
                                     ],
                                     [
                                         'label' => 'Wishlist',
-                                        'icon' =>
-                                            'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
+                                        'icon' => 'M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.682l-7.682-8.682a4.5 4.5 0 010-6.364z',
+                                        'link' => route('wishlist.index'),
                                     ],
                                     [
                                         'label' => 'Cart',
-                                        'icon' =>
-                                            'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
+                                        'icon' => 'M3 3h2l.4 2M7 13h10l4-8H5.4 M7 21a1 1 0 100-2 1 1 0 000 2z M20 21a1 1 0 100-2 1 1 0 000 2z',
+                                        'link' => route('cart.index'),
                                     ],
                                 ];
                             @endphp
-                            @foreach ($icons as $icon)
-                                <a href="#" class="hover:text-pink-500 flex flex-col items-center">
-                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8"
-                                        viewBox="0 0 24 24">
-                                        <path d="{{ $icon['icon'] }}" />
+
+                            @foreach ($desktopNavItems as $item)
+                                <a href="{{ $item['link'] }}" class="hover:text-pink-500 flex flex-col items-center">
+                                    <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <path d="{{ $item['icon'] }}" />
                                     </svg>
-                                    <span>{{ $icon['label'] }}</span>
+                                    <span>{{ $item['label'] }}</span>
                                 </a>
                             @endforeach
                         </div>
@@ -157,9 +181,10 @@
                     <div class="mt-2 hidden sm:flex space-x-6 text-lg text-gray-700 font-medium overflow-x-auto pb-2">
                         <a href="{{ route('Category.all_category') }}"class="hover:text-pink-500 whitespace-nowrap">Shop
                             by Category</a>
-                        <a href="#" class="hover:text-pink-500 whitespace-nowrap">Latest
+                        <a href="{{ route('Category.latest_collections_category') }}" class="hover:text-pink-500 whitespace-nowrap">Latest
                             Collections</a>
-                        <a href="#" class="hover:text-pink-500 whitespace-nowrap">Women's Jewellery</a>
+                        <a href="{{ route('category.Womens.womens_jewellery') }}"
+                            class="hover:text-pink-500 whitespace-nowrap">Women's Jewellery</a>
                         <a href="{{ route('category.mens.mens_jewellery') }}"
                             class="hover:text-pink-500 whitespace-nowrap">
                             Men's Jewellery
@@ -183,12 +208,9 @@
                         <!-- Navigation Links -->
                         <a href="{{ route('Category.all_category') }}" class="block hover:text-pink-500">Shop by
                             Category</a>
-                        <a href="#" class="block hover:text-pink-500">Latest Collections</a>
-                        <a href="#" class="block hover:text-pink-500">Women's Jewellery</a>
-                        <a href="{{ route('category.mens.mens_jewellery') }}"
-                            class="hover:text-pink-500 whitespace-nowrap">
-                            Men's Jewellery
-                        </a>
+                        <a href="{{ route('Category.latest_collections_category') }}" class="block hover:text-pink-500">Latest Collections</a>
+                        <a href="{{ route('category.Womens.womens_jewellery') }}" class="block hover:text-pink-500">Women's Jewellery</a>
+                        <a href="{{ route('category.mens.mens_jewellery') }}" class="block hover:text-pink-500">Men's Jewellery</a>            </a>
                         <a href="#" class="block hover:text-pink-500">More at Shiva Shine</a>
                     </div>
                 </div>
