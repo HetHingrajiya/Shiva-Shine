@@ -141,9 +141,7 @@
         </div>
     </div>
 </nav> --}}
-<<<<<<< HEAD
-=======
-<nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200" x-data="{ open: false }">
+{{-- <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200" x-data="{ open: false }">
     <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Top Nav -->
       <div class="flex items-center justify-between h-16">
@@ -254,5 +252,4 @@
         <a href="#" class="block hover:text-pink-500">More at Shiva Shine</a>
       </div>
     </div>
-  </nav>
->>>>>>> 2fb9806071477553cb310c5d945a5dcc032710
+  </nav> --}}

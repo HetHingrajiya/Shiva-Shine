@@ -17,4 +17,12 @@ class CategoryController extends Controller
     {
         return view('Category.Mens.mens_jewellery');
     }
+    public function womensJewellery()
+    {
+        return view('Category.Womens.womens_jewellery');
+    }
+    public function latest_collections_category()
+    {
+        return view('Category.latest_collections_category');
+    }
 }
