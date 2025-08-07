@@ -2,15 +2,15 @@
 
 @section('content')
 <!-- ======= Hero Banner Section ======= -->
-<section class="w-full bg-[#fffaf7]">
+<section class="w-full bg-[#fffaf7] py-12 mt-20">
     <!-- Desktop Banner -->
-    <div class="hidden md:block mt-14">
+    <div class="hidden md:block mt-8">
         <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}" alt="Desktop Banner"
             class="w-full object-cover rounded-md shadow-md" />
     </div>
 
     <!-- Mobile Banner -->
-    <div class="md:hidden mt-20">
+    <div class="md:hidden mt-6">
         <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}" alt="Mobile Banner"
             class="w-full object-cover rounded-md shadow-md" />
     </div>
