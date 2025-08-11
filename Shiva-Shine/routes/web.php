@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\AdminAuthController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,3 +34,16 @@ Route::get('/all_category', [CategoryController::class, 'all'])->name('Category.
 Route::get('/latest-collections', [CategoryController::class, 'latest_collections_category'])->name('Category.latest_collections_category');
 Route::get('/mens-jewellery', [CategoryController::class, 'mensJewellery'])->name('category.mens.mens_jewellery');
 Route::get('/womens-jewellery', [CategoryController::class, 'womensJewellery'])->name('category.Womens.womens_jewellery');
+
+Route::get('/admin', function () {
+    return redirect()->route('admin.login');
+});
+
+
+Route::get('admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+
+
+Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+
+Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
