@@ -142,7 +142,7 @@
                 </div>
 
                 <!-- Center: Search Bar -->
-                <div class="hidden md:flex flex-1 max-w-xl mx-6 mt-3">
+                <div class="hidden md:flex flex-1 max-w-xl mx-6 mt-2">
                     <form class="w-full flex bg-white border border-gray-200 rounded-full px-2 py-1 shadow-sm">
                         <input type="text" placeholder="Search..."
                             class="flex-1 px-3 py-2 text-sm outline-none bg-transparent text-gray-700" />
