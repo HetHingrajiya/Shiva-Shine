@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminAuthController;
 
@@ -47,3 +48,11 @@ Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.l
 Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Product Management
+Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products');
+Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+Route::post('admin/products/store', [ProductController::class, 'store'])->name('admin.products.store');
+Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
+Route::post('admin/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
+Route::post('admin/products/destroy/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
