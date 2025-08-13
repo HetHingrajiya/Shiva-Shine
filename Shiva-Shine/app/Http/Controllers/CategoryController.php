@@ -7,22 +7,37 @@ use App\Models\Product;
 
 class CategoryController extends Controller
 {
+    // All products
     public function all()
     {
-        // Logic to retrieve all categories from the database
-        // For now, we will return a view
-        return view('Category.all_category');
+        $products = Product::latest()->get();
+        return view('Category.all_category', compact('products'));
     }
+
+    // Men's Jewellery
     public function mensJewellery()
     {
-        return view('Category.Mens.mens_jewellery');
+        $products = Product::where('category', 'mens')
+            ->latest()
+            ->get();
+        return view('Category.Mens.mens_jewellery', compact('products'));
     }
+
+    // Women's Jewellery
     public function womensJewellery()
     {
-        return view('Category.Womens.womens_jewellery');
+        $products = Product::where('category', 'womens')
+            ->latest()
+            ->get();
+        return view('Category.Womens.womens_jewellery', compact('products'));
     }
+
+    // Latest Collections
     public function latest_collections_category()
     {
-        return view('Category.latest_collections_category');
+        $products = Product::orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
+        return view('Category.latest_collections_category', compact('products'));
     }
 }

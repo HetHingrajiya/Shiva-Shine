@@ -3,57 +3,62 @@
 @section('page-title', 'Add Product')
 
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
-    <h2 class="text-2xl font-semibold text-pink-800 mb-4">Add New Product</h2>
+<div class="min-h-screen flex items-center justify-center from-pink-50 via-white to-yellow-50 px-4 py-10">
 
-    @if ($errors->any())
-        <div class="mb-4 p-3 bg-red-100 text-red-600 rounded">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="backdrop-blur-xl bg-white/30 border border-white/40 shadow-lg rounded-2xl p-8 w-full max-w-3xl">
+        <!-- Title -->
+        <h1 class="text-4xl font-extrabold text-pink-700 mb-6 text-center tracking-wide">
+            Add New Product
+        </h1>
 
-    <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-4">
-        @csrf
+        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
 
-        <!-- Name -->
-        <div>
-            <label class="block text-gray-700 font-medium mb-1">Product Name</label>
-            <input type="text" name="name" value="{{ old('name') }}"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-pink-300 focus:border-pink-300"
-                   required>
-        </div>
+            <!-- Product Name -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Name</label>
+                <input type="text" name="name" placeholder="Elegant Gold Ring"
+                       class="w-full bg-white/60 border border-pink-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-pink-300 focus:outline-none shadow-sm">
+            </div>
 
-        <!-- Price -->
-        <div>
-            <label class="block text-gray-700 font-medium mb-1">Price (₹)</label>
-            <input type="number" step="0.01" name="price" value="{{ old('price') }}"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-pink-300 focus:border-pink-300"
-                   required>
-        </div>
+            <!-- Price -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Price (₹)</label>
+                <input type="number" step="0.01" name="price" placeholder="1999.00"
+                       class="w-full bg-white/60 border border-yellow-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-300 focus:outline-none shadow-sm">
+            </div>
 
-        <!-- Stock -->
-        <div>
-            <label class="block text-gray-700 font-medium mb-1">Stock</label>
-            <input type="number" name="stock" value="{{ old('stock') }}"
-                   class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-pink-300 focus:border-pink-300"
-                   required>
-        </div>
+            <!-- Stock -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Stock</label>
+                <input type="number" name="stock" placeholder="10"
+                       class="w-full bg-white/60 border border-yellow-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-300 focus:outline-none shadow-sm">
+            </div>
 
-        <!-- Buttons -->
-        <div class="flex gap-3">
-            <button type="submit"
-                    class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg shadow-sm transition">
-                Save Product
-            </button>
-            <a href="{{ route('admin.products') }}"
-               class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition">
-                Cancel
-            </a>
-        </div>
-    </form>
+            <!-- Image Uploads -->
+            <div>
+                <label class="block text-lg font-semibold text-pink-700 mb-3">Product Images</label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <input type="file" name="image{{ $i }}"
+                               class="w-full bg-white/60 border border-pink-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-yellow-200 focus:outline-none shadow-sm">
+                    @endfor
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Upload up to 5 images (JPG, PNG, max 2MB each).</p>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-between items-center pt-4">
+                <a href="{{ route('admin.products') }}"
+                   class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg shadow transition">
+                    ← Back
+                </a>
+                <button type="submit"
+                        class="px-6 py-2 bg-gradient-to-r from-pink-500 to-yellow-400 hover:from-pink-600 hover:to-yellow-500 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                    Save Product
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection

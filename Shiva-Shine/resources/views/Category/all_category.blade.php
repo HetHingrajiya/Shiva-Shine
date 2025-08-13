@@ -5,14 +5,16 @@
     <section class="w-full bg-[#fffaf7] py-12 mt-20">
         <!-- Desktop Banner -->
         <div class="hidden md:block mt-8">
-            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}" alt="Desktop Banner"
-                class="w-full object-cover rounded-md shadow-md" />
+            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}"
+                 alt="Desktop Banner"
+                 class="w-full object-cover rounded-md shadow-md" />
         </div>
 
         <!-- Mobile Banner -->
         <div class="md:hidden mt-6">
-            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}" alt="Mobile Banner"
-                class="w-full object-cover rounded-md shadow-md" />
+            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}"
+                 alt="Mobile Banner"
+                 class="w-full object-cover rounded-md shadow-md" />
         </div>
     </section>
 
@@ -38,62 +40,9 @@
 
             <!-- Products Grid -->
             <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
-                @php
-                    $products = [
-                        [
-                            'name' => 'His & Her Rings',
-                            'price' => 2499,
-                            'category' => 'Rings',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Couple Bracelets',
-                            'price' => 2999,
-                            'category' => 'Bracelet',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Lock & Key Pendants',
-                            'price' => 3199,
-                            'category' => 'Pendant',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Name Engraved Rings',
-                            'price' => 2799,
-                            'category' => 'Rings',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Heart Pendant',
-                            'price' => 2599,
-                            'category' => 'Pendant',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Men’s Bracelet',
-                            'price' => 3299,
-                            'category' => 'Bracelet',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Promise Rings',
-                            'price' => 2199,
-                            'category' => 'Rings',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                        [
-                            'name' => 'Initial Pendant',
-                            'price' => 2999,
-                            'category' => 'Pendant',
-                            'image' => 'images/files/Untitled-1.jpg',
-                        ],
-                    ];
-                @endphp
-
                 @foreach ($products as $product)
-                    <div data-category="{{ $product['category'] }}"
-                        class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
+                    <div data-category="{{ $product->category ?? 'Uncategorized' }}"
+                        class="backdrop-blur-md bg-white/30 border border-white/20 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
 
                         <!-- Wishlist Button -->
                         <button class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition">
@@ -108,16 +57,16 @@
                         </button>
 
                         <!-- Product Image -->
-                        <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
+                        <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
                             class="w-full object-cover transition-transform duration-300 group-hover:scale-105" />
 
                         <!-- Product Info -->
                         <div class="p-4 text-center">
-                            <h3 class="text-md font-semibold text-gray-800 truncate">{{ $product['name'] }}</h3>
+                            <h3 class="text-md font-semibold text-gray-800 truncate">{{ $product->name }}</h3>
                             <p class="text-[#d33f5f] font-bold text-lg">
-                                ₹{{ number_format($product['price']) }}
+                                ₹{{ number_format($product->price) }}
                                 <span class="line-through text-sm text-gray-400 ml-1">
-                                    ₹{{ number_format($product['price'] + 1500) }}
+                                    ₹{{ number_format($product->price + 1500) }}
                                 </span>
                             </p>
 
@@ -134,8 +83,9 @@
 
                             <!-- Add to Cart -->
                             <button
-                                class="w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">Add
-                                to Cart</button>
+                                class="w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">
+                                Add to Cart
+                            </button>
                         </div>
                     </div>
                 @endforeach

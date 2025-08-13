@@ -1,8 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -26,7 +29,19 @@ class ProductController extends Controller
             'name'  => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'image1' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image3' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image4' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image5' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
+
+        // Handle images
+        foreach (['image1', 'image2', 'image3', 'image4', 'image5'] as $img) {
+            if ($request->hasFile($img)) {
+                $validated[$img] = $request->file($img)->store('products', 'public');
+            }
+        }
 
         Product::create($validated);
 
@@ -40,20 +55,39 @@ class ProductController extends Controller
         return view('admin.products.edit', compact('product'));
     }
 
-    // Update product
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'name'  => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'image1' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image3' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image4' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image5' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $product = Product::findOrFail($id);
+
+        foreach (['image1', 'image2', 'image3', 'image4', 'image5'] as $img) {
+            if ($request->hasFile($img)) {
+                // Delete old image if exists
+                if ($product->$img && Storage::disk('public')->exists($product->$img)) {
+                    Storage::disk('public')->delete($product->$img);
+                }
+
+                // Store new image
+                $validated[$img] = $request->file($img)->store('products', 'public');
+            }
+        }
+
         $product->update($validated);
 
         return redirect()->route('admin.products')->with('success', 'Product updated successfully!');
     }
+
+
 
     // Delete product
     public function destroy($id)

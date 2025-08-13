@@ -36,21 +36,8 @@
 
             <!-- Product Grid -->
             <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
-                @php
-                    $products = [
-                        ['name' => 'His & Her Rings', 'price' => 2499, 'category' => 'Rings', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Couple Bracelets', 'price' => 2999, 'category' => 'Bracelet', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Lock & Key Pendants', 'price' => 3199, 'category' => 'Pendant', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Name Engraved Rings', 'price' => 2799, 'category' => 'Rings', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Heart Pendant', 'price' => 2599, 'category' => 'Pendant', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Men’s Bracelet', 'price' => 3299, 'category' => 'Bracelet', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Promise Rings', 'price' => 2199, 'category' => 'Rings', 'image' => 'images/files/Untitled-1.jpg'],
-                        ['name' => 'Initial Pendant', 'price' => 2999, 'category' => 'Pendant', 'image' => 'images/files/Untitled-1.jpg'],
-                    ];
-                @endphp
-
                 @foreach ($products as $product)
-                    <div data-category="{{ $product['category'] }}"
+                    <div data-category="{{ $product->category }}"
                         class="bg-white rounded-2xl overflow-hidden shadow-sm relative group transition transform hover:-translate-y-1 hover:shadow-md">
 
                         <!-- Wishlist Icon -->
@@ -66,16 +53,16 @@
                         </button>
 
                         <!-- Product Image -->
-                        <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
+                        <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
                             class="w-full object-cover transition-transform duration-300 group-hover:scale-105" />
 
                         <!-- Product Details -->
                         <div class="p-4 text-center space-y-1">
-                            <p class="text-gray-800 font-semibold text-sm truncate">{{ $product['name'] }}</p>
+                            <p class="text-gray-800 font-semibold text-sm truncate">{{ $product->name }}</p>
                             <p class="text-[#d33f5f] font-bold text-lg">
-                                ₹{{ number_format($product['price']) }}
+                                ₹{{ number_format($product->price) }}
                                 <span class="line-through text-sm text-gray-400 ml-1">
-                                    ₹{{ number_format($product['price'] + 1500) }}
+                                    ₹{{ number_format($product->price + 1500) }}
                                 </span>
                             </p>
 

@@ -15,7 +15,7 @@
 
         <!-- Sidebar -->
         <aside id="sidebar"
-            class="w-64 bg-gradient-to-b from-pink-100 to-pink-200 shadow-lg flex flex-col fixed h-full transition-transform duration-300 z-20">
+            class="w-64 bg-gradient-to-b from-pink-100 to-pink-200 shadow-lg flex flex-col fixed h-full transition-transform duration-300 z-20 -translate-x-full md:translate-x-0">
             <div class="p-3 border-b border-pink-200 flex items-center justify-between bg-white shadow-sm">
                 <div class="flex items-center gap-1">
                     <span
@@ -34,9 +34,6 @@
                 </button>
             </div>
 
-
-
-
             <nav class="flex-1 p-4 space-y-1">
                 <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-pink-50 text-pink-800 hover:text-pink-600 transition active:bg-pink-200">
@@ -51,7 +48,6 @@
                     class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-pink-50 text-pink-800 hover:text-pink-600 transition">
                     <i data-feather="shopping-cart"></i><span>Orders</span>
                 </a>
-                <!-- NEW Products Link -->
                 <a href="{{ route('admin.products') }}"
                     class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-pink-50 text-pink-800 hover:text-pink-600 transition">
                     <i data-feather="box"></i><span>Products</span>
@@ -61,7 +57,6 @@
                     <i data-feather="settings"></i><span>Settings</span>
                 </a>
             </nav>
-
 
             <div class="p-4 border-t border-pink-300">
                 <a href="{{ route('admin.logout') }}"
@@ -140,21 +135,48 @@
     <script>
         feather.replace();
 
-        // Toggle Sidebar Mobile
+        // Sidebar Mobile
         const sidebar = document.getElementById('sidebar');
-        document.getElementById('openSidebar').addEventListener('click', () => sidebar.classList.remove(
-            '-translate-x-full'));
-        document.getElementById('toggleSidebar').addEventListener('click', () => sidebar.classList.add(
-        '-translate-x-full'));
+        const openSidebarBtn = document.getElementById('openSidebar');
+        const closeSidebarBtn = document.getElementById('toggleSidebar');
+
+        openSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+        });
+
+        closeSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 768) {
+                if (!sidebar.contains(e.target) && !openSidebarBtn.contains(e.target)) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+        });
 
         // Notifications Dropdown
-        document.getElementById('notifBtn').addEventListener('click', () => {
-            document.getElementById('notifMenu').classList.toggle('hidden');
+        const notifBtn = document.getElementById('notifBtn');
+        const notifMenu = document.getElementById('notifMenu');
+        notifBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notifMenu.classList.toggle('hidden');
         });
 
         // User Dropdown
-        document.getElementById('userBtn').addEventListener('click', () => {
-            document.getElementById('userMenu').classList.toggle('hidden');
+        const userBtn = document.getElementById('userBtn');
+        const userMenu = document.getElementById('userMenu');
+        userBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdowns on outside click
+        document.addEventListener('click', (e) => {
+            if (!notifMenu.contains(e.target) && !notifBtn.contains(e.target)) notifMenu.classList.add('hidden');
+            if (!userMenu.contains(e.target) && !userBtn.contains(e.target)) userMenu.classList.add('hidden');
         });
     </script>
 
