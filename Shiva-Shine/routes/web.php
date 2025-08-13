@@ -7,6 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,10 +48,5 @@ Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.l
 Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Product Management (CRUD)
-Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products');
-Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
-Route::post('admin/products/store', [ProductController::class, 'store'])->name('admin.products.store');
-Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
-Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
-Route::delete('admin/products/destroy/{id}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
+
