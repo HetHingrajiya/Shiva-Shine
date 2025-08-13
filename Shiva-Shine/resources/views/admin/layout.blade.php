@@ -35,7 +35,7 @@
       <!-- Logo row -->
       <div class="h-16 px-6 flex items-center justify-between border-b border-gray-200">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-          <img src="/images/logo.png" class="w-8 h-8 object-contain" alt="Logo">
+          <img src="/images/files/logo.png" class="w-28 h-18 object-contain" alt="Logo">
           <span class="text-lg font-bold text-gray-900 tracking-tight">Shiva Shine</span>
         </a>
         <button id="toggleSidebar" class="md:hidden p-1 rounded hover:bg-gray-100">
@@ -50,7 +50,7 @@
             ['icon'=>'home','label'=>'Dashboard','route'=>route('admin.dashboard')],
             ['icon' => 'users', 'label' => 'Customers', 'route' => route('admin.customers'), 'badge' => '12'],
             ['icon'=>'shopping-cart','label'=>'Orders','route'=>'#'],
-            ['icon'=>'box','label'=>'Products','route'=>'#'],
+            ['icon'=>'box','label'=>'Products','route'=>route('admin.products'), 'badge' => '5'],
             ['icon'=>'settings','label'=>'Settings','route'=>'#'],
             ['divider'=>true],
             ['icon'=>'bar-chart-2','label'=>'Analytics','route'=>'#'],
