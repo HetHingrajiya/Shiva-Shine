@@ -127,7 +127,7 @@
 
 
         <!-- ===== For Partners in Crime Section ===== -->
-        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80 ">
+       <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
             <h2 class="text-2xl md:text-3xl font-semibold text-center text-[#633d2e] mb-6">
                 For Partners in Crime
             </h2>
@@ -205,6 +205,7 @@
                     @foreach ($products as $product)
                         <div
                             class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-2xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
+
                             <!-- Image Wrapper with group -->
                             <div class="relative group">
                                 <!-- Product Image -->
@@ -284,8 +285,6 @@
             </div>
         </section>
 
-
-
         <!-- ===== Women's Collection ===== -->
         <section class="bg-white py-10">
             <div class="w-full">
@@ -320,7 +319,6 @@
 
             </div>
         </section>
-
 
         <!-- =====Most Gifted Section ===== -->
         <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
@@ -606,16 +604,34 @@
         }, 5000);
 
         // Scroll Script
-
-        function scrollProduct(direction) {
-            const container = document.getElementById('product-scroll');
-            const scrollAmount = 300;
-            container.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
+        function scrollProduct(dir) {
+            const scroller = document.getElementById('product-scroll');
+            if (!scroller) return;
+            const card = scroller.querySelector(':scope > div');
+            const amount = card ? card.getBoundingClientRect().width + 16 : 300; // 16 = gap
+            scroller.scrollBy({
+                left: dir === 'left' ? -amount : amount,
                 behavior: 'smooth'
             });
         }
     </script>
+    <!-- Utilities (optional) -->
+    <style>
+        /* Hide native scrollbar without affecting scroll */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
 
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
-    </html>
+        /* Two-line clamp if your Tailwind doesn't include line-clamp plugin */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>

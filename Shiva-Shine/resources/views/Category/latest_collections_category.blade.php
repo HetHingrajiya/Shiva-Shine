@@ -38,7 +38,7 @@
             <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
                 @foreach ($products as $product)
                     <div data-category="{{ $product->category }}"
-                        class="bg-white rounded-2xl overflow-hidden shadow-sm relative group transition transform hover:-translate-y-1 hover:shadow-md">
+                        class="bg-white rounded-2xl overflow-hidden shadow-sm relative group transition transform hover:shadow-md">
 
                         <!-- Wishlist Icon -->
                         <button class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition">

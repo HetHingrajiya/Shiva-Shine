@@ -50,6 +50,7 @@ Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.
 
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
 Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products');
+Route::get('admin/products/show/{id}', [ProductController::class, 'show'])->name('products.show');
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
 Route::post('admin/products/store', [ProductController::class, 'store'])->name('admin.products.store');
 Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
