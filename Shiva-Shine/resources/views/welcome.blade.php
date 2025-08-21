@@ -127,7 +127,7 @@
 
 
         <!-- ===== For Partners in Crime Section ===== -->
-       <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
+        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
             <h2 class="text-2xl md:text-3xl font-semibold text-center text-[#633d2e] mb-6">
                 For Partners in Crime
             </h2>
@@ -444,60 +444,80 @@
         </section>
 
         <!-- ===== Customer Stories/Reviews Section ===== -->
-        <section class="bg-amber-50">
-            <h2 class="text-3xl md:text-6xl font-bold text-center text-[#633d2e] mb-12">
+        <section class="bg-amber-50 py-10">
+            <h2 class="text-2xl md:text-4xl font-bold text-center text-[#633d2e] mb-10">
                 Customer Stories
             </h2>
 
-            <!-- Scrollable review row -->
-            <div class="min-w-6xl mx-auto overflow-x-auto">
-                <div class="flex gap-4 px-4 min-w-[300px] md:min-w-[600px] lg:min-w-[600px]">
+            <!-- Review Row (scroll on mobile, inline row on desktop) -->
+            <div class="max-w-6xl mx-auto overflow-x-auto scrollbar-hide">
+                <div class="flex gap-6 px-4 md:justify-center">
 
                     <!-- Review Card 1 -->
                     <div
-                        class="bg-yellow-100 rounded-2xl px-4 py-6 min-w-[220px] flex-shrink-0 flex flex-col items-center text-center shadow-md transform transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-                        <h3 class="font-semibold text-xl mb-3 text-gray-800">Virda</h3>
+                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
+                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Virda</h3>
                         <p class="text-sm text-gray-700 mb-4 leading-relaxed">
                             A big shout out to you guys for improving my hubby's gifting tastes. Completely in love with my
                             ring!
                         </p>
                         <img src="{{ asset('images/files/review-1.jpg') }}" alt="Virda"
-                            class="rounded-full w-16 h-16 object-cover border-4 border-white shadow-lg" />
+                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
                     </div>
 
                     <!-- Review Card 2 -->
                     <div
-                        class="bg-yellow-100 rounded-2xl px-4 py-6 min-w-[220px] flex-shrink-0 flex flex-col items-center text-center shadow-md transform transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-                        <h3 class="font-semibold text-xl mb-3 text-gray-800">Harshika</h3>
+                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
+                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Harshika</h3>
                         <p class="text-sm text-gray-700 mb-4 leading-relaxed">
                             Never thought buying jewellery would be this easy, thanks for helping make my mom's birthday
                             special.
                         </p>
                         <img src="{{ asset('images/files/review-2.jpg') }}" alt="Harshika"
-                            class="rounded-full w-16 h-16 object-cover border-4 border-white shadow-lg" />
+                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
                     </div>
 
                     <!-- Review Card 3 -->
                     <div
-                        class="bg-yellow-100 rounded-2xl px-4 py-6 min-w-[220px] flex-shrink-0 flex flex-col items-center text-center shadow-md transform transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-                        <h3 class="font-semibold text-xl mb-3 text-gray-800">Priya</h3>
+                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
+                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Priya</h3>
                         <p class="text-sm text-gray-700 mb-4 leading-relaxed">
                             Gifted these earrings to my sister on her wedding and she loved them! I am obsessed with buying
-                            gifts from GIVA.
+                            gifts
+                            from GIVA.
                         </p>
                         <img src="{{ asset('images/files/review-3.jpg') }}" alt="Priya"
-                            class="rounded-full w-16 h-16 object-cover border-4 border-white shadow-lg" />
+                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
                     </div>
 
+                    <!-- Review Card 4 -->
+                    <div
+                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
+                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Rohan</h3>
+                        <p class="text-sm text-gray-700 mb-4 leading-relaxed">
+                            I was looking for a unique gift for my girlfriend and found the perfect bracelet here. She loved
+                            it!
+                        </p>
+                        <img src="{{ asset('images/files/review-4.jpg') }}" alt="Rohan"
+                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
+                    </div>
                 </div>
             </div>
+            
+            <!-- Hide Scrollbar CSS -->
+            <style>
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
 
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            </style>
+
+            </div>
         </section>
-
-
-
-        </div>
-    </section>
 
 
     </section>
@@ -615,23 +635,4 @@
             });
         }
     </script>
-    <!-- Utilities (optional) -->
-    <style>
-        /* Hide native scrollbar without affecting scroll */
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Two-line clamp if your Tailwind doesn't include line-clamp plugin */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    </style>
+    <!-- Hide Scrollbar CSS -->
