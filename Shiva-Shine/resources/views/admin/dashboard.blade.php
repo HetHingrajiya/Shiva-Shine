@@ -46,7 +46,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     @foreach($cards as $card)
         <div class="p-6 rounded-2xl bg-gradient-to-r {{ $card['gradient'] }} shadow-md text-gray-800 hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 border border-gray-200">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between"> 
                 <div>
                     <h2 class="text-sm font-medium opacity-70 tracking-wide uppercase">{{ $card['title'] }}</h2>
                     <p class="text-2xl font-bold mt-1">{{ $card['value'] }}</p>

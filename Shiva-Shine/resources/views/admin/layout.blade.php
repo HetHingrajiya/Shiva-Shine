@@ -66,7 +66,7 @@
                         ],
                         ['icon' => 'shopping-cart', 'label' => 'Orders', 'route' => '#'],
                         ['icon' => 'box', 'label' => 'Products', 'route' => route('admin.products'), 'badge' => '5'],
-                        ['icon' => 'tag', 'label' => 'Categories', 'route' => route('admin.categories')],
+                        ['icon' => 'tag', 'label' => 'Categories', 'route' => '#'],
                         ['icon' => 'settings', 'label' => 'Settings', 'route' => '#'],
                         ['divider' => true],
                         ['icon' => 'bar-chart-2', 'label' => 'Analytics', 'route' => '#'],
