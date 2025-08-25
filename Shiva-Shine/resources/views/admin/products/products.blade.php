@@ -6,7 +6,7 @@
 
 <!-- Header -->
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-    <h1 class="text-3xl font-bold text-gray-800 tracking-wide">📦 Products</h1>
+    <h1 class="text-3xl font-extrabold text-gray-800 tracking-wide">📦 Manage Products</h1>
     <a href="{{ route('admin.products.create') }}"
        class="px-6 py-2.5 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl shadow-md transition duration-300">
         + Add Product
@@ -22,7 +22,7 @@
 
 <!-- Search Bar -->
 <form method="GET" action="{{ route('admin.products') }}" class="mb-10">
-    <div class="flex items-center max-w-xl mx-auto bg-white shadow rounded-xl border border-gray-200 overflow-hidden">
+    <div class="flex items-center max-w-2xl mx-auto bg-white shadow rounded-xl border border-gray-200 overflow-hidden">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="🔎 Search products..."
                class="w-full px-4 py-2 text-gray-700 focus:outline-none">
         <button type="submit" class="px-6 py-2 bg-gray-800 text-white hover:bg-gray-900 transition duration-300">
@@ -32,30 +32,30 @@
 </form>
 
 <!-- Products Grid -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     @forelse($products as $product)
-        <div class="bg-white shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl transition transform hover:-translate-y-2 flex flex-col">
+        <div class="bg-white border border-gray-200 rounded-2xl shadow hover:shadow-xl transition duration-300 flex flex-col group">
 
             <!-- Product Image -->
-            <div class="relative w-full h-64 bg-gray-100 overflow-hidden">
+            <div class="relative w-full h-56 bg-gray-100 rounded-t-2xl overflow-hidden">
                 @if($product->image1)
                     <img src="{{ asset('storage/' . $product->image1) }}" alt="Product Image"
-                         class="w-full h-full object-cover object-center transition duration-500 hover:scale-105">
+                         class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105">
                 @else
                     <div class="flex items-center justify-center h-full text-gray-400 italic">No Image</div>
                 @endif
 
                 <!-- Action Buttons -->
-                <div class="absolute top-2 right-2 flex space-x-1">
+                <div class="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition">
                     <a href="{{ route('admin.products.edit', $product) }}"
-                       class="px-3 py-1 text-xs bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg shadow font-medium transition">
+                       class="px-3 py-1 text-xs bg-yellow-500 hover:bg-yellow-600 text-white rounded-md shadow font-medium transition">
                         ✏ Edit
                     </a>
                     <form action="{{ route('admin.products.destroy', $product) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                                class="px-3 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded-lg shadow font-medium transition">
+                                class="px-3 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded-md shadow font-medium transition">
                             🗑 Delete
                         </button>
                     </form>
@@ -63,20 +63,31 @@
             </div>
 
             <!-- Product Info -->
-            <div class="p-6 flex-1 flex flex-col justify-between space-y-3">
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-800 truncate">{{ $product->name }}</h2>
-                    <p class="text-green-600 font-bold text-xl mt-1">₹{{ number_format($product->price, 2) }}</p>
-                    <p class="text-gray-600 text-sm mt-1">Stock: <span class="font-medium">{{ $product->stock }}</span></p>
-                    <p class="text-gray-500 text-sm mt-1">Category: <span class="font-medium">{{ $product->category->name ?? 'N/A' }}</span></p>
+            <div class="p-5 flex-1 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <h2 class="text-lg font-bold text-gray-800 truncate">{{ $product->name }}</h2>
+                    <p class="text-xl font-extrabold text-green-600">₹{{ number_format($product->price, 2) }}</p>
+
+                    <!-- Stock Badge -->
+                    <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full
+                        {{ $product->stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600' }}">
+                        {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
+                    </span>
+
+                    <!-- Info Grid -->
+                    <div class="grid grid-cols-2 gap-3 mt-4 text-sm text-gray-600">
+                        <p>📂 <span class="font-medium">{{ $product->category->name ?? 'N/A' }}</span></p>
+                        <p>🕒 Created: <span class="font-medium">{{ $product->created_at->format('d M Y') }}</span></p>
+                        <p>🔄 Updated: <span class="font-medium">{{ $product->updated_at->format('d M Y') }}</span></p>
+                    </div>
                 </div>
 
+                <!-- View Button -->
                 <a href="{{ route('admin.products.show', $product) }}"
-                   class="w-full mt-4 text-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold shadow transition">
-                   🔍 View Product
+                   class="mt-6 w-full text-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold shadow transition">
+                   🔍 View Details
                 </a>
             </div>
-
         </div>
     @empty
         <div class="col-span-3 text-center text-gray-500 italic">
