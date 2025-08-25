@@ -12,8 +12,14 @@ class ProductController extends Controller
     // Show product list
     public function index()
     {
-        $products = Product::latest()->get();
+      $products = Product::latest()->paginate(6); // 6 products per page
         return view('admin.products.products', compact('products'));
+    }
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     // Show create product form
