@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -49,6 +50,8 @@ Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('
 Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
+
+//products
 Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products');
 Route::get('admin/products/show/{id}', [ProductController::class, 'show'])->name('admin.products.show');
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
@@ -58,3 +61,12 @@ Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->
 Route::post('admin/products/delete/{id}', function ($id) {
     return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
 })->name('admin.products.destroy');
+
+// Categories Routes
+Route::get('admin/categories', [ProductCategoryController::class, 'index'])->name('admin.categories');
+Route::get('admin/categories/show/{category}', [ProductCategoryController::class, 'show'])->name('admin.categories.show');
+Route::get('admin/categories/create', [ProductCategoryController::class, 'create'])->name('admin.categories.create');
+Route::post('admin/categories/store', [ProductCategoryController::class, 'store'])->name('admin.categories.store');
+Route::get('admin/categories/edit/{category}', [ProductCategoryController::class, 'edit'])->name('admin.categories.edit');
+Route::put('admin/categories/update/{category}', [ProductCategoryController::class, 'update'])->name('admin.categories.update');
+Route::delete('admin/categories/delete/{category}', [ProductCategoryController::class, 'destroy'])->name('admin.categories.destroy');
