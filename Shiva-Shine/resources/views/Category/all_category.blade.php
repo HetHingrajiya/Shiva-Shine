@@ -77,6 +77,7 @@
                             </svg>
                         </button>
 
+                        <!-- Image -->
                         <div class="relative">
                             <img src="{{ asset('storage/' . $product->image1) }}"
                                 data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"

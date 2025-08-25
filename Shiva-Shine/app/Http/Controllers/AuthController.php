@@ -74,7 +74,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/account');
     }
 
     /**
@@ -105,7 +105,7 @@ class AuthController extends Controller
 
             return redirect('/');
         } catch (\Exception $e) {
-            return redirect('/login')->withErrors(['msg' => 'Google login failed.']);
+            return redirect('/account')->withErrors(['msg' => 'Google login failed.']);
         }
     }
 }

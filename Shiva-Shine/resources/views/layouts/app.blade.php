@@ -30,12 +30,12 @@
     <!-- Header / Navbar -->
 
     <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200" x-data="{ open: false }">
-        <!-- Banner Section -->
+        {{-- <!-- Banner Section -->
         <section class="bg-gradient-to-r from-pink-300 via-white to-pink-300  text-center shadow-md">
             <h1 class="text-sm sm:text-2xl font-semibold text-pink-600 tracking-wide">
                 Har Har Mahadev
             </h1>
-        </section>
+        </section> --}}
 
         <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 

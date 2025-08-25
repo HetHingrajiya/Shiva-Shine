@@ -11,27 +11,42 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 
+// Home
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Wishlist
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-Route::post('/wishlist/remove/{id}', function ($id) {
-    return back()->with('message', 'Removed item #' . $id . ' from wishlist.');
-})->name('wishlist.remove');
-Route::post('/wishlist/add-to-cart/{id}', function ($id) {
-    return back()->with('message', 'Added item #' . $id . ' to cart.');
-})->name('wishlist.addToCart');
+// User login/register
+Route::get('login', [AuthController::class, 'loginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+Route::get('register', [AuthController::class, 'registerForm'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Cart
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/remove/{id}', function ($id) {
-    return redirect()->back()->with('success', 'Item removed.');
-})->name('cart.remove');
+// Google login
+Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-// Account
-Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+// Routes that require authentication
+Route::middleware(['auth'])->group(function () {
+    // Account
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+
+    // Wishlist
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/remove/{id}', function ($id) {
+        return back()->with('message', 'Removed item #' . $id . ' from wishlist.');
+    })->name('wishlist.remove');
+    Route::post('/wishlist/add-to-cart/{id}', function ($id) {
+        return back()->with('message', 'Added item #' . $id . ' to cart.');
+    })->name('wishlist.addToCart');
+
+    // Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/remove/{id}', function ($id) {
+        return redirect()->back()->with('success', 'Item removed.');
+    })->name('cart.remove');
+});
 
 // Categories
 Route::get('/all_category', [CategoryController::class, 'all'])->name('Category.all_category');
@@ -50,9 +65,10 @@ Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.l
 Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
+// Admin Customers
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
 
-//products
+// Admin Products
 Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products');
 Route::get('admin/products/show/{id}', [ProductController::class, 'show'])->name('admin.products.show');
 Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
@@ -63,7 +79,7 @@ Route::post('admin/products/delete/{id}', function ($id) {
     return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
 })->name('admin.products.destroy');
 
-// Categories Routes
+// Admin Categories
 Route::get('admin/categories', [ProductCategoryController::class, 'index'])->name('admin.categories');
 Route::get('admin/categories/show/{category}', [ProductCategoryController::class, 'show'])->name('admin.categories.show');
 Route::get('admin/categories/create', [ProductCategoryController::class, 'create'])->name('admin.categories.create');
@@ -71,15 +87,3 @@ Route::post('admin/categories/store', [ProductCategoryController::class, 'store'
 Route::get('admin/categories/edit/{category}', [ProductCategoryController::class, 'edit'])->name('admin.categories.edit');
 Route::put('admin/categories/update/{category}', [ProductCategoryController::class, 'update'])->name('admin.categories.update');
 Route::delete('admin/categories/delete/{category}', [ProductCategoryController::class, 'destroy'])->name('admin.categories.destroy');
-
-
-// User login/register
-Route::get('login', [AuthController::class, 'loginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'registerForm'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
-// Google login
-Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
