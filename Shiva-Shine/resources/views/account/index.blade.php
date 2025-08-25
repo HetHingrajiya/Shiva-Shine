@@ -8,6 +8,28 @@
 
         {{-- Account Information --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            {{-- Login --}}
+            <div class="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">Login</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Access your account using email/password or Google login.
+                    </p>
+
+                    @guest
+                        <a href="{{ route('login') }}"
+                           class="inline-block text-pink-600 hover:text-pink-800 font-medium text-sm">
+                            Login →
+                        </a>
+                    @endguest
+
+                    @auth
+                        <p class="text-green-600 font-medium text-sm">✅ You are already logged in.</p>
+                    @endauth
+                </div>
+            </div>
+
             {{-- Profile --}}
             <div class="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition">
                 <div class="p-6">
@@ -74,13 +96,14 @@
             </div>
 
             {{-- Logout --}}
+            @auth
             <div class="border rounded-lg overflow-hidden bg-white shadow-sm hover:shadow-md transition">
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">Logout</h3>
                     <p class="text-sm text-gray-600 mb-4">
                         Sign out from your account securely.
                     </p>
-                    <form method="POST" action="#">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="text-red-600 hover:text-red-800 font-medium text-sm">
                             Logout →
@@ -88,6 +111,8 @@
                     </form>
                 </div>
             </div>
+            @endauth
+
         </div>
     </div>
 </section>
