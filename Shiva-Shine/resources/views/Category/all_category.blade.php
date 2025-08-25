@@ -77,13 +77,15 @@
                             </svg>
                         </button>
 
-                        <!-- Image -->
                         <div class="relative">
-                            <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
-                                class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]" />
-
-
+                            <img src="{{ asset('storage/' . $product->image1) }}"
+                                data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"
+                                class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]"
+                                onmouseover="this.src=this.dataset.hover;"
+                                onmouseout="this.src='{{ asset('storage/' . $product->image1) }}';"
+                                alt="{{ $product->name }}">
                         </div>
+
 
                         <!-- Info -->
                         <div class="p-4">
