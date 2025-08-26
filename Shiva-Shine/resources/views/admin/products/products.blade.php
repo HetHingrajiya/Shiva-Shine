@@ -74,9 +74,22 @@
                         {{ $product->stock > 0 ? 'In Stock' : 'Out of Stock' }}
                     </span>
 
+                    <!-- Category & Gender -->
+                    <div class="mt-3 text-sm text-gray-600 space-y-1">
+                        <p>📂 Category:
+                            <span class="font-medium text-gray-800">
+                                {{ $product->category->name ?? 'N/A' }}
+                            </span>
+                        </p>
+                        <p>👤 Gender:
+                            <span class="font-medium text-gray-800">
+                                {{ $product->category->gender ?? 'N/A' }}
+                            </span>
+                        </p>
+                    </div>
+
                     <!-- Info Grid -->
                     <div class="grid grid-cols-2 gap-3 mt-4 text-sm text-gray-600">
-                        <p>📂 <span class="font-medium">{{ $product->category->name ?? 'N/A' }}</span></p>
                         <p>🕒 Created: <span class="font-medium">{{ $product->created_at->format('d M Y') }}</span></p>
                         <p>🔄 Updated: <span class="font-medium">{{ $product->updated_at->format('d M Y') }}</span></p>
                     </div>
@@ -95,6 +108,7 @@
         </div>
     @endforelse
 </div>
+
 
 <!-- Pagination -->
 <div class="mt-10 flex justify-center">

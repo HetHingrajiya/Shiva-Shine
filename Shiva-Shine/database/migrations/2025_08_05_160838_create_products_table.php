@@ -17,6 +17,10 @@ return new class extends Migration
             $table->decimal('price', 10, 2); // product price
             $table->integer('stock'); // quantity in stock
 
+            // Category relationship
+            $table->unsignedBigInteger('category_id'); // foreign key
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+
             // product images
             $table->string('image1')->nullable();
             $table->string('image2')->nullable();
