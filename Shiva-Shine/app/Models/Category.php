@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    use HasFactory; // missing in your code
+
     protected $fillable = ['name', 'gender'];
 
-    // Relationship: Category has many Products
+    /**
+     * Relationship: Category has many Products
+     */
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

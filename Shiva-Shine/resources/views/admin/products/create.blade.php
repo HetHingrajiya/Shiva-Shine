@@ -44,32 +44,31 @@
             <div class="space-y-6">
                 <!-- Product Name -->
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Product Name</label>
-                    <input type="text" name="name" placeholder="Elegant Gold Ring"
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Product Name <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" placeholder="Elegant Gold Ring" required
                         class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
                 </div>
 
                 <!-- Price -->
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Price (₹)</label>
-                    <input type="number" step="0.01" name="price" placeholder="1999.00"
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Price (₹) <span class="text-red-500">*</span></label>
+                    <input type="number" step="0.01" name="price" placeholder="1999.00" required min="0"
                         class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm">
                 </div>
 
                 <!-- Stock -->
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stock</label>
-                    <input type="number" name="stock" placeholder="10"
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Stock <span class="text-red-500">*</span></label>
+                    <input type="number" name="stock" placeholder="10" required min="0"
                         class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-green-400 focus:outline-none shadow-sm">
                 </div>
 
                 <!-- Gender & Category -->
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- Gender Filter -->
+                    <!-- Gender -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Gender</label>
-                        <select name="gender" id="genderSelect"
-                                onchange="filterCategories()"
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Gender <span class="text-red-500">*</span></label>
+                        <select name="gender" id="genderSelect" onchange="filterCategories()" required
                                 class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
@@ -79,8 +78,8 @@
 
                     <!-- Category -->
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
-                        <select name="category_id" id="categorySelect"
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Category <span class="text-red-500">*</span></label>
+                        <select name="category_id" id="categorySelect" required
                                 class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
                             <option value="">Select Category</option>
                             @foreach ($categories as $cat)
@@ -101,13 +100,14 @@
                         <div class="flex flex-col items-center">
                             <input type="file" name="image{{ $i }}" accept="image/*"
                                 onchange="previewImage(event, {{ $i }})"
-                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-pink-300 focus:outline-none shadow-sm file:mr-3 file:px-3 file:py-1 file:rounded-md file:border-0 file:bg-pink-100 file:text-pink-700 hover:file:bg-pink-200 transition">
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-pink-300 focus:outline-none shadow-sm file:mr-3 file:px-3 file:py-1 file:rounded-md file:border-0 file:bg-pink-100 file:text-pink-700 hover:file:bg-pink-200 transition"
+                                {{ $i === 1 ? 'required' : '' }}>
                             <img id="preview{{ $i }}" src="#" alt=""
                                  class="hidden w-24 h-24 mt-3 object-cover rounded-lg border border-gray-300 shadow-md">
                         </div>
                     @endfor
                 </div>
-                <p class="text-sm text-gray-500 mt-3">Upload up to 5 images (JPG, PNG, max 2MB each).</p>
+                <p class="text-sm text-gray-500 mt-3">Upload up to 5 images (JPG, PNG, max 2MB each). First image is required.</p>
             </div>
 
         </div>
@@ -139,20 +139,17 @@
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    // Filter category options based on selected gender
+    // Filter categories based on gender
     function filterCategories() {
         const gender = document.getElementById('genderSelect').value;
         const categorySelect = document.getElementById('categorySelect');
         const options = categorySelect.querySelectorAll('option');
 
         options.forEach(option => {
-            if (option.value === "") return; // keep placeholder
-            if (gender === "" || option.dataset.gender === gender) {
-                option.style.display = "block";
-            } else {
-                option.style.display = "none";
-            }
+            if (option.value === "") return; // placeholder
+            option.style.display = (gender === "" || option.dataset.gender === gender) ? "block" : "none";
         });
+
         categorySelect.value = "";
     }
 </script>

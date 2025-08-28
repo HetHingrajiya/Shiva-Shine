@@ -31,7 +31,7 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data" class="space-y-10">
+    <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="space-y-10">
         @csrf
         @method('PUT')
 
@@ -41,19 +41,31 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <label class="block text-sm font-semibold text-gray-600 mb-2">Product Name</label>
-                    <input type="text" name="name" value="{{ $product->name }}"
+                    <input type="text" name="name" value="{{ old('name', $product->name) }}"
                            class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-300 focus:outline-none shadow-sm transition">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-600 mb-2">Price (₹)</label>
-                    <input type="number" step="0.01" name="price" value="{{ $product->price }}"
+                    <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}"
                            class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-yellow-300 focus:outline-none shadow-sm transition">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-600 mb-2">Stock</label>
-                    <input type="number" name="stock" value="{{ $product->stock }}"
+                    <input type="number" name="stock" value="{{ old('stock', $product->stock) }}"
                            class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-yellow-300 focus:outline-none shadow-sm transition">
                 </div>
+            </div>
+
+            <!-- Category -->
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-600 mb-2">Category</label>
+                <select name="category_id" class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-300 focus:outline-none shadow-sm transition">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>
+                            {{ $category->name }} ({{ $category->gender }})
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
@@ -65,9 +77,9 @@
                 <div class="relative group border-2 border-dashed border-gray-300 rounded-xl h-36 flex items-center justify-center overflow-hidden hover:border-green-500 transition-all duration-300">
 
                     <!-- Image Preview -->
-                    <img src="{{ $product->$img ? asset('storage/'.$product->$img) : '#' }}"
+                    <img src="{{ $product->$img ? asset('storage/'.$product->$img) : asset('images/placeholder.png') }}"
                          id="preview{{ $i+1 }}"
-                         class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 {{ $product->$img ? '' : 'hidden' }}">
+                         class="w-full h-full object-cover transition-transform duration-300">
 
                     <!-- Overlay Actions -->
                     <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition">
@@ -76,17 +88,13 @@
                             <input type="file" name="{{ $img }}" accept="image/*" class="hidden" onchange="previewImage(event, {{ $i+1 }})">
                         </label>
                         @if($product->$img)
-                        <button type="button" onclick="removeImage({{ $i+1 }})"
+                        <button type="button" onclick="removeImage({{ $i+1 }}, '{{ $img }}')"
                                 class="mt-2 px-3 py-1 bg-red-500 text-white rounded-full shadow hover:bg-red-600 transition">
                             ✕ Remove
                         </button>
                         @endif
                     </div>
 
-                    <!-- Placeholder -->
-                    @if(!$product->$img)
-                        <div class="text-gray-400 text-sm text-center pointer-events-none">Click or Drag<br>to Upload</div>
-                    @endif
                 </div>
                 @endforeach
             </div>
@@ -114,15 +122,19 @@ function previewImage(event, index) {
     reader.onload = function(){
         const img = document.getElementById('preview'+index);
         img.src = reader.result;
-        img.classList.remove('hidden');
     }
     reader.readAsDataURL(event.target.files[0]);
 }
 
-function removeImage(index) {
+function removeImage(index, imgName) {
     const img = document.getElementById('preview'+index);
-    img.src = '';
-    img.classList.add('hidden');
+    img.src = '{{ asset("images/placeholder.png") }}';
+    // Optional: Add a hidden input to notify server to remove image
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'remove_'+imgName;
+    input.value = '1';
+    document.querySelector('form').appendChild(input);
 }
 </script>
 

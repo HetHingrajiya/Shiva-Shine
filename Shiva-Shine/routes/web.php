@@ -55,7 +55,7 @@ Route::get('/mens-jewellery', [CategoryController::class, 'mensJewellery'])->nam
 Route::get('/womens-jewellery', [CategoryController::class, 'womensJewellery'])->name('category.Womens.womens_jewellery');
 
 // Admin Redirect
-Route::get('/admin', function () {
+Route::get('/yuvraj@shivashine', function () {
     return redirect()->route('admin.login');
 });
 

@@ -6,26 +6,64 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
     // Show product list
-    public function index()
+   public function index(Request $request)
     {
-        // Eager load category to avoid N+1 problem
-        $products = Product::with('category')->latest()->paginate(6);
+    // Start query
+        $query = Product::with('category'); // eager load category
+
+        // If search term exists
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('price', 'LIKE', "%{$search}%")
+                ->orWhereHas('category', function($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                });
+        }
+
+        // Get paginated results
+        $products = $query->orderBy('created_at', 'desc')->paginate(12);
+
+        // Keep search term in pagination links
+        $products->appends($request->all());
+
         return view('admin.products.products', compact('products'));
     }
 
+
     // Show single product details
- public function show($id)
-{
-    // Load the product with its category
-    $product = Product::with('category')->findOrFail($id);
+    public function show($id)
+    {
+        // Fetch product with category name and gender
+        $product = DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select(
+                'products.*',
+                'categories.name as category_name',
+                'categories.gender as category_gender'
+            )
+            ->where('products.id', $id)
+            ->first();
 
-    return view('admin.products.show', compact('product'));
-}
+        if (!$product) {
+            abort(404, 'Product not found');
+        }
 
+        // Convert string timestamps to Carbon instances
+        $product->created_at = Carbon::parse($product->created_at);
+        $product->updated_at = Carbon::parse($product->updated_at);
+
+
+
+        // Pass product to the view
+        return view('admin.products.show', compact('product'));
+    }
 
     // Show create product form
     public function create()
@@ -65,8 +103,26 @@ class ProductController extends Controller
     // Show edit product form
     public function edit($id)
     {
-        $product = Product::findOrFail($id);
+        // Fetch product along with its category info
+        $product = DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select(
+                'products.*',
+                'categories.name as category_name',
+                'categories.gender as category_gender'
+            )
+            ->where('products.id', $id)
+            ->first();
+
+        // Convert string timestamps to Carbon objects for Blade formatting
+        if ($product) {
+            $product->created_at = \Carbon\Carbon::parse($product->created_at);
+            $product->updated_at = \Carbon\Carbon::parse($product->updated_at);
+        }
+
+        // Fetch all categories for dropdown
         $categories = Category::orderBy('name')->get();
+
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
