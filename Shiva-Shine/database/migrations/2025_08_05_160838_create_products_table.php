@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('stock'); // quantity in stock
 
             // Category relationship
-            $table->unsignedBigInteger('category_id'); // foreign key
+            $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             // product images

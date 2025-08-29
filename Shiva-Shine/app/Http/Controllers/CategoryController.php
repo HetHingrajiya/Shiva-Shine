@@ -18,9 +18,9 @@ class CategoryController extends Controller
     // Men's Jewellery
     public function mensJewellery()
     {
-        $category = Category::where('name', 'mens')->first();
+        $categories = Category::where('gender', 'Male')->pluck('id');
 
-        $products = Product::where('category_id', $category->id)
+        $products = Product::whereIn('category_id', $categories)
             ->latest()
             ->get();
 
@@ -30,14 +30,15 @@ class CategoryController extends Controller
     // Women's Jewellery
     public function womensJewellery()
     {
-        $category = Category::where('name', 'womens')->first();
+        $categories = Category::where('gender', 'Female')->pluck('id');
 
-        $products = Product::where('category_id', $category->id)
+        $products = Product::whereIn('category_id', $categories)
             ->latest()
             ->get();
 
         return view('Category.Womens.womens_jewellery', compact('products'));
     }
+
 
     // Latest Collections
     public function latest_collections_category()

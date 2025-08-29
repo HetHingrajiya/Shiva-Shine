@@ -57,8 +57,9 @@
                             </svg>
                         </button>
 
+
                         <!-- Product Image -->
-                        <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                        <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
                             class="w-full object-cover transition-transform duration-300 group-hover:scale-105" />
 
                         <!-- Product Info -->
