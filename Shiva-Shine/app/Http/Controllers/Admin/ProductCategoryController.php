@@ -48,14 +48,14 @@ class ProductCategoryController extends Controller
                     return $query->where('gender', $request->gender);
                 }),
             ],
-            'gender' => 'required|in:Male,Female',
+            'gender' => 'required|in:Male,Female,Both',
         ]);
 
         // Create category
         Category::create($request->only('name', 'gender'));
 
         return redirect()->route('admin.categories')
-                         ->with('success', "Category '{$request->name}' added successfully!");
+            ->with('success', "Category '{$request->name}' added successfully!");
     }
 
     /**
@@ -73,13 +73,13 @@ class ProductCategoryController extends Controller
                     return $query->where('gender', $request->gender);
                 }),
             ],
-            'gender' => 'required|in:Male,Female',
+            'gender' => 'required|in:Male,Female,Both',
         ]);
 
         $category->update($request->only('name', 'gender'));
 
         return redirect()->route('admin.categories')
-                         ->with('success', "Category '{$request->name}' updated successfully!");
+            ->with('success', "Category '{$request->name}' updated successfully!");
     }
 
     /**
@@ -90,6 +90,6 @@ class ProductCategoryController extends Controller
         $category->delete();
 
         return redirect()->route('admin.categories')
-                         ->with('success', "Category '{$category->name}' deleted successfully!");
+            ->with('success', "Category '{$category->name}' deleted successfully!");
     }
 }

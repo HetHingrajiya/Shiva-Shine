@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Categories
+Route::get('/products', [CategoryController::class, 'all'])->name('products.all');
 Route::get('/all_category', [CategoryController::class, 'all'])->name('Category.all_category');
 Route::get('/latest-collections', [CategoryController::class, 'latest_collections_category'])->name('Category.latest_collections_category');
 Route::get('/mens-jewellery', [CategoryController::class, 'mensJewellery'])->name('category.mens.mens_jewellery');

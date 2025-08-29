@@ -9,16 +9,25 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     // All products
-    public function all()
+    public function all(Request $request)
     {
-        $products = Product::latest()->get();
-        return view('Category.all_category', compact('products'));
+        $query = Product::query();
+
+        if ($request->has('category') && $request->category !== 'all') {
+            $query->where('category_id', $request->category);
+        }
+
+        $products = $query->latest()->get();
+        $categories = Category::all();
+
+        return view('Category.all_category', compact('products', 'categories'));
     }
+
 
     // Men's Jewellery
     public function mensJewellery()
     {
-        $categories = Category::where('gender', 'Male')->pluck('id');
+        $categories = Category::whereIn('gender', ['Male', 'Both'])->pluck('id');
 
         $products = Product::whereIn('category_id', $categories)
             ->latest()
@@ -30,7 +39,7 @@ class CategoryController extends Controller
     // Women's Jewellery
     public function womensJewellery()
     {
-        $categories = Category::where('gender', 'Female')->pluck('id');
+        $categories = Category::whereIn('gender', ['Female', 'Both'])->pluck('id');
 
         $products = Product::whereIn('category_id', $categories)
             ->latest()
@@ -48,5 +57,20 @@ class CategoryController extends Controller
             ->get();
 
         return view('Category.latest_collections_category', compact('products'));
+    }
+
+    // Filter products by category
+    public function filter(Request $request)
+    {
+        $query = Product::query();
+
+        if ($request->has('category') && $request->category != 'all') {
+            $query->where('category_id', $request->category);
+        }
+
+        $products = $query->latest()->get();
+        $categories = Category::all();
+
+        return view('Category.all_category', compact('products', 'categories'));
     }
 }

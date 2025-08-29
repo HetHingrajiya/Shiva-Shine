@@ -44,17 +44,23 @@
                         <button class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24">
                                 <path d="M12.1 21.35l-1.45-1.32C5.4 15.36 2
-                                    12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74
-                                    0 3.41 0.81 4.5 2.09C13.09 3.81
-                                    14.76 3 16.5 3 19.58 3 22 5.42
-                                    22 8.5c0 3.78-3.4 6.86-8.55
-                                    11.54l-1.35 1.31z" />
+                                        12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74
+                                        0 3.41 0.81 4.5 2.09C13.09 3.81
+                                        14.76 3 16.5 3 19.58 3 22 5.42
+                                        22 8.5c0 3.78-3.4 6.86-8.55
+                                        11.54l-1.35 1.31z" />
                             </svg>
                         </button>
 
-                        <!-- Product Image -->
-                        <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
-                            class="w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                        <!-- Image -->
+                        <div class="relative">
+                            <img src="{{ asset('storage/' . $product->image1) }}"
+                                data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"
+                                class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]"
+                                onmouseover="this.src=this.dataset.hover;"
+                                onmouseout="this.src='{{ asset('storage/' . $product->image1) }}';"
+                                alt="{{ $product->name }}">
+                        </div>
 
                         <!-- Product Details -->
                         <div class="p-4 text-center space-y-1">
@@ -71,8 +77,8 @@
                                 <span>4.8</span>
                                 <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                                     <path d="M12 .587l3.668 7.568L24 9.423l-6 5.845
-                                        1.416 8.232L12 18.896l-7.416 4.604L6
-                                        15.268 0 9.423l8.332-1.268z" />
+                                            1.416 8.232L12 18.896l-7.416 4.604L6
+                                            15.268 0 9.423l8.332-1.268z" />
                                 </svg>
                                 <span class="text-gray-600">(134)</span>
                             </div>

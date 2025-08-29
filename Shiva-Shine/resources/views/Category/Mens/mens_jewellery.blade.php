@@ -50,10 +50,15 @@
                                 <path d="M12.1 21.35l-1.45-1.32C5.4 ..." />
                             </svg>
                         </button>
-
-                        <!-- Product Image -->
-                        <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
-                            class="w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                        <!-- Image -->
+                        <div class="relative">
+                            <img src="{{ asset('storage/' . $product->image1) }}"
+                                data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"
+                                class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]"
+                                onmouseover="this.src=this.dataset.hover;"
+                                onmouseout="this.src='{{ asset('storage/' . $product->image1) }}';"
+                                alt="{{ $product->name }}">
+                        </div>
 
                         <!-- Product Info -->
                         <div class="p-4 text-center">

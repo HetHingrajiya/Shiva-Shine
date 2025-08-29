@@ -23,6 +23,7 @@
                 <option value="">All Genders</option>
                 <option value="Male" {{ request('gender') == 'Male' ? 'selected' : '' }}>Male</option>
                 <option value="Female" {{ request('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                <option value="Both" {{ request('gender') == 'Both' ? 'selected' : '' }}>Both</option> <!-- UPDATED -->
             </select>
 
             <button type="submit"
@@ -66,9 +67,15 @@
 
                 <!-- Gender Badge -->
                 <span class="inline-block px-3 py-1 rounded-full text-xs font-medium
-                             {{ $category->gender == 'Male' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800' }}">
+                    @if($category->gender == 'Male')
+                        bg-blue-100 text-blue-800
+                    @elseif($category->gender == 'Female')
+                        bg-pink-100 text-pink-800
+                    @else
+                        bg-purple-100 text-purple-800
+                    @endif">
                     {{ $category->gender }}
-                </span>
+                </span> <!-- UPDATED -->
 
                 <!-- Dates -->
                 <div class="mt-3 text-gray-400 text-xs space-y-1">
@@ -126,6 +133,7 @@
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
+                    <option value="Both">Both</option> <!-- UPDATED -->
                 </select>
             </div>
             <div class="flex justify-end gap-2">
@@ -152,6 +160,7 @@
                 <select name="gender" id="editCategoryGender" required class="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
+                    <option value="Both">Both</option> <!-- UPDATED -->
                 </select>
             </div>
             <div class="flex justify-end gap-2">

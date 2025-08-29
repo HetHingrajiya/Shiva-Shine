@@ -23,23 +23,28 @@
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
                 <h2 class="text-3xl font-bold text-[#633d2e]">Featured Products</h2>
 
+                <!-- Category Filter -->
                 <div class="flex items-center gap-2">
                     <label for="categoryFilter" class="text-sm font-semibold text-[#633d2e]">Category:</label>
                     <select id="categoryFilter" onchange="filterProducts()"
                         class="border border-[#e0c4ae] rounded-lg px-3 py-1.5 text-sm bg-white shadow-sm text-[#633d2e] focus:outline-none">
                         <option value="all">All</option>
-                        <option value="Rings">Rings</option>
-                        <option value="Bracelet">Bracelet</option>
-                        <option value="Pendant">Pendant</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ request('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
+
             </div>
 
             <!-- Grid -->
             <div id="productGrid" class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 @foreach ($products as $product)
                     @php
-                        $category = $product->category ?? 'Uncategorized';
+
                         $discount =
                             isset($product->mrp) && $product->mrp > $product->price
                                 ? round((($product->mrp - $product->price) / $product->mrp) * 100)
@@ -47,7 +52,7 @@
                         $mrp = $product->mrp ?? $product->price + 1500;
                     @endphp
 
-                    <div data-category="{{ $category }}"
+                    <div data-category="{{ $product->category->name ?? 'Uncategorized' }}"
                         class="group relative overflow-hidden rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm shadow-[0_6px_20px_rgba(99,61,46,0.08)] transition hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(99,61,46,0.15)]"
                         x-data="{ wished: false }">
 
@@ -143,12 +148,12 @@
     <!-- ======= Filter Script ======= -->
     <script>
         function filterProducts() {
-            const selected = document.getElementById('categoryFilter').value;
-            const cards = document.querySelectorAll('#productGrid [data-category]');
-            cards.forEach(card => {
-                const show = selected === 'all' || card.dataset.category === selected;
-                card.style.display = show ? '' : 'none';
-            });
+            let category = document.getElementById('categoryFilter').value;
+            if (category === 'all') {
+                window.location.href = "{{ route('products.all') }}";
+            } else {
+                window.location.href = "{{ route('products.all') }}?category=" + category;
+            }
         }
     </script>
 @endsection

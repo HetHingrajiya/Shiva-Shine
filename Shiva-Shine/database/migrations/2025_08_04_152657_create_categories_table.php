@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('gender', ['Male', 'Female']);
+            $table->enum('gender', ['Male', 'Female', 'Both']);
             $table->unique(['name', 'gender'], 'unique_category_per_gender'); // allow same name for different genders
             $table->timestamps();
         });
