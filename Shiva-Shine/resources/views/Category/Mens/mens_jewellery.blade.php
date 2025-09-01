@@ -29,11 +29,12 @@
                     <select id="categoryFilter" onchange="filterProducts()"
                         class="border border-[#e0c4ae] rounded-lg px-3 py-1.5 text-sm bg-white shadow-sm text-[#633d2e] focus:outline-none">
                         <option value="all">All</option>
-                        <option value="Rings">Rings</option>
-                        <option value="Bracelet">Bracelet</option>
-                        <option value="Pendant">Pendant</option>
-                        <option value="Watch">Watch</option>
-                        <option value="Chain">Chain</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ request('category') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -110,19 +111,12 @@
     <!-- ======= Filter Script ======= -->
     <script>
         function filterProducts() {
-            const selected = document.getElementById('categoryFilter').value;
-            const cards = document.querySelectorAll('[data-category]');
-            let visibleCount = 0;
-
-            cards.forEach(card => {
-                const cat = card.getAttribute('data-category');
-                const isVisible = selected === 'all' || cat === selected;
-                card.classList.toggle('hidden', !isVisible);
-                if (isVisible) visibleCount++;
-            });
-
-            document.getElementById('productGrid').classList.toggle('hidden', visibleCount === 0);
-            document.getElementById('comingSoon').classList.toggle('hidden', visibleCount > 0);
+            let category = document.getElementById('categoryFilter').value;
+            if (category === 'all') {
+                window.location.href = "{{ route('products.all') }}";
+            } else {
+                window.location.href = "{{ route('products.all') }}?category=" + category;
+            }
         }
     </script>
 @endsection

@@ -8,7 +8,7 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    // All products
+    // All products (with optional category filter)
     public function all(Request $request)
     {
         $query = Product::query();
@@ -18,36 +18,46 @@ class CategoryController extends Controller
         }
 
         $products = $query->latest()->get();
-        $categories = Category::all();
+        $categories = Category::orderBy('name')->get();
 
         return view('Category.all_category', compact('products', 'categories'));
     }
 
-
     // Men's Jewellery
     public function mensJewellery()
     {
-        $categories = Category::whereIn('gender', ['Male', 'Both'])->pluck('id');
+        // Fetch categories for men (Male or Both) - case insensitive
+        $categoryIds = Category::whereRaw("LOWER(gender) IN ('male', 'both')")
+            ->pluck('id');
 
-        $products = Product::whereIn('category_id', $categories)
+        // Fetch products that belong to these categories
+        $products = Product::whereIn('category_id', $categoryIds)
             ->latest()
             ->get();
 
-        return view('Category.Mens.mens_jewellery', compact('products'));
+        // Fetch all categories for filter dropdown
+        $categories = Category::orderBy('name')->get();
+
+        return view('Category.Mens.mens_jewellery', compact('products', 'categories'));
     }
 
     // Women's Jewellery
     public function womensJewellery()
     {
-        $categories = Category::whereIn('gender', ['Female', 'Both'])->pluck('id');
+        // Fetch categories for women (Female or Both) - case insensitive
+        $categoryIds = Category::whereRaw("LOWER(gender) IN ('female', 'both')")
+            ->pluck('id');
 
-        $products = Product::whereIn('category_id', $categories)
+        // Fetch products that belong to these categories
+        $products = Product::whereIn('category_id', $categoryIds)
             ->latest()
             ->get();
 
-        return view('Category.Womens.womens_jewellery', compact('products'));
-    }
+        // Fetch all categories for filter dropdown
+        $categories = Category::orderBy('name')->get();
 
+        return view('Category.Womens.womens_jewellery', compact('products', 'categories'));
+    }
 
     // Latest Collections
     public function latest_collections_category()
@@ -56,10 +66,12 @@ class CategoryController extends Controller
             ->take(10)
             ->get();
 
-        return view('Category.latest_collections_category', compact('products'));
+        $categories = Category::orderBy('name')->get();
+
+        return view('Category.latest_collections_category', compact('products', 'categories'));
     }
 
-    // Filter products by category
+    // Filter products by category (used by your select control)
     public function filter(Request $request)
     {
         $query = Product::query();
@@ -69,7 +81,7 @@ class CategoryController extends Controller
         }
 
         $products = $query->latest()->get();
-        $categories = Category::all();
+        $categories = Category::orderBy('name')->get();
 
         return view('Category.all_category', compact('products', 'categories'));
     }
