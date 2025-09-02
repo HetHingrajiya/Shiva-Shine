@@ -24,52 +24,92 @@ class CategoryController extends Controller
     }
 
     // Men's Jewellery
-    public function mensJewellery()
-    {
-        // Fetch categories for men (Male or Both) - case insensitive
-        $categoryIds = Category::whereRaw("LOWER(gender) IN ('male', 'both')")
-            ->pluck('id');
+    public function mensJewellery(Request $request)
+{
+    // ✅ Fetch only Male categories (case-insensitive)
+    $categories = Category::whereRaw("LOWER(gender) = 'male'")
+        ->orderBy('name')
+        ->get();
 
-        // Fetch products that belong to these categories
+    // ✅ If category is selected, filter products
+    if ($request->has('category_id') && $request->category_id != 'all') {
+        $products = Product::where('category_id', $request->category_id)
+            ->latest()
+            ->get();
+    } else {
+        // Show all products under Male categories
+        $categoryIds = $categories->pluck('id');
         $products = Product::whereIn('category_id', $categoryIds)
             ->latest()
             ->get();
-
-        // Fetch all categories for filter dropdown
-        $categories = Category::orderBy('name')->get();
-
-        return view('Category.Mens.mens_jewellery', compact('products', 'categories'));
     }
 
-    // Women's Jewellery
-    public function womensJewellery()
-    {
-        // Fetch categories for women (Female or Both) - case insensitive
-        $categoryIds = Category::whereRaw("LOWER(gender) IN ('female', 'both')")
-            ->pluck('id');
+    return view('Category.Mens.mens_jewellery', compact('products', 'categories'));
+}
 
-        // Fetch products that belong to these categories
+
+   // Women's Jewellery
+public function womensJewellery(Request $request)
+{
+    // ✅ Fetch only Female categories (case-insensitive)
+    $categories = Category::whereRaw("LOWER(gender) = 'female'")
+        ->orderBy('name')
+        ->get();
+
+    // ✅ If category is selected, filter products
+    if ($request->has('category_id') && $request->category_id != 'all') {
+        $products = Product::where('category_id', $request->category_id)
+            ->latest()
+            ->get();
+    } else {
+        // Show all products under Female categories
+        $categoryIds = $categories->pluck('id');
         $products = Product::whereIn('category_id', $categoryIds)
             ->latest()
             ->get();
-
-        // Fetch all categories for filter dropdown
-        $categories = Category::orderBy('name')->get();
-
-        return view('Category.Womens.womens_jewellery', compact('products', 'categories'));
     }
 
-    // Latest Collections
-    public function latest_collections_category()
-    {
-        $products = Product::orderBy('created_at', 'desc')
-            ->take(10)
+    return view('Category.Womens.womens_jewellery', compact('products', 'categories'));
+}
+
+
+public function latest_collections_category(Request $request)
+{
+    // ✅ Get selected gender or default to 'all'
+    $selectedGender = $request->gender ?? 'all';
+
+    // ✅ Fetch unique genders for the first dropdown
+    $genders = Category::selectRaw("LOWER(gender) as gender")
+        ->distinct()
+        ->pluck('gender');
+
+    // ✅ Fetch categories based on selected gender
+    if ($selectedGender != 'all') {
+        $categories = Category::whereRaw("LOWER(gender) = ?", [$selectedGender])
+            ->orderBy('name')
             ->get();
-
+    } else {
         $categories = Category::orderBy('name')->get();
-
-        return view('Category.latest_collections_category', compact('products', 'categories'));
     }
+
+    // ✅ Fetch products based on category filter
+    if ($request->has('category_id') && $request->category_id != 'all') {
+        $products = Product::where('category_id', $request->category_id)
+            ->latest()
+            ->get();
+    } else {
+        // All products under selected gender's categories or all categories if 'all'
+        $categoryIds = $selectedGender != 'all'
+            ? $categories->pluck('id')
+            : Category::pluck('id');
+
+        $products = Product::whereIn('category_id', $categoryIds)
+            ->latest()
+            ->get();
+    }
+
+    return view('Category.latest_collections_category', compact('products', 'categories', 'genders', 'selectedGender'));
+}
 
     // Filter products by category (used by your select control)
     public function filter(Request $request)
