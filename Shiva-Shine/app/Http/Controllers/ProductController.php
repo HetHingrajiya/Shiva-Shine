@@ -162,9 +162,9 @@ class ProductController extends Controller
         return redirect()->route('admin.products')->with('success', 'Product deleted successfully!');
     }
     public function userProductShow($id)
-{
-    $product = Product::findOrFail($id);
-    return view('products.show', compact('product'));
-}
+    {
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
+    }
 
 }
