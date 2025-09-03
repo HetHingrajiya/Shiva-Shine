@@ -64,6 +64,18 @@
                     <th class="py-3 px-4 font-semibold text-gray-700">Gender</th>
                     <td class="py-3 px-4 text-gray-900">{{ $product->category_gender ?? 'N/A' }}</td>
                 </tr>
+                <!-- ✅ Short Description -->
+                <tr class="border-b hover:bg-gray-50">
+                    <th class="py-3 px-4 font-semibold text-gray-700">Short Description</th>
+                    <td class="py-3 px-4 text-gray-600">{{ $product->short_description ?? 'N/A' }}</td>
+                </tr>
+                <!-- ✅ Full Description -->
+                <tr class="border-b hover:bg-gray-50 align-top">
+                    <th class="py-3 px-4 font-semibold text-gray-700">Description</th>
+                    <td class="py-3 px-4 text-gray-600 leading-relaxed whitespace-pre-line">
+                        {!! $product->description ?? 'N/A' !!}
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

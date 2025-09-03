@@ -42,15 +42,20 @@
             <!-- Products Grid -->
             <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
                 @forelse ($products as $product)
-                    <div data-category="{{ $product->category }}"
-                        class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
+                    <!-- ✅ Whole Card Clickable -->
+                    <a href="{{ route('products.show', $product->id) }}"
+                       data-category="{{ $product->category }}"
+                       class="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
 
                         <!-- Wishlist Button -->
-                        <button class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition">
+                        <button type="button"
+                                class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition"
+                                onclick="event.preventDefault(); event.stopPropagation();">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24">
                                 <path d="M12.1 21.35l-1.45-1.32C5.4 ..." />
                             </svg>
                         </button>
+
                         <!-- Image -->
                         <div class="relative">
                             <img src="{{ asset('storage/' . $product->image1) }}"
@@ -81,12 +86,13 @@
                             </div>
 
                             <!-- Add to Cart -->
-                            <button
+                            <button type="button"
+                                onclick="event.preventDefault(); event.stopPropagation();"
                                 class="w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">
                                 Add to Cart
                             </button>
                         </div>
-                    </div>
+                    </a>
                 @empty
                     <div class="hidden" id="productGrid"></div>
                     <div id="comingSoon" class="text-center py-20 max-w-xl mx-auto">

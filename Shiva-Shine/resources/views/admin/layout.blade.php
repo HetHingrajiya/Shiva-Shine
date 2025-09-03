@@ -144,7 +144,7 @@
                     <!-- User Menu -->
                     <div class="relative">
                         <button id="userBtn" class="flex items-center gap-2 px-3 py-1 rounded-full hover:bg-gray-100">
-                            <img src="https://via.placeholder.com/40" alt="Admin"
+                            <img src="https://img.freepik.com/free-vector/business-user-cog_78370-7040.jpg" alt="Admin"
                                 class="rounded-full border border-gray-300 w-8 h-8 object-cover">
                             <span class="hidden sm:inline text-gray-700 font-medium">Admin</span>
                             <i data-feather="chevron-down" class="w-4 h-4 text-gray-500"></i>
