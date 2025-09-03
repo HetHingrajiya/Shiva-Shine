@@ -103,7 +103,7 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            return redirect('/');
+            return redirect('/account');
         } catch (\Exception $e) {
             return redirect('/account')->withErrors(['msg' => 'Google login failed.']);
         }
