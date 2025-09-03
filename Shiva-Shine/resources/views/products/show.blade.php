@@ -8,11 +8,12 @@
 </head>
 <body class="bg-gray-50 min-h-screen relative">
 
-    <!-- Back Button (Floating Top Left) -->
-    <a href="{{ url()->previous() }}"
-       class="fixed top-6 left-6 z-50 inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 rounded-full shadow-lg hover:shadow-2xl hover:bg-gray-100 text-gray-700 font-medium transition">
-        ← Back
-    </a>
+   <!-- Back Button (Floating Top Left) -->
+<button onclick="history.back()"
+    class="fixed top-6 left-6 z-50 inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-300 rounded-full shadow-lg hover:shadow-2xl hover:bg-gray-100 text-gray-700 font-medium transition">
+    ← Back
+</button>
+
 
     <!-- Container -->
     <div class="max-w-6xl mx-auto px-4 py-24">
