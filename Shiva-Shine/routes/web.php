@@ -27,10 +27,11 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
+// Account
+Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
-    // Account
-    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 
     // Wishlist
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
