@@ -65,7 +65,7 @@
                     $mrp = $product->mrp ?? $product->price + 1500;
                 @endphp
 
-                    <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}">
+                    <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}"
                     class="group relative overflow-hidden rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm shadow-[0_6px_20px_rgba(99,61,46,0.08)] transition hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(99,61,46,0.15)] block">
 
                     <!-- Badges -->
