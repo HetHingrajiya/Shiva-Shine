@@ -18,23 +18,24 @@
 <!-- ======= Men's Jewellery Section ======= -->
 <section class="py-14 bg-[#fffaf7]">
     <div class="max-w-7xl mx-auto px-4">
-        <!-- Section Header with Filter -->
+       <!-- Section Header with Filter -->
         <div class="flex justify-between items-center mb-8 flex-col sm:flex-row gap-4">
             <h2 class="text-3xl font-bold text-[#633d2e]">Men's Jewellery Collection</h2>
             <div class="flex items-center gap-2">
                 <label for="categoryFilter" class="text-sm font-semibold text-[#633d2e]">Category:</label>
                 <select id="categoryFilter" onchange="filterProducts()"
                     class="border border-[#e0c4ae] rounded-lg px-3 py-1.5 text-sm bg-white shadow-sm text-[#633d2e] focus:outline-none">
-                    <option value="all">All</option>
+                    <option value="all" {{ request('category_id') == 'all' ? 'selected' : '' }}>All</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}"
-                            {{ request('category') == $category->id ? 'selected' : '' }}>
+                            {{ request('category_id') == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
         </div>
+
 
         <!-- Products Grid -->
         <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
@@ -100,14 +101,16 @@
 
 <!-- ======= Scripts ======= -->
 <script>
-    function filterProducts() {
-        let category = document.getElementById('categoryFilter').value;
-        if (category === 'all') {
-            window.location.href = "{{ route('products.all') }}";
-        } else {
-            window.location.href = "{{ route('products.all') }}?category=" + category;
-        }
+     function filterProducts() {
+    let category = document.getElementById('categoryFilter').value;
+
+    if (category === 'all') {
+        window.location.href = "{{ route('category.mens.mens_jewellery') }}?category_id=all";
+    } else {
+        window.location.href = "{{ route('category.mens.mens_jewellery') }}?category_id=" + category;
     }
+}
+
 
     // Wishlist AJAX Toggle
     document.addEventListener('DOMContentLoaded', function () {

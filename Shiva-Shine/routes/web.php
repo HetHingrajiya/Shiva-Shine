@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\ProfileController;
 
 // Home
 Route::get('/', function () {
@@ -43,6 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/remove/{id}', function ($id) {
         return redirect()->back()->with('success', 'Item removed.');
     })->name('cart.remove');
+
+    // Profile page
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 // Categories

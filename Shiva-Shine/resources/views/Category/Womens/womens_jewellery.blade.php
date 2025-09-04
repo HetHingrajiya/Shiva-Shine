@@ -100,10 +100,11 @@
 <script>
     function filterWomenProducts() {
         let category = document.getElementById('categoryFilterWomen').value;
+
         if (category === 'all') {
-            window.location.href = "{{ route('products.all') }}";
+            window.location.href = "{{ route('category.Womens.womens_jewellery') }}?category_id=all";
         } else {
-            window.location.href = "{{ route('products.all') }}?category=" + category;
+            window.location.href = "{{ route('category.Womens.womens_jewellery') }}?category_id=" + category;
         }
     }
 
