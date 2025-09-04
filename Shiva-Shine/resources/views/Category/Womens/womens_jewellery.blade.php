@@ -55,7 +55,7 @@
                     </button>
 
                     <!-- Image -->
-                    <a href="{{ route('products.show', $product->id) }}">
+                    <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}">
                         <div class="relative">
                             <img src="{{ asset('storage/' . $product->image1) }}"
                                  data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"

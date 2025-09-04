@@ -53,7 +53,7 @@
         <!-- Product Grid -->
         <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="productGrid">
             @forelse ($products as $product)
-                <a href="{{ route('products.show', $product->id) }}"
+            <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}"
                    class="block bg-white rounded-2xl overflow-hidden shadow-sm relative group transition transform hover:shadow-md">
 
                     <!-- Wishlist Button -->

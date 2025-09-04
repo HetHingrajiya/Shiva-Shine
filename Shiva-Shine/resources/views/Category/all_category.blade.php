@@ -65,8 +65,8 @@
                     $mrp = $product->mrp ?? $product->price + 1500;
                 @endphp
 
-                <div data-category="{{ $product->category->name ?? 'Uncategorized' }}"
-                    class="group relative overflow-hidden rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm shadow-[0_6px_20px_rgba(99,61,46,0.08)] transition hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(99,61,46,0.15)]">
+                    <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}">
+                    class="group relative overflow-hidden rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm shadow-[0_6px_20px_rgba(99,61,46,0.08)] transition hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(99,61,46,0.15)] block">
 
                     <!-- Badges -->
                     <div class="absolute left-3 top-3 z-10 flex flex-col gap-2">
@@ -85,7 +85,8 @@
                     <!-- Wishlist -->
                     <button type="button"
                         class="absolute right-3 top-3 z-10 wishlist-btn {{ in_array($product->id, $wishlist ?? []) ? 'text-rose-600' : 'text-gray-400' }}"
-                        data-id="{{ $product->id }}" title="Add to wishlist">
+                        data-id="{{ $product->id }}" title="Add to wishlist"
+                        onclick="event.preventDefault(); event.stopPropagation();">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5 fill-current">
                             <path
                                 d="M12.1 21.35 10.6 20.03C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54l-1.35 1.31z" />
@@ -117,18 +118,19 @@
                         <!-- Actions -->
                         <div class="mt-3 flex items-center gap-2">
                             <button
-                                class="w-full rounded-xl bg-rose-100 px-3 py-2 text-sm font-semibold text-[#633d2e] hover:bg-rose-200 transition">
+                                class="w-full rounded-xl bg-rose-100 px-3 py-2 text-sm font-semibold text-[#633d2e] hover:bg-rose-200 transition"
+                                type="button">
                                 Add to Cart
                             </button>
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </div>
 </section>
 
-<!-- ======= Filter Script ======= -->
+<!-- ======= Filter & Wishlist Script ======= -->
 <script>
     function applyFilters() {
         let gender = document.getElementById('genderFilter').value;
@@ -140,12 +142,12 @@
         window.location.href = url;
     }
 
-    // ===== Wishlist AJAX =====
+    // Wishlist AJAX
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.wishlist-btn').forEach(button => {
             button.addEventListener('click', function (e) {
                 e.preventDefault();
-                e.stopPropagation();
+                e.stopPropagation(); // Prevent card link click
 
                 @if(Auth::check())
                 let productId = this.dataset.id;

@@ -33,9 +33,10 @@ class CategoryController extends Controller
         // Fetch user's wishlist if logged in
         $wishlist = [];
         if (Auth::check()) {
-            $wishlist = Auth::user()->wishlist()->pluck('product_id')->toArray();
+            $wishlist = Wishlist::where('user_id', Auth::id())
+                        ->pluck('product_id')
+                        ->toArray();
         }
-
         return view('Category.all_category', compact('products', 'categories', 'wishlist'));
     }
 

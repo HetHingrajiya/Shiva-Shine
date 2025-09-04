@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Crypt;
 
 class ProductController extends Controller
 {
@@ -163,7 +164,14 @@ class ProductController extends Controller
     }
     public function userProductShow($id)
     {
-        $product = Product::findOrFail($id);
+        try {
+            $productId = Crypt::decrypt($id);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            abort(404); // Invalid ID
+        }
+
+        $product = Product::findOrFail($productId);
+
         return view('products.show', compact('product'));
     }
 
