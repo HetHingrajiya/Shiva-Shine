@@ -29,12 +29,12 @@ Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('go
 Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
 // Account
-    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
 
-    // ===== Wishlist Routes =====
+    // Wishlist
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
     Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
     Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
