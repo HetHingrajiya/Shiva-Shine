@@ -15,14 +15,29 @@ class CategoryController extends Controller
     {
         $query = Product::query();
 
-        if ($request->has('category') && $request->category !== 'all') {
-            $query->where('category_id', $request->category);
+        // Apply gender filter if provided and not "all"
+        if ($request->has('gender') && $request->gender !== 'all') {
+            $query->whereHas('category', function($q) use ($request) {
+                $q->where('gender', $request->gender);
+            });
+        }
+
+        // Apply category filter if provided and not "all"
+        if ($request->has('category_id') && $request->category_id !== 'all') {
+            $query->where('category_id', $request->category_id);
         }
 
         $products = $query->latest()->get();
         $categories = Category::orderBy('name')->get();
 
-        return view('Category.all_category', compact('products', 'categories'));
+        // Fetch user's wishlist if logged in
+        $wishlist = [];
+        if (Auth::check()) {
+            $wishlist = Wishlist::where('user_id', Auth::id())
+                        ->pluck('product_id')
+                        ->toArray();
+        }
+        return view('Category.all_category', compact('products', 'categories', 'wishlist'));
     }
 
     // Men's Jewellery
@@ -95,56 +110,57 @@ class CategoryController extends Controller
 
 
    public function latest_collections_category(Request $request)
-   {
-       // ✅ Get selected gender or default to 'all'
-       $selectedGender = $request->gender ?? 'all';
+{
+    // ✅ Get selected gender or default to 'all'
+    $selectedGender = $request->gender ?? 'all';
 
-       // ✅ Fetch unique genders for the first dropdown
-       $genders = Category::selectRaw("LOWER(gender) as gender")
-           ->distinct()
-           ->pluck('gender');
+    // ✅ Fetch unique genders for the first dropdown
+    $genders = Category::selectRaw("LOWER(gender) as gender")
+        ->distinct()
+        ->pluck('gender');
 
-       // ✅ Fetch categories based on selected gender
-       if ($selectedGender != 'all') {
-           $categories = Category::whereRaw("LOWER(gender) = ?", [$selectedGender])
-               ->orderBy('name')
-               ->get();
-       } else {
-           $categories = Category::orderBy('name')->get();
-       }
+    // ✅ Fetch categories based on selected gender
+    if ($selectedGender != 'all') {
+        $categories = Category::whereRaw("LOWER(gender) = ?", [$selectedGender])
+            ->orderBy('name')
+            ->get();
+    } else {
+        $categories = Category::orderBy('name')->get();
+    }
 
-       // ✅ Fetch products based on category filter
-       if ($request->has('category_id') && $request->category_id != 'all') {
-           $products = Product::where('category_id', $request->category_id)
-               ->latest()
-               ->get();
-       } else {
-           // All products under selected gender's categories or all categories if 'all'
-           $categoryIds = $selectedGender != 'all'
-               ? $categories->pluck('id')
-               : Category::pluck('id');
+    // ✅ Fetch products based on category filter
+    if ($request->has('category_id') && $request->category_id != 'all') {
+        $products = Product::where('category_id', $request->category_id)
+            ->orderBy('id', 'asc') // Fetch by least ID first
+            ->get();
+    } else {
+        // All products under selected gender's categories or all categories if 'all'
+        $categoryIds = $selectedGender != 'all'
+            ? $categories->pluck('id')
+            : Category::pluck('id');
 
-           $products = Product::whereIn('category_id', $categoryIds)
-               ->latest()
-               ->get();
-       }
+        $products = Product::whereIn('category_id', $categoryIds)
+            ->orderBy('id', 'asc') // Fetch by least ID first
+            ->get();
+    }
 
-       // ✅ Get wishlist items for logged-in user
-       $wishlist = [];
-       if (Auth::check()) {
-           $wishlist = Wishlist::where('user_id', Auth::id())
-                       ->pluck('product_id')
-                       ->toArray();
-       }
+    // ✅ Get wishlist items for logged-in user
+    $wishlist = [];
+    if (Auth::check()) {
+        $wishlist = Wishlist::where('user_id', Auth::id())
+                    ->pluck('product_id')
+                    ->toArray();
+    }
 
-       return view('Category.latest_collections_category', compact(
-           'products',
-           'categories',
-           'genders',
-           'selectedGender',
-           'wishlist' // Pass wishlist to the view
-       ));
-   }
+    return view('Category.latest_collections_category', compact(
+        'products',
+        'categories',
+        'genders',
+        'selectedGender',
+        'wishlist' // Pass wishlist to the view
+    ));
+}
+
 
 
     // Filter products by category (used by your select control)
