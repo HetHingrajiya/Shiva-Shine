@@ -33,15 +33,10 @@ Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback
 // Routes that require authentication
 Route::middleware(['auth'])->group(function () {
 
-
-    // Wishlist
+    // ===== Wishlist Routes =====
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::post('/wishlist/remove/{id}', function ($id) {
-        return back()->with('message', 'Removed item #' . $id . ' from wishlist.');
-    })->name('wishlist.remove');
-    Route::post('/wishlist/add-to-cart/{id}', function ($id) {
-        return back()->with('message', 'Added item #' . $id . ' to cart.');
-    })->name('wishlist.addToCart');
+    Route::post('/wishlist/toggle', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
+    Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
 
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

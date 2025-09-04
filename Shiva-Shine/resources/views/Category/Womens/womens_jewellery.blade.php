@@ -1,29 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- ======= Hero Banner Section ======= -->
-    <section class="w-full bg-[#fffaf7] py-12 mt-20">
-        <!-- Desktop Banner -->
-        <div class="hidden md:block mt-8">
-            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}" alt="Desktop Banner"
-                class="w-full object-cover rounded-md shadow-md" />
-        </div>
+<!-- ======= Hero Banner Section ======= -->
+<section class="w-full bg-[#fffaf7] py-12 mt-20">
+    <div class="hidden md:block mt-8">
+        <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_web-minda97.jpg') }}"
+             alt="Desktop Banner" class="w-full object-cover rounded-md shadow-md" />
+    </div>
+    <div class="md:hidden mt-6">
+        <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}"
+             alt="Mobile Banner" class="w-full object-cover rounded-md shadow-md" />
+    </div>
+</section>
 
-        <!-- Mobile Banner -->
-        <div class="md:hidden mt-6">
-            <img src="{{ asset('images/files/106_rakhi_gold_jewellery__offer_hero_phone_-min5d78.jpg') }}" alt="Mobile Banner"
-                class="w-full object-cover rounded-md shadow-md" />
-        </div>
-    </section>
-
-  <!-- ======= Women's Jewellery Section ======= -->
+<!-- ======= Women's Jewellery Section ======= -->
 <section class="py-14 bg-[#fffaf7]">
     <div class="max-w-7xl mx-auto px-4">
         <!-- Section Header with Filter -->
         <div class="flex justify-between items-center mb-8 flex-col sm:flex-row gap-4">
             <h2 class="text-3xl font-bold text-[#633d2e]">Women's Jewellery Collection</h2>
-
-            <!-- Category Filter -->
             <div class="flex items-center gap-2">
                 <label for="categoryFilterWomen" class="text-sm font-semibold text-[#633d2e]">Category:</label>
                 <select id="categoryFilterWomen" onchange="filterWomenProducts()"
@@ -42,29 +37,34 @@
         <!-- Products Grid -->
         <div class="grid gap-6 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" id="womenProductGrid">
             @forelse ($products as $product)
-                <!-- ✅ Whole Card Clickable -->
-                <a href="{{ route('products.show', $product->id) }}"
-                   data-category="{{ $product->category }}"
-                   class="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
+                <div class="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition relative group">
 
                     <!-- Wishlist Button -->
                     <button type="button"
-                            class="absolute top-3 right-3 z-10 text-gray-400 hover:text-red-500 transition"
-                            onclick="event.preventDefault(); event.stopPropagation();">
+                            class="absolute top-3 right-3 z-10 wishlist-btn {{ in_array($product->id, $wishlist ?? []) ? 'text-red-500' : 'text-gray-400' }}"
+                            data-id="{{ $product->id }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M12.1 21.35l-1.45-1.32C5.4 ..." />
+                            <path d="M12.1 21.35l-1.45-1.32C5.4 15.36
+                                     2 12.28 2 8.5 2 5.42 4.42 3
+                                     7.5 3c1.74 0 3.41 0.81 4.5
+                                     2.09C13.09 3.81 14.76 3
+                                     16.5 3 19.58 3 22 5.42 22
+                                     8.5c0 3.78-3.4 6.86-8.55
+                                     11.54L12.1 21.35z"/>
                         </svg>
                     </button>
 
                     <!-- Image -->
-                    <div class="relative">
-                        <img src="{{ asset('storage/' . $product->image1) }}"
-                            data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"
-                            class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]"
-                            onmouseover="this.src=this.dataset.hover;"
-                            onmouseout="this.src='{{ asset('storage/' . $product->image1) }}';"
-                            alt="{{ $product->name }}">
-                    </div>
+                    <a href="{{ route('products.show', $product->id) }}">
+                        <div class="relative">
+                            <img src="{{ asset('storage/' . $product->image1) }}"
+                                 data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"
+                                 class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]"
+                                 onmouseover="this.src=this.dataset.hover;"
+                                 onmouseout="this.src='{{ asset('storage/' . $product->image1) }}';"
+                                 alt="{{ $product->name }}">
+                        </div>
+                    </a>
 
                     <!-- Product Info -->
                     <div class="p-4 text-center">
@@ -76,27 +76,18 @@
                             </span>
                         </p>
 
-                        <!-- Rating -->
-                        <div class="flex items-center justify-center mt-1 gap-1 text-yellow-500 text-sm">
-                            <span>{{ $product->rating ?? '4.6' }}</span>
-                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M12 .587l3.668 ..." />
-                            </svg>
-                            <span class="text-gray-600">({{ $product->reviews_count ?? 89 }})</span>
-                        </div>
-
                         <!-- Add to Cart -->
                         <button type="button"
-                            onclick="event.preventDefault(); event.stopPropagation();"
+                            onclick="event.preventDefault();"
                             class="w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">
                             Add to Cart
                         </button>
                     </div>
-                </a>
+                </div>
             @empty
                 <div id="comingSoonWomen" class="text-center py-20 max-w-xl mx-auto">
                     <img src="{{ asset('images/coming-soon.png') }}" alt="Coming Soon"
-                        class="mx-auto w-52 h-52 object-contain mb-6 opacity-90">
+                         class="mx-auto w-52 h-52 object-contain mb-6 opacity-90">
                     <h3 class="text-2xl font-bold text-[#633d2e] mb-2">Coming Soon</h3>
                     <p class="text-gray-600">We're working on adding more products in this category. Stay tuned!</p>
                 </div>
@@ -105,7 +96,7 @@
     </div>
 </section>
 
-<!-- ======= Filter Script ======= -->
+<!-- ======= Scripts ======= -->
 <script>
     function filterWomenProducts() {
         let category = document.getElementById('categoryFilterWomen').value;
@@ -115,6 +106,42 @@
             window.location.href = "{{ route('products.all') }}?category=" + category;
         }
     }
-</script>
 
+    // Wishlist AJAX Toggle
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.wishlist-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent parent <a> click
+
+                @if(Auth::check())
+                let productId = this.dataset.id;
+                let btn = this;
+
+                fetch("{{ route('wishlist.toggle') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({ product_id: productId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'added') {
+                        btn.classList.remove('text-gray-400');
+                        btn.classList.add('text-red-500');
+                    } else if (data.status === 'removed') {
+                        btn.classList.remove('text-red-500');
+                        btn.classList.add('text-gray-400');
+                    }
+                })
+                .catch(err => console.error(err));
+                @else
+                    alert('Please login to add to wishlist');
+                @endif
+            });
+        });
+    });
+</script>
 @endsection
