@@ -38,7 +38,7 @@
                     </button>
 
                     <!-- Product Image -->
-                    <a href="{{ route('products.show', ['id' => $product->id]) }}">
+                    <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}">
                         <img src="{{ asset('storage/' . $product->image1) }}"
                              alt="{{ $product->name }}"
                              class="h-64 w-full object-cover transition duration-500 group-hover:scale-105">
@@ -57,7 +57,7 @@
                             </span>
                         </p>
 
-                        <a href="{{ route('products.show', ['id' => $product->id]) }}"
+                        <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}"
                            class="mt-4 block w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition duration-300">
                             View Product
                         </a>
