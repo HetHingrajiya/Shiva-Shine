@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\AdminProductController;
 
 // Home
 Route::get('/', function () {
@@ -73,15 +74,13 @@ Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
 
 // Admin Products
-Route::get('admin/products', [ProductController::class, 'index'])->name('admin.products');
-Route::get('admin/products/show/{id}', [ProductController::class, 'show'])->name('admin.products.show');
-Route::get('admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
-Route::post('admin/products/store', [ProductController::class, 'store'])->name('admin.products.store');
-Route::get('admin/products/edit/{id}', [ProductController::class, 'edit'])->name('admin.products.edit');
-Route::put('admin/products/update/{id}', [ProductController::class, 'update'])->name('admin.products.update');
-Route::post('admin/products/delete/{id}', function ($id) {
-    return redirect()->route('admin.products')->with('success', 'Product deleted successfully.');
-})->name('admin.products.destroy');
+Route::get('admin/products', [AdminProductController::class, 'index'])->name('admin.products');
+Route::get('admin/products/show/{id}', [AdminProductController::class, 'show'])->name('admin.products.show');
+Route::get('admin/products/create', [AdminProductController::class, 'create'])->name('admin.products.create');
+Route::post('admin/products/store', [AdminProductController::class, 'store'])->name('admin.products.store');
+Route::get('admin/products/edit/{id}', [AdminProductController::class, 'edit'])->name('admin.products.edit');
+Route::put('admin/products/update/{id}', [AdminProductController::class, 'update'])->name('admin.products.update');
+Route::delete('admin/products/delete/{id}', [AdminProductController::class, 'destroy'])->name('admin.products.destroy');
 
 // Admin Categories
 Route::get('admin/categories', [ProductCategoryController::class, 'index'])->name('admin.categories');

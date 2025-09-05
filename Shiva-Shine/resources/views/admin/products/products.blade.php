@@ -47,11 +47,11 @@
 
                 <!-- Action Buttons -->
                 <div class="absolute top-2 right-2 flex gap-1 opacity-0 hover:opacity-100 transition">
-                    <a href="{{ route('admin.products.edit', $product) }}"
+                    <a href="{{ route('admin.products.edit', $product->id) }}"
                        class="px-2 py-1 text-xs bg-yellow-500 hover:bg-yellow-600 text-white rounded shadow font-medium transition">
                         ✏
                     </a>
-                    <form action="{{ route('admin.products.destroy', $product) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                    <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
@@ -82,7 +82,7 @@
                 </div>
 
                 <!-- View Button -->
-                <a href="{{ route('admin.products.show', $product) }}"
+                <a href="{{ route('admin.products.show', $product->id) }}"
                    class="mt-4 w-full text-center px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md font-semibold shadow transition">
                    🔍 View
                 </a>

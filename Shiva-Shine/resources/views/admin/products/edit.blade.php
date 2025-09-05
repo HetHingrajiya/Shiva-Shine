@@ -56,19 +56,36 @@
                     </div>
                 </div>
 
-                <!-- Category -->
-                <div class="mt-4">
-                    <label class="block text-sm font-semibold text-gray-600 mb-2">Category</label>
-                    <select name="category_id"
-                        class="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-green-300 focus:outline-none shadow-sm transition">
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ $category->id == $product->category_id ? 'selected' : '' }}>
-                                {{ $category->name }} ({{ $category->gender }})
-                            </option>
-                        @endforeach
-                    </select>
+               <!-- Gender & Category -->
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <!-- Gender -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Gender <span class="text-red-500">*</span></label>
+                        <select name="gender" id="genderSelect" onchange="filterCategories()" required
+                            class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
+                            <option value="">Select Gender</option>
+                            <option value="Male" {{ old('gender', $product->category->gender) == 'Male' ? 'selected' : '' }}>Male</option>
+                            <option value="Female" {{ old('gender', $product->category->gender) == 'Female' ? 'selected' : '' }}>Female</option>
+                            <option value="Both" {{ old('gender', $product->category->gender) == 'Both' ? 'selected' : '' }}>Both</option>
+                        </select>
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Category <span class="text-red-500">*</span></label>
+                        <select name="category_id" id="categorySelect" required
+                            class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-400 focus:outline-none shadow-sm">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $cat)
+                                <option value="{{ $cat->id }}" data-gender="{{ $cat->gender }}"
+                                    {{ $cat->id == old('category_id', $product->category_id) ? 'selected' : '' }}>
+                                    {{ $cat->name }} ({{ $cat->gender }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+
 
                 <!-- Short Description -->
                 <div class="mt-4">
@@ -161,5 +178,30 @@
             document.querySelector('form').appendChild(input);
         }
     </script>
+
+<script>
+    function filterCategories() {
+        const gender = document.getElementById('genderSelect').value;
+        const categorySelect = document.getElementById('categorySelect');
+
+        Array.from(categorySelect.options).forEach(option => {
+            if(option.value === "") return; // keep default
+            const catGender = option.dataset.gender;
+            option.style.display = (gender === "" || catGender === gender || catGender === "Both") ? "block" : "none";
+        });
+
+        // If the currently selected category doesn't match gender, reset it
+        const selectedOption = categorySelect.selectedOptions[0];
+        if(selectedOption && selectedOption.style.display === "none") {
+            categorySelect.value = "";
+        }
+    }
+
+    // Call on page load to filter categories based on existing gender
+    document.addEventListener('DOMContentLoaded', () => {
+        filterCategories();
+    });
+</script>
+
 
 @endsection
