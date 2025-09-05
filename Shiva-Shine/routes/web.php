@@ -42,9 +42,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/remove/{id}', function ($id) {
-        return redirect()->back()->with('success', 'Item removed.');
-    })->name('cart.remove');
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+
 
     // Profile page
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
