@@ -7,9 +7,14 @@
 
             <!-- Left: Product Images -->
             <div class="space-y-4 sm:space-y-6">
+                <!-- Main Image with Zoom -->
                 <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-gray-200">
-                    <img id="mainImage" src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
-                        class="w-full h-[380px] sm:h-[480px] lg:h-[550px] object-cover transition duration-500">
+                    <div id="imgContainer" class="relative overflow-hidden cursor-zoom-in">
+                        <img id="mainImage"
+                             src="{{ asset('storage/' . $product->image1) }}"
+                             alt="{{ $product->name }}"
+                             class="w-full h-[380px] sm:h-[480px] lg:h-[550px] object-cover transition duration-300">
+                    </div>
                 </div>
 
                 <!-- Thumbnails -->
@@ -18,8 +23,8 @@
                         @if (!empty($product->$img))
                             <div class="relative group">
                                 <img src="{{ asset('storage/' . $product->$img) }}"
-                                    onclick="document.getElementById('mainImage').src=this.src"
-                                    class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover cursor-pointer border-2 border-transparent group-hover:border-pink-500 transition">
+                                     onclick="document.getElementById('mainImage').src=this.src"
+                                     class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover cursor-pointer border-2 border-transparent group-hover:border-pink-500 transition">
                             </div>
                         @endif
                     @endforeach
@@ -37,8 +42,9 @@
                 <!-- Price & Offer -->
                 <div class="flex items-center flex-wrap gap-3 sm:gap-5">
                     <span class="text-2xl sm:text-3xl font-bold text-pink-600">₹{{ number_format($product->price) }}</span>
-                    <span
-                        class="line-through text-gray-400 text-base sm:text-lg">₹{{ number_format($product->price + 1000) }}</span>
+                    <span class="line-through text-gray-400 text-base sm:text-lg">
+                        ₹{{ number_format($product->price + 1000) }}
+                    </span>
                     <span class="bg-green-100 text-green-700 text-xs sm:text-sm font-medium px-2.5 py-1 rounded-full">
                         Save ₹1000
                     </span>
@@ -128,10 +134,28 @@
                             </div>
                         @endif
                     </div>
-
                 @endif
-
             </div>
         </div>
     </div>
+
+    <!-- Image Zoom Script -->
+    <script>
+        const imgContainer = document.getElementById("imgContainer");
+        const mainImage = document.getElementById("mainImage");
+
+        imgContainer.addEventListener("mousemove", function (e) {
+            const { left, top, width, height } = imgContainer.getBoundingClientRect();
+            const x = ((e.pageX - left) / width) * 100;
+            const y = ((e.pageY - top) / height) * 100;
+
+            mainImage.style.transformOrigin = `${x}% ${y}%`;
+            mainImage.style.transform = "scale(2)"; // zoom 2x
+        });
+
+        imgContainer.addEventListener("mouseleave", function () {
+            mainImage.style.transformOrigin = "center center";
+            mainImage.style.transform = "scale(1)";
+        });
+    </script>
 @endsection
