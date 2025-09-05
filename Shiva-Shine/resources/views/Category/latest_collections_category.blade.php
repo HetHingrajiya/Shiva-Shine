@@ -102,10 +102,10 @@
 
                         <!-- Add to Cart -->
                         <button type="button"
-                                onclick="event.preventDefault(); event.stopPropagation();"
-                                class="w-full mt-2 bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition">
-                            Add to Cart
-                        </button>
+                            class="add-to-cart-btn w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition"
+                            data-id="{{ $product->id }}">
+                        Add to Cart
+                    </button>
                     </div>
                 </a>
             @empty
@@ -165,6 +165,42 @@
                 .catch(err => console.error(err));
                 @else
                     alert('Please login to add to wishlist');
+                @endif
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                let productId = this.dataset.id;
+                let btn = this;
+
+                @if(Auth::check())
+                fetch("{{ route('cart.add') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({ product_id: productId, quantity: 1 })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        btn.innerText = 'Added ✅';
+                        btn.disabled = true;
+                        // Optional: update cart count in header
+                        const cartCountElem = document.getElementById('cartCount');
+                        if(cartCountElem) cartCountElem.innerText = data.cart_count;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => console.error(err));
+                @else
+                    alert('Please login to add products to cart');
                 @endif
             });
         });
