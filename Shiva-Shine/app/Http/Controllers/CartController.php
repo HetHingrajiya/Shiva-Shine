@@ -39,10 +39,22 @@ class CartController extends Controller
         $productId = $request->product_id;
         $quantity = $request->quantity ?? 1;
 
-        Cart::updateOrCreate(
-            ['user_id' => Auth::id(), 'product_id' => $productId],
-            ['quantity' => \DB::raw("quantity + $quantity")]
-        );
+        $cart = Cart::where('user_id', Auth::id())
+            ->where('product_id', $productId)
+            ->first();
+
+        if ($cart) {
+            // ✅ If already in cart → increase quantity
+            $cart->quantity += $quantity;
+            $cart->save();
+        } else {
+            // ✅ If not in cart → insert fresh row
+            Cart::create([
+                'user_id' => Auth::id(),
+                'product_id' => $productId,
+                'quantity' => $quantity,
+            ]);
+        }
 
         return response()->json([
             'status' => 'success',
@@ -92,6 +104,7 @@ class CartController extends Controller
             ->first();
 
         if ($cart) {
+            // ✅ Set quantity exactly (not add)
             $cart->update(['quantity' => $request->quantity]);
         }
 
