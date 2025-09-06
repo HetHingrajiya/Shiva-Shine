@@ -91,13 +91,31 @@
         </div>
 
         <!-- ===== Total Section ===== -->
-        <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 p-6 bg-white rounded-xl shadow">
-            <p class="text-xl md:text-2xl font-bold text-gray-800">Total: ₹<span id="cart-total">{{ number_format($total, 2) }}</span></p>
-            <div class="flex gap-4 flex-wrap">
-                <a href="{{ route('products.all') }}" class="px-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">Continue Shopping</a>
-                <a href="#" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">Proceed to Checkout</a>
+        <div class="mt-8 bg-white rounded-2xl shadow-lg p-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+            <!-- Total Price -->
+            <div class="text-center sm:text-left">
+                <p class="text-lg text-gray-600">Grand Total</p>
+                <p class="text-2xl md:text-3xl font-extrabold text-[#633d2e] mt-1">
+                    ₹<span id="cart-total">{{ number_format($total, 2) }}</span>
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-4 flex-wrap justify-center sm:justify-end">
+                <!-- Continue Shopping -->
+                <a href="{{ route('products.all') }}"
+                   class="px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-xl shadow hover:bg-gray-200 transition">
+                    ← Continue Shopping
+                </a>
+
+                <!-- Proceed to Checkout -->
+                <a href="{{ route('checkout.index') }}"
+                   class="px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow hover:from-green-600 hover:to-green-700 transition">
+                    Proceed to Checkout →
+                </a>
             </div>
         </div>
+
 
         @else
             <div class="text-center py-20">
@@ -111,13 +129,23 @@
     </div>
 </section>
 
-<script>
+<!-- ===== Custom Confirmation Modal ===== -->
+<div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-xl p-6 max-w-md w-full text-center">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">Remove Product</h2>
+      <p class="text-gray-600 mb-6">Are you sure you want to remove this product from your cart?</p>
+      <div class="flex justify-center gap-4">
+          <button id="confirmYes" class="px-5 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Yes, Remove</button>
+          <button id="confirmNo" class="px-5 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+      </div>
+  </div>
+</div>
 
+<script>
 // Recalculate subtotal and total only for visible cart items
 function recalculateCart() {
     let total = 0;
     document.querySelectorAll('.cart-item').forEach(item => {
-        // Only count if item is visible
         if(item.offsetParent !== null) {
             const price = parseFloat(item.dataset.price);
             const qtyInput = item.querySelector('.quantity-input');
@@ -129,7 +157,6 @@ function recalculateCart() {
     });
     document.getElementById('cart-total').innerText = total.toFixed(2);
 }
-
 
 // Update backend via AJAX
 function updateCart(productId, quantity) {
@@ -155,27 +182,43 @@ document.querySelectorAll('.quantity-input').forEach(input => {
     });
 });
 
-// Remove item event
+// ===== Custom Confirmation Modal Handling =====
+let productToRemove = null;
+
 document.querySelectorAll('.remove-cart-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        if(!confirm('Are you sure you want to remove this product?')) return;
-        const row = this.closest('.cart-item');
-        const productId = row.dataset.id;
-        fetch("{{ route('cart.remove') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({ product_id: productId })
-        }).then(res => res.json())
-          .then(data => {
-              if(data.status === 'success') {
-                  row.remove();
-                  recalculateCart();
-              } else alert(data.message || 'Failed to remove product.');
-          }).catch(err => console.error(err));
+        productToRemove = this.closest('.cart-item').dataset.id;
+        document.getElementById('confirmModal').classList.remove('hidden');
+        document.getElementById('confirmModal').classList.add('flex');
     });
+});
+
+document.getElementById('confirmNo').addEventListener('click', function() {
+    document.getElementById('confirmModal').classList.add('hidden');
+    document.getElementById('confirmModal').classList.remove('flex');
+});
+
+document.getElementById('confirmYes').addEventListener('click', function() {
+    if(!productToRemove) return;
+    fetch("{{ route('cart.remove') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ product_id: productToRemove })
+    }).then(res => res.json())
+      .then(data => {
+          if(data.status === 'success') {
+              document.querySelectorAll(`.cart-item[data-id="${productToRemove}"]`).forEach(el => el.remove());
+              recalculateCart();
+          } else {
+              alert(data.message || 'Failed to remove product.');
+          }
+          productToRemove = null;
+          document.getElementById('confirmModal').classList.add('hidden');
+          document.getElementById('confirmModal').classList.remove('flex');
+      }).catch(err => console.error(err));
 });
 
 // Initial calculation
