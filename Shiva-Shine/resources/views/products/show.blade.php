@@ -57,15 +57,21 @@
                     </p>
                 @endif
 
-                <!-- Action Buttons (Sticky on Mobile) -->
+                <!-- Action Buttons -->
                 <div
                     class="sticky bottom-0 bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg flex flex-col sm:flex-row gap-3 sm:gap-4 z-20">
-                    <button
-                        class="flex-1 bg-pink-600 hover:bg-pink-700 text-white text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-md transition">
+
+                    <!-- Add to Cart -->
+                    <button type="button"
+                        class="add-to-cart-btn flex-1 bg-pink-600 hover:bg-pink-700 text-white text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-md transition"
+                        data-id="{{ $product->id }}">
                         🛒 Add to Cart
                     </button>
-                    <button
-                        class="flex-1 border border-pink-600 text-pink-600 hover:bg-pink-50 text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl transition">
+
+                    <!-- Wishlist -->
+                    <button type="button"
+                        class="wishlist-btn flex-1 border border-pink-600 {{ in_array($product->id, $wishlist ?? []) ? 'bg-pink-50 text-pink-600' : 'text-gray-600' }} hover:bg-pink-50 text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl transition"
+                        data-id="{{ $product->id }}">
                         ♥ Wishlist
                     </button>
                 </div>
@@ -86,7 +92,6 @@
                         }
                     @endphp
 
-                    <!-- Modern Product Details Section -->
                     <div
                         class="mt-12 sm:mt-16 bg-gradient-to-br from-rose-50 to-white p-6 sm:p-10 rounded-2xl sm:rounded-3xl shadow-lg border border-gray-200 space-y-10">
 
@@ -139,23 +144,97 @@
         </div>
     </div>
 
-    <!-- Image Zoom Script -->
+    <!-- Scripts -->
     <script>
+        // Image Zoom
         const imgContainer = document.getElementById("imgContainer");
         const mainImage = document.getElementById("mainImage");
 
-        imgContainer.addEventListener("mousemove", function (e) {
+        imgContainer.addEventListener("mousemove", function(e) {
             const { left, top, width, height } = imgContainer.getBoundingClientRect();
             const x = ((e.pageX - left) / width) * 100;
             const y = ((e.pageY - top) / height) * 100;
 
             mainImage.style.transformOrigin = `${x}% ${y}%`;
-            mainImage.style.transform = "scale(2)"; // zoom 2x
+            mainImage.style.transform = "scale(2)";
         });
 
-        imgContainer.addEventListener("mouseleave", function () {
+        imgContainer.addEventListener("mouseleave", function() {
             mainImage.style.transformOrigin = "center center";
             mainImage.style.transform = "scale(1)";
+        });
+
+        // Wishlist + Cart AJAX
+        document.addEventListener("DOMContentLoaded", function() {
+            // Wishlist
+            document.querySelectorAll(".wishlist-btn").forEach(button => {
+                button.addEventListener("click", function() {
+                    let productId = this.dataset.id;
+                    let btn = this;
+
+                    @if (Auth::check())
+                        fetch("{{ route('wishlist.toggle') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === "added") {
+                                    btn.classList.add("bg-pink-50", "text-pink-600", "border-pink-600");
+                                    btn.classList.remove("text-gray-600");
+                                } else if (data.status === "removed") {
+                                    btn.classList.remove("bg-pink-50", "text-pink-600", "border-pink-600");
+                                    btn.classList.add("text-gray-600");
+                                }
+                            })
+                            .catch(err => console.error(err));
+                    @else
+                        alert("Please login to add to wishlist");
+                    @endif
+                });
+            });
+
+            // Cart
+            document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+                button.addEventListener("click", function() {
+                    let productId = this.dataset.id;
+                    let btn = this;
+
+                    @if (Auth::check())
+                        fetch("{{ route('cart.add') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId,
+                                    quantity: 1
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === "success") {
+                                    btn.innerText = "Added ✅";
+                                    btn.disabled = true;
+                                    const cartCountElem = document.getElementById("cartCount");
+                                    if (cartCountElem) cartCountElem.innerText = data.cart_count;
+                                } else {
+                                    alert(data.message);
+                                }
+                            })
+                            .catch(err => console.error(err));
+                    @else
+                        alert("Please login to add products to cart");
+                    @endif
+                });
+            });
         });
     </script>
 @endsection
