@@ -3,7 +3,7 @@
 @section('title', 'Checkout')
 
 @section('content')
-<section class="bg-white shadow-md rounded-lg p-6 max-w-2xl mx-auto">
+<section class="bg-white shadow-md rounded-lg p-6 max-w-2xl mx-auto mt-36">
     <h1 class="text-2xl font-bold mb-6">🛒 Checkout</h1>
 
     <!-- Cart Items -->
