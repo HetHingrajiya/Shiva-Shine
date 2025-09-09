@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\OrderItem;
 
 class CheckoutController extends Controller
 {
@@ -33,7 +33,7 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Place an order
+     * Place order
      */
     public function placeOrder(Request $request)
     {
@@ -41,9 +41,10 @@ class CheckoutController extends Controller
             return redirect()->route('login')->with('error', 'Please login to place order.');
         }
 
+        // ✅ Validate both address & payment_method
         $request->validate([
-            'address' => 'required|string|max:255',
-            'payment_method' => 'required|string|in:cod,online'
+            'address'        => 'required|string|max:255',
+            'payment_method' => 'required|string|in:cod,online',
         ]);
 
         $cartItems = Cart::with('product')
@@ -56,35 +57,43 @@ class CheckoutController extends Controller
 
         $total = $cartItems->sum(fn($item) => $item->product->price * $item->quantity);
 
-        // ✅ Create Order
-        $order = Order::create([
-            'user_id'       => Auth::id(),
-            'address'       => $request->address,
-            'payment_method'=> $request->payment_method,
-            'total_amount'  => $total,
-            'status'        => 'pending',
-        ]);
-
-        // ✅ Save Order Items
-        foreach ($cartItems as $item) {
-            OrderItem::create([
-                'order_id'  => $order->id,
-                'product_id'=> $item->product_id,
-                'quantity'  => $item->quantity,
-                'price'     => $item->product->price,
+        DB::beginTransaction();
+        try {
+            // ✅ Create Order
+            $order = Order::create([
+                'user_id'        => Auth::id(),
+                'address'        => $request->address, // ✅ Save user address
+                'payment_method' => $request->payment_method,
+                'total_amount'   => $total,
+                'status'         => 'pending',
             ]);
+
+            // ✅ Add Order Items
+            foreach ($cartItems as $item) {
+                $order->items()->create([
+                    'product_id' => $item->product_id,
+                    'quantity'   => $item->quantity,
+                    'price'      => $item->product->price,
+                ]);
+            }
+
+            // ✅ Clear Cart
+            Cart::where('user_id', Auth::id())->delete();
+
+            DB::commit();
+
+            return redirect()->route('checkout.success', $order->id)
+                ->with('success', 'Order placed successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('checkout.index')
+                ->with('error', 'Something went wrong: ' . $e->getMessage());
         }
-
-        // ✅ Clear user cart
-        Cart::where('user_id', Auth::id())->delete();
-
-        // Redirect to success page
-        return redirect()->route('checkout.success', $order->id)
-            ->with('success', 'Order placed successfully!');
     }
 
     /**
-     * Order success page
+     * Success page
      */
     public function success($orderId)
     {
