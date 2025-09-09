@@ -65,7 +65,7 @@
                     $mrp = $product->mrp ?? $product->price + 1500;
                 @endphp
 
-                    <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}"
+                <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}"
                     class="group relative overflow-hidden rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm shadow-[0_6px_20px_rgba(99,61,46,0.08)] transition hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(99,61,46,0.15)] block">
 
                     <!-- Badges -->
@@ -118,8 +118,9 @@
                         <!-- Actions -->
                         <div class="mt-3 flex items-center gap-2">
                             <button
-                                class="w-full rounded-xl bg-rose-100 px-3 py-2 text-sm font-semibold text-[#633d2e] hover:bg-rose-200 transition"
-                                type="button">
+                                class="add-to-cart-btn w-full rounded-xl bg-rose-100 px-3 py-2 text-sm font-semibold text-[#633d2e] hover:bg-rose-200 transition"
+                                type="button"
+                                data-id="{{ $product->id }}">
                                 Add to Cart
                             </button>
                         </div>
@@ -130,7 +131,7 @@
     </div>
 </section>
 
-<!-- ======= Filter & Wishlist Script ======= -->
+<!-- ======= Filter, Wishlist & Cart Script ======= -->
 <script>
     function applyFilters() {
         let gender = document.getElementById('genderFilter').value;
@@ -142,12 +143,12 @@
         window.location.href = url;
     }
 
-    // Wishlist AJAX
     document.addEventListener('DOMContentLoaded', function () {
+        // Wishlist
         document.querySelectorAll('.wishlist-btn').forEach(button => {
             button.addEventListener('click', function (e) {
                 e.preventDefault();
-                e.stopPropagation(); // Prevent card link click
+                e.stopPropagation();
 
                 @if(Auth::check())
                 let productId = this.dataset.id;
@@ -174,6 +175,41 @@
                 .catch(err => console.error(err));
                 @else
                     alert('Please login to add to wishlist');
+                @endif
+            });
+        });
+
+        // Add to Cart
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                @if(Auth::check())
+                let productId = this.dataset.id;
+                let btn = this;
+
+                fetch("{{ route('cart.add') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({ product_id: productId, quantity: 1 })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        btn.innerText = 'Added ✅';
+                        btn.disabled = true;
+                        const cartCountElem = document.getElementById('cartCount');
+                        if(cartCountElem) cartCountElem.innerText = data.cart_count;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => console.error(err));
+                @else
+                    alert('Please login to add to cart');
                 @endif
             });
         });

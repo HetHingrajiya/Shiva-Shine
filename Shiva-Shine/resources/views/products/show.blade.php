@@ -60,12 +60,18 @@
                 <!-- Action Buttons (Sticky on Mobile) -->
                 <div
                     class="sticky bottom-0 bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg flex flex-col sm:flex-row gap-3 sm:gap-4 z-20">
-                    <button
-                        class="flex-1 bg-pink-600 hover:bg-pink-700 text-white text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-md transition">
+
+                    <!-- Add to Cart -->
+                    <button type="button"
+                        class="add-to-cart-btn flex-1 bg-pink-600 hover:bg-pink-700 text-white text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl shadow-md transition"
+                        data-id="{{ $product->id }}">
                         🛒 Add to Cart
                     </button>
-                    <button
-                        class="flex-1 border border-pink-600 text-pink-600 hover:bg-pink-50 text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl transition">
+
+                    <!-- Wishlist -->
+                    <button type="button"
+                        class="wishlist-btn flex-1 border {{ in_array($product->id, $wishlist ?? []) ? 'text-red-500 border-red-500' : 'text-pink-600 border-pink-600' }} hover:bg-pink-50 text-base sm:text-lg font-semibold py-3 sm:py-4 rounded-lg sm:rounded-xl transition"
+                        data-id="{{ $product->id }}">
                         ♥ Wishlist
                     </button>
                 </div>
@@ -139,8 +145,9 @@
         </div>
     </div>
 
-    <!-- Image Zoom Script -->
+    <!-- Scripts -->
     <script>
+        // Image Zoom
         const imgContainer = document.getElementById("imgContainer");
         const mainImage = document.getElementById("mainImage");
 
@@ -150,12 +157,87 @@
             const y = ((e.pageY - top) / height) * 100;
 
             mainImage.style.transformOrigin = `${x}% ${y}%`;
-            mainImage.style.transform = "scale(2)"; // zoom 2x
+            mainImage.style.transform = "scale(2)";
         });
 
         imgContainer.addEventListener("mouseleave", function () {
             mainImage.style.transformOrigin = "center center";
             mainImage.style.transform = "scale(1)";
+        });
+
+        // Wishlist Toggle
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.wishlist-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    @if(Auth::check())
+                        let productId = this.dataset.id;
+                        let btn = this;
+
+                        fetch("{{ route('wishlist.toggle') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({ product_id: productId })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'added') {
+                                btn.classList.remove('text-pink-600', 'border-pink-600');
+                                btn.classList.add('text-red-500', 'border-red-500');
+                                btn.innerText = "♥ Wishlisted";
+                            } else if (data.status === 'removed') {
+                                btn.classList.remove('text-red-500', 'border-red-500');
+                                btn.classList.add('text-pink-600', 'border-pink-600');
+                                btn.innerText = "♥ Wishlist";
+                            }
+                        })
+                        .catch(err => console.error(err));
+                    @else
+                        alert('Please login to add to wishlist');
+                    @endif
+                });
+            });
+        });
+
+        // Add to Cart
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    let productId = this.dataset.id;
+                    let btn = this;
+
+                    @if(Auth::check())
+                        fetch("{{ route('cart.add') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({ product_id: productId, quantity: 1 })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if(data.status === 'success') {
+                                btn.innerText = 'Added ✅';
+                                btn.disabled = true;
+                                const cartCountElem = document.getElementById('cartCount');
+                                if(cartCountElem) cartCountElem.innerText = data.cart_count;
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(err => console.error(err));
+                    @else
+                        alert('Please login to add products to cart');
+                    @endif
+                });
+            });
         });
     </script>
 @endsection
