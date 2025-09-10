@@ -25,7 +25,7 @@
                     <h2 class="text-xl font-semibold text-gray-900 mb-2">My Orders</h2>
                     <p class="text-gray-600 mb-4">Check your past orders and track current shipments easily.</p>
                 </div>
-                <a href="#" class="mt-auto inline-block text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-center py-2 px-4 rounded-lg font-medium transition">
+                <a href="{{ route('orders.index') }}" class="mt-auto inline-block text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-center py-2 px-4 rounded-lg font-medium transition">
                     View Orders
                 </a>
             </div>

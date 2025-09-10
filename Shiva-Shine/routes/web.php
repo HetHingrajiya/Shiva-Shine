@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\AdminProductController;
 
 // Home
@@ -50,6 +51,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/place-order', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
     Route::get('/checkout/success/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::post('/checkout/send-otp', [CheckoutController::class, 'sendEmailOtp'])->name('checkout.sendEmailOtp');
+    Route::post('/checkout/verify-otp', [CheckoutController::class, 'verifyOtp'])->name('checkout.verifyOtp');
+
+
+
+
+    //order page
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/cancel', [CheckoutController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/{id}/return', [OrderController::class, 'return'])->name('orders.return');
 
 
     // Profile page
