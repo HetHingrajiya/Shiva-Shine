@@ -30,8 +30,31 @@
     <form id="checkout-form" action="{{ route('checkout.placeOrder') }}" method="POST" class="space-y-6">
         @csrf
 
-        <!-- Address Fields -->
+        <!-- Name and Phone -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium mb-1">Full Name <span class="text-red-500">*</span></label>
+                <input type="text" name="name" value="{{ old('name') }}"
+                       class="w-full border rounded-lg p-3 @error('name') border-red-500 @enderror"
+                       placeholder="e.g. John Doe" required>
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium mb-1">Phone Number <span class="text-red-500">*</span></label>
+                <input type="text" name="phone" value="{{ old('phone') }}"
+                       class="w-full border rounded-lg p-3 @error('phone') border-red-500 @enderror"
+                       placeholder="e.g. 9876543210" required>
+                @error('phone')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <!-- Address Fields -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div>
                 <label class="block text-sm font-medium mb-1">Building / Apartment Name <span class="text-red-500">*</span></label>
                 <input type="text" name="building" value="{{ old('building') }}"

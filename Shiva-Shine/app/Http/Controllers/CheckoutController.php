@@ -44,6 +44,8 @@ class CheckoutController extends Controller
 
         // ✅ Validate inputs
         $request->validate([
+            'name'           => 'required|string|max:100',
+            'phone'          => 'required|string|max:15',
             'address'        => 'required|string|max:255',
             'payment_method' => 'required|string|in:cod,online',
         ]);
@@ -62,15 +64,16 @@ class CheckoutController extends Controller
         try {
             // ✅ Generate unique order code (8–10 characters)
             $orderCode = 'ORD-' . strtoupper(Str::random(8));
-
             while (Order::where('order_code', $orderCode)->exists()) {
                 $orderCode = 'ORD-' . strtoupper(Str::random(8));
             }
 
-            // ✅ Create Order
+            // ✅ Create Order with Name and Phone
             $order = Order::create([
                 'user_id'        => Auth::id(),
                 'order_code'     => $orderCode,
+                'name'           => $request->name,
+                'phone'          => $request->phone,
                 'address'        => $request->address,
                 'payment_method' => $request->payment_method,
                 'total_amount'   => $total,

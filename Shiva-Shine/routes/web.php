@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminOrderController;
 
 // Home
 Route::get('/', function () {
@@ -108,3 +109,19 @@ Route::post('admin/categories/store', [ProductCategoryController::class, 'store'
 Route::get('admin/categories/edit/{category}', [ProductCategoryController::class, 'edit'])->name('admin.categories.edit');
 Route::put('admin/categories/update/{category}', [ProductCategoryController::class, 'update'])->name('admin.categories.update');
 Route::delete('admin/categories/delete/{category}', [ProductCategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+
+Route::get('admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
+Route::delete('admin/orders/delete/{id}', [AdminOrderController::class, 'destroy'])->name('admin.orders.destroy');
+Route::patch('admin/orders/status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+// All Orders
+Route::get('admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+
+// Pending Orders
+Route::get('admin/orders/pending', [AdminOrderController::class, 'pending'])->name('admin.orders.pending');
+
+// Completed Orders
+Route::get('admin/orders/completed', [AdminOrderController::class, 'completed'])->name('admin.orders.completed');
+
+// Cancelled Orders
+Route::get('admin/orders/cancelled', [AdminOrderController::class, 'cancelled'])->name('admin.orders.cancelled');
