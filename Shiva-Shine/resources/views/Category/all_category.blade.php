@@ -16,12 +16,8 @@
         </div>
     </section>
 
-    <!-- ======= Featured Products Section ======= -->
-    <section class="py-14 bg-[#fffaf7]">
-        <div class="max-w-7xl mx-auto px-4">
-            <!-- Heading + Filters -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-                <h2 class="text-3xl font-bold text-[#633d2e]">Featured Products</h2>
+                <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}"
+                    class="group relative overflow-hidden rounded-2xl border border-white/30 bg-white/70 backdrop-blur-sm shadow-[0_6px_20px_rgba(99,61,46,0.08)] transition hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(99,61,46,0.15)] block">
 
                 <!-- Filters -->
                 <div class="flex flex-wrap items-center gap-4">
@@ -76,31 +72,11 @@
                             </svg>
                         </button>
 
-                        <!-- Image -->
-                        <a href="{{ route('products.show', ['id' => Crypt::encrypt($product->id)]) }}">
-                            <div class="relative">
-                                <img src="{{ asset('storage/' . $product->image1) }}"
-                                    data-hover="{{ $product->image2 ? asset('storage/' . $product->image2) : asset('storage/' . $product->image1) }}"
-                                    class="h-full w-full aspect-[4/5] object-cover transition duration-500 group-hover:scale-[1.03]"
-                                    onmouseover="this.src=this.dataset.hover;"
-                                    onmouseout="this.src='{{ asset('storage/' . $product->image1) }}';"
-                                    alt="{{ $product->name }}">
-                            </div>
-                        </a>
-
-                        <!-- Product Info -->
-                        <div class="p-4 text-center">
-                            <h3 class="text-md font-semibold text-gray-800 truncate">{{ $product->name }}</h3>
-                            <p class="text-[#d33f5f] font-bold text-lg">
-                                ₹{{ number_format($product->price) }}
-                                <span class="line-through text-sm text-gray-400 ml-1">
-                                    ₹{{ number_format($product->price + 1000) }}
-                                </span>
-                            </p>
-
-                            <!-- Add to Cart -->
-                            <button type="button"
-                                class="add-to-cart-btn w-full bg-pink-100 hover:bg-pink-200 text-[#633d2e] font-semibold py-2 rounded-lg transition"
+                        <!-- Actions -->
+                        <div class="mt-3 flex items-center gap-2">
+                            <button
+                                class="add-to-cart-btn w-full rounded-xl bg-rose-100 px-3 py-2 text-sm font-semibold text-[#633d2e] hover:bg-rose-200 transition"
+                                type="button"
                                 data-id="{{ $product->id }}">
                                 Add to Cart
                             </button>
@@ -118,24 +94,24 @@
         </div>
     </section>
 
-    <!-- ======= Filter & Wishlist Script ======= -->
-    <script>
-        function applyFilters() {
-            let gender = document.getElementById('genderFilter').value;
-            let category = document.getElementById('categoryFilter').value;
-            let url = "{{ route('products.all') }}?";
-            if (gender !== 'all') url += 'gender=' + gender + '&';
-            if (category !== 'all') url += 'category_id=' + category;
-            url = url.replace(/[&?]$/, '');
-            window.location.href = url;
-        }
+<!-- ======= Filter, Wishlist & Cart Script ======= -->
+<script>
+    function applyFilters() {
+        let gender = document.getElementById('genderFilter').value;
+        let category = document.getElementById('categoryFilter').value;
+        let url = "{{ route('products.all') }}?";
+        if (gender !== 'all') url += 'gender=' + gender + '&';
+        if (category !== 'all') url += 'category_id=' + category;
+        url = url.replace(/[&?]$/, '');
+        window.location.href = url;
+    }
 
-        // Wishlist AJAX
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.wishlist-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation(); // Prevent card link click
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wishlist
+        document.querySelectorAll('.wishlist-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
 
                     @if (Auth::check())
                         let productId = this.dataset.id;
@@ -168,45 +144,41 @@
                 });
             });
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
 
-                    let productId = this.dataset.id;
-                    let btn = this;
+        // Add to Cart
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
 
-                    @if (Auth::check())
-                        fetch("{{ route('cart.add') }}", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                                },
-                                body: JSON.stringify({
-                                    product_id: productId,
-                                    quantity: 1
-                                })
-                            })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    btn.innerText = 'Added ✅';
-                                    btn.disabled = true;
-                                    // Optional: update cart count in header
-                                    const cartCountElem = document.getElementById('cartCount');
-                                    if (cartCountElem) cartCountElem.innerText = data
-                                        .cart_count;
-                                } else {
-                                    alert(data.message);
-                                }
-                            })
-                            .catch(err => console.error(err));
-                    @else
-                        alert('Please login to add products to cart');
-                    @endif
-                });
+                @if(Auth::check())
+                let productId = this.dataset.id;
+                let btn = this;
+
+                fetch("{{ route('cart.add') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({ product_id: productId, quantity: 1 })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        btn.innerText = 'Added ✅';
+                        btn.disabled = true;
+                        const cartCountElem = document.getElementById('cartCount');
+                        if(cartCountElem) cartCountElem.innerText = data.cart_count;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => console.error(err));
+                @else
+                    alert('Please login to add to cart');
+                @endif
             });
         });
-    </script>
+    });
+</script>
 @endsection

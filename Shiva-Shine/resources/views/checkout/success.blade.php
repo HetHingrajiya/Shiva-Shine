@@ -8,14 +8,14 @@
 
             <p class="text-gray-700 mb-6">
                 Thank you for your order. Your order ID is
-                <span class="font-semibold text-[#633d2e]">#{{ $order->id }}</span>.
+                <span class="font-semibold text-[#633d2e]">#{{ $order->order_code }}</span>.
             </p>
 
             <!-- Order Items -->
             <div class="space-y-4">
                 @foreach ($order->items as $item)
                     <div class="flex items-center gap-4 p-4 bg-gray-100 rounded-lg">
-                        <img src="{{ asset('storage/' . $item->product->image1) }}"
+                        <img src="{{ $item->product->image1 ? asset('storage/' . $item->product->image1) : 'https://via.placeholder.com/100' }}"
                              alt="{{ $item->product->name }}"
                              class="w-20 h-20 object-cover rounded-lg">
                         <div class="flex-1">

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
@@ -41,8 +42,10 @@ class CheckoutController extends Controller
             return redirect()->route('login')->with('error', 'Please login to place order.');
         }
 
-        // ✅ Validate both address & payment_method
+        // ✅ Validate inputs
         $request->validate([
+            'name'           => 'required|string|max:100',
+            'phone'          => 'required|string|max:15',
             'address'        => 'required|string|max:255',
             'payment_method' => 'required|string|in:cod,online',
         ]);
@@ -59,10 +62,19 @@ class CheckoutController extends Controller
 
         DB::beginTransaction();
         try {
-            // ✅ Create Order
+            // ✅ Generate unique order code (8–10 characters)
+            $orderCode = 'ORD-' . strtoupper(Str::random(8));
+            while (Order::where('order_code', $orderCode)->exists()) {
+                $orderCode = 'ORD-' . strtoupper(Str::random(8));
+            }
+
+            // ✅ Create Order with Name and Phone
             $order = Order::create([
                 'user_id'        => Auth::id(),
-                'address'        => $request->address, // ✅ Save user address
+                'order_code'     => $orderCode,
+                'name'           => $request->name,
+                'phone'          => $request->phone,
+                'address'        => $request->address,
                 'payment_method' => $request->payment_method,
                 'total_amount'   => $total,
                 'status'         => 'pending',
@@ -82,8 +94,9 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            return redirect()->route('checkout.success', $order->id)
-                ->with('success', 'Order placed successfully!');
+            // ✅ Redirect with order_code (not ID)
+            return redirect()->route('checkout.success', $order->order_code)
+                ->with('success', '🎉 Order placed successfully!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -95,14 +108,14 @@ class CheckoutController extends Controller
     /**
      * Success page
      */
-    public function success($orderId)
+    public function success($orderCode)
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
         $order = Order::with('items.product')
-            ->where('id', $orderId)
+            ->where('order_code', $orderCode)
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
