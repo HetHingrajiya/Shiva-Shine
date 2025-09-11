@@ -88,7 +88,7 @@
                 <div class="flex flex-col md:flex-row gap-2">
                     <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="flex-1 flex gap-2">
                         @csrf
-                        @method('PUT')
+                        @method('PATCH')
                         <select name="status" class="border rounded px-2 py-1 w-full">
                             <option value="pending" {{ $order->status=='pending'?'selected':'' }}>Pending</option>
                             <option value="processing" {{ $order->status=='processing'?'selected':'' }}>Processing</option>

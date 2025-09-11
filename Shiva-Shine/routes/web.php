@@ -55,9 +55,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/send-otp', [CheckoutController::class, 'sendEmailOtp'])->name('checkout.sendEmailOtp');
     Route::post('/checkout/verify-otp', [CheckoutController::class, 'verifyOtp'])->name('checkout.verifyOtp');
 
-
-
-
     //order page
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
