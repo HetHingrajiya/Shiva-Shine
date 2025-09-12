@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Shiva Shine</title>
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -24,6 +27,7 @@
         }
     </style>
 </head>
+
 
 <body class="bg-[#fffaf7] text-[#633d2e]">
 
