@@ -90,6 +90,8 @@ Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.
 
 // Admin Customers
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
+Route::put('admin/customers/{id}', [CustomerController::class, 'update'])->name('admin.customers.update');
+Route::delete('admin/customers/{id}', [CustomerController::class, 'destroy'])->name('admin.customers.destroy');
 
 // Admin Products
 Route::get('admin/products', [AdminProductController::class, 'index'])->name('admin.products');
