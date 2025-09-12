@@ -16,6 +16,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\SettingsController;
 
 
 // Home
@@ -88,6 +90,8 @@ Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.l
 Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
+Route::get('admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
+
 // Admin Customers
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
 Route::put('admin/customers/{id}', [CustomerController::class, 'update'])->name('admin.customers.update');
@@ -126,3 +130,17 @@ Route::get('admin/orders/completed', [AdminOrderController::class, 'completed'])
 
 // Cancelled Orders
 Route::get('admin/orders/cancelled', [AdminOrderController::class, 'cancelled'])->name('admin.orders.cancelled');
+
+
+// Settings main overview
+Route::get('admin/settings', [SettingsController::class, 'index'])->name('admin.settings');
+// Profile
+Route::get('admin/settings/profile', [SettingsController::class, 'profile'])->name('admin.settings.profile');
+Route::post('admin/settings/profile', [SettingsController::class, 'updateProfile'])->name('admin.settings.profile.update');
+// Security (Change Password)
+Route::get('admin/settings/security', [SettingsController::class, 'security'])->name('admin.settings.security');
+Route::post('admin/settings/security', [SettingsController::class, 'updatePassword'])->name('admin.settings.security.update');
+// Notifications
+Route::get('admin/settings/notifications', [SettingsController::class, 'notifications'])->name('admin.settings.notifications');
+// Preferences
+Route::get('admin/settings/preferences', [SettingsController::class, 'preferences'])->name('admin.settings.preferences');

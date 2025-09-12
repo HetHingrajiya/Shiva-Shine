@@ -91,7 +91,7 @@
                         ['icon' => 'tag', 'label' => 'Categories', 'route' => route(name: 'admin.categories')],
                         ['icon' => 'settings', 'label' => 'Settings', 'route' => '#'],
                         ['divider' => true],
-                        ['icon' => 'bar-chart-2', 'label' => 'Analytics', 'route' => '#'],
+                        ['icon' => 'bar-chart-2', 'label' => 'Analytics', 'route' => route('admin.analytics')],
                     ];
                 @endphp
 
