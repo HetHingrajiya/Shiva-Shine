@@ -59,8 +59,8 @@ Route::middleware(['auth'])->group(function () {
 
     //order page
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::post('/orders/{id}/cancel', [CheckoutController::class, 'cancel'])->name('orders.cancel');
+    Route::get('/orders/{encryptedId}/{encryptedOrderCode}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{id}/return', [OrderController::class, 'return'])->name('orders.return');
 
 
