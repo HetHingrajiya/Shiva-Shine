@@ -116,20 +116,13 @@ Route::put('admin/categories/update/{category}', [ProductCategoryController::cla
 Route::delete('admin/categories/delete/{category}', [ProductCategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 
-Route::get('admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
-Route::delete('admin/orders/delete/{id}', [AdminOrderController::class, 'destroy'])->name('admin.orders.destroy');
-Route::patch('admin/orders/status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
-// All Orders
-Route::get('admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
-
-// Pending Orders
-Route::get('admin/orders/pending', [AdminOrderController::class, 'pending'])->name('admin.orders.pending');
-
-// Completed Orders
-Route::get('admin/orders/completed', [AdminOrderController::class, 'completed'])->name('admin.orders.completed');
-
-// Cancelled Orders
-Route::get('admin/orders/cancelled', [AdminOrderController::class, 'cancelled'])->name('admin.orders.cancelled');
+Route::prefix('admin/orders')->name('admin.orders.')->group(function () {
+    Route::get('/', [AdminOrderController::class, 'index'])->name('index'); // admin.orders.index
+    Route::get('/{id}', [AdminOrderController::class, 'show'])->name('show'); // admin.orders.show
+    Route::delete('/{id}', [AdminOrderController::class, 'destroy'])->name('destroy'); // admin.orders.destroy
+    Route::patch('/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus'); // admin.orders.updateStatus
+    Route::get('/status/{status}', [AdminOrderController::class, 'filter'])->name('filter'); // admin.orders.filter
+});
 
 
 // Settings main overview

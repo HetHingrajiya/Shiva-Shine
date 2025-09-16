@@ -12,10 +12,13 @@ class AdminOrderController extends Controller
     public function index()
     {
         $orders = Order::with('items.product', 'user')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at', 'asc')
             ->get();
 
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', [
+            'orders' => $orders,
+            'filter' => 'all'
+        ]);
     }
 
     // Show single order
@@ -32,39 +35,42 @@ class AdminOrderController extends Controller
         $order->items()->delete(); // remove related items
         $order->delete();
 
-        return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
+        return redirect()->route('admin.orders.index')
+            ->with('success', 'Order deleted successfully.');
     }
 
-    // Update order status
-    public function updateStatus(Request $request, $id)
+    // Update order statuspublic function updateStatus(Request $request, $id)// AdminOrderController.php
+        public function updateStatus(Request $request, $id)
+        {
+            $request->validate([
+                'status' => 'required|in:pending,processing,completed,cancelled',
+            ]);
+
+            $order = Order::findOrFail($id);
+            $order->status = $request->status;
+            $order->save();
+
+            return response()->json(['success' => true, 'status' => $order->status]);
+        }
+
+
+            // Generic filter for orders by status
+    public function filter($status)
     {
-        $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled',
+        $validStatuses = ['pending', 'processing', 'completed', 'cancelled'];
+
+        if (!in_array($status, $validStatuses)) {
+            abort(404); // Invalid status → show 404
+        }
+
+        $orders = Order::where('status', $status)
+            ->with('items.product', 'user')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.orders.index', [
+            'orders' => $orders,
+            'filter' => $status
         ]);
-
-        $order = Order::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
-
-        return redirect()->back()->with('success', 'Order status updated successfully.');
-    }
-
-    // Filter orders by status
-    public function pending()
-    {
-        $orders = Order::where('status', 'pending')->with('items.product', 'user')->get();
-        return view('admin.orders.index', compact('orders'));
-    }
-
-    public function completed()
-    {
-        $orders = Order::where('status', 'completed')->with('items.product', 'user')->get();
-        return view('admin.orders.index', compact('orders'));
-    }
-
-    public function cancelled()
-    {
-        $orders = Order::where('status', 'cancelled')->with('items.product', 'user')->get();
-        return view('admin.orders.index', compact('orders'));
     }
 }

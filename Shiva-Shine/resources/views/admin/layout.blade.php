@@ -63,10 +63,10 @@
                             'label' => 'Customers',
                             'route' => route('admin.customers'),
                         ],
-                        [
+                       [
                             'icon'  => 'shopping-cart', // Use a suitable icon from your icon library
                             'label' => 'Orders',
-                            'route' => route('admin.orders.index'), // Replace with your actual admin orders route
+                            'route' => route('admin.orders.index'), // Default route → All Orders
                             'children' => [
                                 [
                                     'label' => 'All Orders',
@@ -74,18 +74,23 @@
                                 ],
                                 [
                                     'label' => 'Pending Orders',
-                                    'route' => route('admin.orders.pending'),
+                                    'route' => route('admin.orders.filter', 'pending'),
+                                ],
+                                [
+                                    'label' => 'Processing Orders',
+                                    'route' => route('admin.orders.filter', 'processing'),
                                 ],
                                 [
                                     'label' => 'Completed Orders',
-                                    'route' => route('admin.orders.completed'),
+                                    'route' => route('admin.orders.filter', 'completed'),
                                 ],
                                 [
                                     'label' => 'Cancelled Orders',
-                                    'route' => route('admin.orders.cancelled'),
+                                    'route' => route('admin.orders.filter', 'cancelled'),
                                 ],
                             ]
                         ]
+
                         ,
                         ['icon' => 'box', 'label' => 'Products', 'route' => route('admin.products')],
                         ['icon' => 'tag', 'label' => 'Categories', 'route' => route(name: 'admin.categories')],
