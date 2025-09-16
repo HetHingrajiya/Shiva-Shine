@@ -24,19 +24,25 @@ class OrderController extends Controller
     /**
      * Show single order details
      */
-    public function show($encryptedOrderCode)
+    public function show($encryptedId, $encryptedOrderCode)
     {
         try {
+            // 🔓 Decrypt both ID and order code
+            $id = Crypt::decryptString($encryptedId);
             $orderCode = Crypt::decryptString($encryptedOrderCode);
 
+            // 🔎 Find order by both
             $order = Order::with('items.product')
+                ->where('id', $id)
                 ->where('user_id', Auth::id())
                 ->where('order_code', $orderCode)
                 ->firstOrFail();
 
             return view('orders.show', compact('order'));
+
         } catch (\Exception $e) {
-            return redirect()->route('orders.index')->with('error', '⚠️ Invalid or expired order link.');
+            return redirect()->route('orders.index')
+                ->with('error', '⚠️ Invalid or expired order link.');
         }
     }
 

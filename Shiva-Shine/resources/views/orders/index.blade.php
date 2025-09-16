@@ -128,10 +128,16 @@
 
                         <!-- Order Footer -->
                         <div class="bg-gray-100 px-6 py-4 flex justify-end gap-3 border-t">
-                            <a href="{{ route('orders.show', Crypt::encryptString($order->order_code)) }}"
-                               class="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-medium rounded-lg shadow hover:from-green-600 hover:to-green-700 transition">
-                                View Details
-                            </a>
+                            <a href="{{ route('orders.show', [
+                                'encryptedId' => Crypt::encryptString($order->id),
+                                'encryptedOrderCode' => Crypt::encryptString($order->order_code)
+                            ]) }}"
+                           class="px-5 py-2.5 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-medium rounded-lg shadow hover:from-green-600 hover:to-green-700 transition">
+                            View Details
+                        </a>
+
+
+
 
                             @if(in_array($order->status, ['pending','confirmed']))
                                 <!-- Cancel Button with Modal -->

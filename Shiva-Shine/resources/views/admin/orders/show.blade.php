@@ -4,95 +4,161 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Order Details</h1>
+    <h1 class="text-3xl font-bold mb-6">🧾 Order Details</h1>
 
-    <div class="bg-white shadow-lg rounded-xl p-6 space-y-6">
+    <div class="bg-white shadow-lg rounded-xl p-6">
         <!-- Order Header -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-center border-b pb-4 mb-4">
+        <div class="flex justify-between items-start mb-6 border-b pb-4">
             <div>
-                <p class="text-gray-500 text-sm">Order Code</p>
-                <h2 class="text-2xl font-bold text-gray-800">{{ $order->order_code }}</h2>
+                <p class="text-sm text-gray-500">Order Code</p>
+                <h2 class="text-xl font-bold">{{ $order->order_code }}</h2>
+                <p class="text-sm text-gray-400">Date: {{ $order->created_at->format('d M Y, H:i') }}</p>
             </div>
-            <div class="mt-2 md:mt-0">
-                <p class="text-gray-500 text-sm">Order Date</p>
-                <p class="text-gray-700 font-medium">{{ $order->created_at->format('d M Y, H:i') }}</p>
-            </div>
-            <div class="mt-2 md:mt-0">
-                <p class="text-gray-500 text-sm">Status</p>
-                <span class="px-4 py-1 rounded-full text-white font-semibold text-sm
+            <div>
+                <span id="status-badge-{{ $order->id }}" class="px-3 py-1 rounded-full text-white text-sm
                     @if($order->status == 'pending') bg-yellow-500
+                    @elseif($order->status == 'processing') bg-blue-500
                     @elseif($order->status == 'completed') bg-green-500
                     @elseif($order->status == 'cancelled') bg-red-500
-                    @elseif($order->status == 'processing') bg-blue-500
                     @endif">
                     {{ ucfirst($order->status) }}
                 </span>
             </div>
         </div>
 
-        <!-- Customer & Delivery Info -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-b pb-4 mb-4">
-            <div class="space-y-1">
-                <h3 class="text-lg font-semibold text-gray-800">Customer Info</h3>
+        <!-- Customer Info -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-2">👤 Customer Info</h3>
                 <p><strong>Name:</strong> {{ $order->name ?? $order->user->name ?? 'Guest' }}</p>
                 <p><strong>Phone:</strong> {{ $order->phone ?? 'N/A' }}</p>
                 <p><strong>Email:</strong> {{ $order->user->email ?? 'N/A' }}</p>
             </div>
-            <div class="space-y-1">
-                <h3 class="text-lg font-semibold text-gray-800">Delivery Address</h3>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-2">📍 Delivery Address</h3>
                 <p>{{ $order->address }}</p>
             </div>
         </div>
 
-        <!-- Payment Method -->
-        <div class="border-b pb-4 mb-4">
-            <h3 class="text-lg font-semibold text-gray-800 mb-1">Payment Method</h3>
-            <p class="text-gray-700">{{ ucfirst($order->payment_method) }}</p>
+        <!-- Products -->
+        <div class="mb-6">
+            <h3 class="font-semibold text-gray-800 mb-2">🛍️ Products</h3>
+            <div class="space-y-3">
+                @foreach($order->items as $item)
+                    <div class="flex items-center gap-3 bg-gray-50 p-3 rounded">
+                        <img src="{{ $item->product->image1 ? asset('storage/' . $item->product->image1) : 'https://via.placeholder.com/50' }}" class="w-14 h-14 rounded object-cover">
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-700">{{ $item->product->name }}</p>
+                            <p class="text-gray-500 text-sm">₹{{ number_format($item->price, 2) }} × {{ $item->quantity }}</p>
+                        </div>
+                        <p class="font-semibold">₹{{ number_format($item->price * $item->quantity, 2) }}</p>
+                    </div>
+                @endforeach
+            </div>
         </div>
 
-        <!-- Products Table -->
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Quantity</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach($order->items as $item)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 flex items-center space-x-3">
-                                <img src="{{ $item->product->image1 ? asset('storage/' . $item->product->image1) : 'https://via.placeholder.com/50' }}"
-                                     class="w-12 h-12 rounded object-cover border">
-                                <span class="text-gray-700 font-medium">{{ $item->product->name }}</span>
-                            </td>
-                            <td class="px-6 py-4 text-gray-700">₹{{ number_format($item->price, 2) }}</td>
-                            <td class="px-6 py-4 text-gray-700">{{ $item->quantity }}</td>
-                            <td class="px-6 py-4 font-semibold text-gray-800">₹{{ number_format($item->price * $item->quantity, 2) }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <!-- Payment & Total -->
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <p><strong>Payment Method:</strong> {{ ucfirst($order->payment_method) }}</p>
+            </div>
+            <div>
+                <p class="text-lg font-bold">Total: ₹{{ number_format($order->total_amount, 2) }}</p>
+            </div>
         </div>
 
-        <!-- Total Amount -->
-        <div class="flex justify-end items-center mt-4">
-            <p class="text-2xl font-bold text-gray-800">Total: ₹{{ number_format($order->total_amount, 2) }}</p>
+        <!-- Status Update -->
+        <div class="mb-6 flex gap-2 items-center">
+            <select id="status-select-{{ $order->id }}" class="border rounded px-3 py-2">
+                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+            </select>
+            <button type="button" onclick="updateOrderStatus({{ $order->id }})" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                Update
+            </button>
         </div>
 
         <!-- Actions -->
-        <div class="flex flex-col md:flex-row justify-between mt-6 gap-3">
-            <a href="{{ route('admin.orders.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded shadow text-center">Back to Orders</a>
-
-            <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');" class="flex-1 md:flex-none">
+        <div class="flex gap-3">
+            <a href="{{ route('admin.orders.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">⬅ Back</a>
+            <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded shadow">Delete Order</button>
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">🗑 Delete</button>
             </form>
         </div>
     </div>
 </div>
+
+<!-- Toast Container -->
+<div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2"></div>
+
+<!-- AJAX Script -->
+<script>
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.innerText = message;
+    toast.className = `
+        px-4 py-2 rounded shadow-lg text-white
+        ${type === 'success' ? 'bg-green-500' : 'bg-red-500'}
+        animate-slide-in
+    `;
+    container.appendChild(toast);
+
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'transition', 'duration-500');
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+}
+
+function updateOrderStatus(orderId) {
+    const status = document.getElementById(`status-select-${orderId}`).value;
+
+    fetch(`/admin/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.success){
+            const badge = document.getElementById(`status-badge-${orderId}`);
+            badge.innerText = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+
+            // Change badge color
+            badge.className = "px-3 py-1 rounded-full text-white text-sm " +
+                (data.status === 'pending' ? 'bg-yellow-500' :
+                 data.status === 'processing' ? 'bg-blue-500' :
+                 data.status === 'completed' ? 'bg-green-500' :
+                 'bg-red-500');
+
+            showToast(`Order status updated to ${data.status}`, 'success');
+        } else {
+            showToast('Failed to update status.', 'error');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        showToast('An error occurred while updating the status.', 'error');
+    });
+}
+</script>
+
+<!-- Toast Animation -->
+<style>
+@keyframes slide-in {
+    0% { transform: translateX(100%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+.animate-slide-in {
+    animation: slide-in 0.5s ease forwards;
+}
+</style>
 @endsection

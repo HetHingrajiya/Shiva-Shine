@@ -16,6 +16,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\SettingsController;
 
 
 // Home
@@ -59,8 +61,8 @@ Route::middleware(['auth'])->group(function () {
 
     //order page
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    Route::post('/orders/{id}/cancel', [CheckoutController::class, 'cancel'])->name('orders.cancel');
+    Route::get('/orders/{encryptedId}/{encryptedOrderCode}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{id}/return', [OrderController::class, 'return'])->name('orders.return');
 
 
@@ -88,8 +90,12 @@ Route::post('admin/login', [AdminAuthController::class, 'login'])->name('admin.l
 Route::get('admin/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
 Route::get('admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
+Route::get('admin/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
+
 // Admin Customers
 Route::get('admin/customers', [CustomerController::class, 'index'])->name('admin.customers');
+Route::put('admin/customers/{id}', [CustomerController::class, 'update'])->name('admin.customers.update');
+Route::delete('admin/customers/{id}', [CustomerController::class, 'destroy'])->name('admin.customers.destroy');
 
 // Admin Products
 Route::get('admin/products', [AdminProductController::class, 'index'])->name('admin.products');
@@ -110,17 +116,24 @@ Route::put('admin/categories/update/{category}', [ProductCategoryController::cla
 Route::delete('admin/categories/delete/{category}', [ProductCategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 
-Route::get('admin/orders/{id}', [AdminOrderController::class, 'show'])->name('admin.orders.show');
-Route::delete('admin/orders/delete/{id}', [AdminOrderController::class, 'destroy'])->name('admin.orders.destroy');
-Route::patch('admin/orders/status/{id}', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
-// All Orders
-Route::get('admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+Route::prefix('admin/orders')->name('admin.orders.')->group(function () {
+    Route::get('/', [AdminOrderController::class, 'index'])->name('index'); // admin.orders.index
+    Route::get('/{id}', [AdminOrderController::class, 'show'])->name('show'); // admin.orders.show
+    Route::delete('/{id}', [AdminOrderController::class, 'destroy'])->name('destroy'); // admin.orders.destroy
+    Route::patch('/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus'); // admin.orders.updateStatus
+    Route::get('/status/{status}', [AdminOrderController::class, 'filter'])->name('filter'); // admin.orders.filter
+});
 
-// Pending Orders
-Route::get('admin/orders/pending', [AdminOrderController::class, 'pending'])->name('admin.orders.pending');
 
-// Completed Orders
-Route::get('admin/orders/completed', [AdminOrderController::class, 'completed'])->name('admin.orders.completed');
-
-// Cancelled Orders
-Route::get('admin/orders/cancelled', [AdminOrderController::class, 'cancelled'])->name('admin.orders.cancelled');
+// Settings main overview
+Route::get('admin/settings', [SettingsController::class, 'index'])->name('admin.settings');
+// Profile
+Route::get('admin/settings/profile', [SettingsController::class, 'profile'])->name('admin.settings.profile');
+Route::post('admin/settings/profile', [SettingsController::class, 'updateProfile'])->name('admin.settings.profile.update');
+// Security (Change Password)
+Route::get('admin/settings/security', [SettingsController::class, 'security'])->name('admin.settings.security');
+Route::post('admin/settings/security', [SettingsController::class, 'updatePassword'])->name('admin.settings.security.update');
+// Notifications
+Route::get('admin/settings/notifications', [SettingsController::class, 'notifications'])->name('admin.settings.notifications');
+// Preferences
+Route::get('admin/settings/preferences', [SettingsController::class, 'preferences'])->name('admin.settings.preferences');

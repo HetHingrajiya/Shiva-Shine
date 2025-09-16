@@ -63,35 +63,40 @@
                             'label' => 'Customers',
                             'route' => route('admin.customers'),
                         ],
-                        [
-    'icon'  => 'shopping-cart', // Use a suitable icon from your icon library
-    'label' => 'Orders',
-    'route' => route('admin.orders.index'), // Replace with your actual admin orders route
-    'children' => [
-        [
-            'label' => 'All Orders',
-            'route' => route('admin.orders.index'),
-        ],
-        [
-            'label' => 'Pending Orders',
-            'route' => route('admin.orders.pending'),
-        ],
-        [
-            'label' => 'Completed Orders',
-            'route' => route('admin.orders.completed'),
-        ],
-        [
-            'label' => 'Cancelled Orders',
-            'route' => route('admin.orders.cancelled'),
-        ],
-    ]
-]
-,
+                       [
+                            'icon'  => 'shopping-cart', // Use a suitable icon from your icon library
+                            'label' => 'Orders',
+                            'route' => route('admin.orders.index'), // Default route → All Orders
+                            'children' => [
+                                [
+                                    'label' => 'All Orders',
+                                    'route' => route('admin.orders.index'),
+                                ],
+                                [
+                                    'label' => 'Pending Orders',
+                                    'route' => route('admin.orders.filter', 'pending'),
+                                ],
+                                [
+                                    'label' => 'Processing Orders',
+                                    'route' => route('admin.orders.filter', 'processing'),
+                                ],
+                                [
+                                    'label' => 'Completed Orders',
+                                    'route' => route('admin.orders.filter', 'completed'),
+                                ],
+                                [
+                                    'label' => 'Cancelled Orders',
+                                    'route' => route('admin.orders.filter', 'cancelled'),
+                                ],
+                            ]
+                        ]
+
+                        ,
                         ['icon' => 'box', 'label' => 'Products', 'route' => route('admin.products')],
                         ['icon' => 'tag', 'label' => 'Categories', 'route' => route(name: 'admin.categories')],
                         ['icon' => 'settings', 'label' => 'Settings', 'route' => '#'],
                         ['divider' => true],
-                        ['icon' => 'bar-chart-2', 'label' => 'Analytics', 'route' => '#'],
+                        ['icon' => 'bar-chart-2', 'label' => 'Analytics', 'route' => route('admin.analytics')],
                     ];
                 @endphp
 
