@@ -6,6 +6,9 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FAQController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AuthController;
@@ -69,6 +72,15 @@ Route::middleware(['auth'])->group(function () {
     // Profile page
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Contact Us Page
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+
+    // FAQ / Help Page
+    Route::get('/faq', [FAQController::class, 'index'])->name('faq.index');
+
+    // Support Chat Page
+    Route::get('/support-chat', [SupportController::class, 'index'])->name('support.chat');
+
 });
 
 // Categories
