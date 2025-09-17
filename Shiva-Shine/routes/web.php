@@ -122,7 +122,13 @@ Route::prefix('admin/orders')->name('admin.orders.')->group(function () {
     Route::delete('/{id}', [AdminOrderController::class, 'destroy'])->name('destroy'); // admin.orders.destroy
     Route::patch('/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus'); // admin.orders.updateStatus
     Route::get('/status/{status}', [AdminOrderController::class, 'filter'])->name('filter'); // admin.orders.filter
+
+
+
+
 });
+
+
 
 
 // Settings main overview

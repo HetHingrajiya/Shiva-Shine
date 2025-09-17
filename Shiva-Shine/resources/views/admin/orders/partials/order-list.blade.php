@@ -104,9 +104,7 @@ function getCurrentFilter() {
     return 'all';
 }
 
-function updateOrderStatus(event, orderId) {
-    event.preventDefault();
-
+function updateOrderStatus(orderId) {
     const status = document.getElementById(`status-select-${orderId}`).value;
     const currentFilter = getCurrentFilter();
 
@@ -121,7 +119,7 @@ function updateOrderStatus(event, orderId) {
     .then(res => res.json())
     .then(data => {
         if(data.success){
-            // Update badge
+            // Update badge color + text
             const badge = document.getElementById(`status-badge-${orderId}`);
             badge.innerText = status.charAt(0).toUpperCase() + status.slice(1);
             badge.className = "px-3 py-1 rounded-full text-white text-sm " +
@@ -130,7 +128,7 @@ function updateOrderStatus(event, orderId) {
                  status === 'completed' ? 'bg-green-500' :
                  'bg-red-500');
 
-            // Remove card if it no longer matches current filter
+            // 🔥 Remove order card if it doesn’t match the current filter
             if(currentFilter !== 'all' && currentFilter !== status){
                 const card = document.getElementById(`order-card-${orderId}`);
                 if(card){
@@ -141,15 +139,36 @@ function updateOrderStatus(event, orderId) {
                 }
             }
 
-            // Optional toast
-            alert(`Order #${orderId} status updated to ${status}`);
+            // ✅ Show toast
+            showToast(`Order #${orderId} status updated to ${status}`);
+
+            // 🔄 Reload page after short delay (so toast is visible)
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+
         } else {
-            alert('Failed to update status');
+            showToast('Failed to update status', 'error');
         }
     })
-    .catch(() => alert('Error updating status'));
+    .catch(() => showToast('Error updating status', 'error'));
+}
+
+function showToast(message, type='success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.innerText = message;
+    toast.className = `px-4 py-2 rounded shadow-lg text-white ${type==='success' ? 'bg-green-500' : 'bg-red-500'} animate-slide-in`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'transition', 'duration-500');
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
 }
 </script>
+
+
 
 
 <style>

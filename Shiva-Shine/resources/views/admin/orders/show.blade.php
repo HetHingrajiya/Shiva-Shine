@@ -140,6 +140,7 @@ function updateOrderStatus(orderId) {
                  'bg-red-500');
 
             showToast(`Order status updated to ${data.status}`, 'success');
+
         } else {
             showToast('Failed to update status.', 'error');
         }
