@@ -24,7 +24,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/account'); // redirect to dashboard
+
+            // Redirect to intended page if 'redirect' exists, else fallback to home or account page
+            $redirectTo = $request->input('redirect', url('/'));
+            return redirect()->to($redirectTo);
         }
 
         return back()->withErrors([
@@ -51,7 +54,9 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/account'); // redirect to dashboard
+        // After registration, redirect to intended page if exists, else home
+        $redirectTo = $request->input('redirect', url('/'));
+        return redirect()->to($redirectTo);
     }
 
     /**
@@ -63,14 +68,18 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/account');
+        return redirect('/');
     }
 
     /**
-     * Redirect to Google
+     * Redirect to Google for Authentication
      */
-    public function redirectToGoogle()
+    public function redirectToGoogle(Request $request)
     {
+        // Capture the intended URL, default to home
+        $redirectTo = $request->input('redirect', url('/'));
+        session(['google_redirect' => $redirectTo]);
+
         return Socialite::driver('google')->redirect();
     }
 
@@ -92,9 +101,12 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            return redirect('/account');
+            // Redirect to intended page after Google login
+            $redirectTo = session()->pull('google_redirect', url('/'));
+            return redirect()->to($redirectTo);
+
         } catch (\Exception $e) {
-            return redirect('/account')->withErrors(['msg' => 'Google login failed.']);
+            return redirect('/')->withErrors(['msg' => 'Google login failed.']);
         }
     }
 }

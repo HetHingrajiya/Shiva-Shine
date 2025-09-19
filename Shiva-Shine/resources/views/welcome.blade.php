@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+
+
     <section class="pt-20  ">
         <!-- ===== Desktop Slideshow ===== -->
         <div class="relative w-full overflow-hidden hidden md:block mt-8">
@@ -634,5 +636,29 @@
                 behavior: 'smooth'
             });
         }
+       window.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('splashScreen');
+        const mainContent = document.getElementById('mainContent');
+
+        // Show splash for 2 seconds
+        setTimeout(() => {
+            // Fade out splash
+            splash.style.transition = 'opacity 0.8s ease';
+            splash.style.opacity = 0;
+
+            // After fade out, hide splash and show main content
+            setTimeout(() => {
+                splash.style.display = 'none';
+                mainContent.classList.remove('hidden');
+            }, 800); // Match fade-out duration
+        }, 2000); // Splash duration (2 seconds)
+    });
     </script>
     <!-- Hide Scrollbar CSS -->
+<style>
+    #splashScreen {
+        opacity: 1;
+        transition: opacity 0.8s ease;
+    }
+</style>
+

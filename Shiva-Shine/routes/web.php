@@ -28,6 +28,10 @@ use App\Http\Controllers\Admin\SettingsController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/about-shivashine', function () {
+    return view('about-shivashine');
+})->name('more');
+
 // Login & Register (handled via modal in account page)
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');

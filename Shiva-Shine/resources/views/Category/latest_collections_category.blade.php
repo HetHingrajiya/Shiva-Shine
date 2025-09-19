@@ -164,7 +164,7 @@
                 })
                 .catch(err => console.error(err));
                 @else
-                    alert('Please login to add to wishlist');
+                    window.location.href = "{{ route('account.index') }}";
                 @endif
             });
         });
@@ -200,7 +200,7 @@
                 })
                 .catch(err => console.error(err));
                 @else
-                    alert('Please login to add products to cart');
+                    window.location.href = "{{ route('account.index') }}";
                 @endif
             });
         });
