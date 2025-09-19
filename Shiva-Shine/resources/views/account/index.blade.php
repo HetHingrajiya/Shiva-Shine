@@ -171,7 +171,7 @@
     </div>
 
 <!-- ===== Forgot Password Modal ===== -->
-<div x-show="openForgot" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-cloak>
+<div x-show="openForgot" x-transition.opacity class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" x-cloak>
     <div class="bg-white shadow-lg rounded-2xl p-6 sm:p-8 w-full sm:w-96 relative"
          x-data="{ loading: false, success: '', error: '' }">
 
@@ -187,7 +187,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json',   // Important for Laravel to return JSON
+                        'Accept': 'application/json',
                         'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').getAttribute('content')
                     },
                     body: JSON.stringify({ email: $refs.email.value })
@@ -197,7 +197,12 @@
                     loading = false;
                     if (data.status) {
                         success = data.status;
-                        $refs.email.value = ''; // clear email field
+                        $refs.email.value = '';
+                        // Close modal automatically after 2 seconds
+                        setTimeout(() => {
+                            openForgot = false;
+                            openLogin = true; // optional: open login modal
+                        }, 2000);
                     } else if (data.errors && data.errors.email) {
                         error = data.errors.email[0];
                     }
@@ -217,6 +222,7 @@
             <button type="submit"
                     class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition flex justify-center items-center gap-2">
                 <span x-show="!loading">Send Reset Link</span>
+                <span x-show="loading" class="animate-pulse">Sending...</span>
             </button>
 
             <!-- Success / Error Message -->
@@ -234,13 +240,11 @@
         </form>
 
         <!-- Fullscreen Loader -->
-        <div x-show="loading" class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div x-show="loading" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
             <div class="border-8 border-gray-300 border-t-indigo-600 rounded-full w-16 h-16 animate-spin"></div>
         </div>
     </div>
 </div>
-
-
 
 </section>
 @endsection
