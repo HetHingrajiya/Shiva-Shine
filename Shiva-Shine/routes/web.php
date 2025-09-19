@@ -6,6 +6,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FAQController;
 use App\Http\Controllers\SupportController;
@@ -27,19 +28,30 @@ use App\Http\Controllers\Admin\SettingsController;
 Route::get('/', function () {
     return view('welcome');
 });
+// Login & Register (handled via modal in account page)
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// User login/register
-Route::get('login', [AuthController::class, 'loginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'registerForm'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+// Google Login
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-// Google login
-Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+// Forgot Password
+Route::get('/forgot-password', [PasswordResetController::class, 'showLinkRequestForm'])
+    ->name('password.request');
 
-// Account
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Reset Password
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])
+    ->name('password.reset');
+
+Route::post('/reset-password', [PasswordResetController::class, 'reset'])
+    ->name('password.update');
+
+// Account Dashboard
 Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 
 // Routes that require authentication

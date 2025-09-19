@@ -11,23 +11,20 @@ use Laravel\Socialite\Facades\Socialite;
 class AuthController extends Controller
 {
     /**
-     * Show Login Form
-     */
-    public function loginForm()
-    {
-        return view('auth.login');
-    }
-
-    /**
      * Handle Login Request
      */
     public function login(Request $request)
     {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required'
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended('/account'); // redirect to dashboard
         }
 
         return back()->withErrors([
@@ -36,33 +33,25 @@ class AuthController extends Controller
     }
 
     /**
-     * Show Register Form
-     */
-    public function registerForm()
-    {
-        return view('auth.register');
-    }
-
-    /**
      * Handle Register Request
      */
     public function register(Request $request)
     {
         $request->validate([
-            'name'=>'required|string|max:255',
-            'email'=>'required|email|unique:users,email',
-            'password'=>'required|min:6|confirmed'
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed'
         ]);
 
         $user = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>Hash::make($request->password),
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
         Auth::login($user);
 
-        return redirect('/');
+        return redirect('/account'); // redirect to dashboard
     }
 
     /**
@@ -96,7 +85,7 @@ class AuthController extends Controller
             $user = User::firstOrCreate(
                 ['email' => $googleUser->getEmail()],
                 [
-                    'name' => $googleUser->getName(),
+                    'name'     => $googleUser->getName(),
                     'password' => Hash::make(uniqid()), // random password
                 ]
             );
