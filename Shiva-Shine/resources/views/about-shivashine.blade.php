@@ -60,7 +60,7 @@
         <!-- Designer/Developer Support Card -->
         <div class="bg-white rounded-3xl shadow-xl p-10 hover:shadow-2xl transition transform hover:-translate-y-2">
             <div class="bg-pink-600 text-white w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold mb-6 mx-auto">HH</div>
-            <h2 class="text-xl font-bold text-gray-800 mb-2 text-center">Het Hingariya</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-2 text-center">Het Hingrajiya</h2>
             <p class="text-pink-600 font-semibold text-center mb-4">Designer & Developer</p>
             <p class="text-gray-500 text-sm text-center mb-4">
                 Focused on UI/UX, design consistency, and development support to ensure a visually appealing and functional platform.
