@@ -148,7 +148,14 @@ function updateOrderStatus(event, orderId) {
                  status === 'processing' ? 'bg-blue-500' :
                  status === 'completed' ? 'bg-green-500' :
                  'bg-red-500');
+
             showToast(`Order status updated to ${status}`, 'success');
+
+            // 🔄 Reload page after 1 second so toast is visible
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+
         } else {
             showToast('Failed to update status', 'error');
         }
@@ -156,6 +163,7 @@ function updateOrderStatus(event, orderId) {
     .catch(() => showToast('Error updating order status', 'error'));
 }
 </script>
+
 
 <style>
 @keyframes slide-in {

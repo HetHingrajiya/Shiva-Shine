@@ -6,6 +6,10 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FAQController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\AuthController;
@@ -24,19 +28,34 @@ use App\Http\Controllers\Admin\SettingsController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/about-shivashine', function () {
+    return view('about-shivashine');
+})->name('more');
 
-// User login/register
-Route::get('login', [AuthController::class, 'loginForm'])->name('login');
-Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'registerForm'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
-Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+// Login & Register (handled via modal in account page)
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Google login
-Route::get('auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+// Google Login
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
 
-// Account
+// Forgot Password
+Route::get('/forgot-password', [PasswordResetController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Reset Password
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetForm'])
+    ->name('password.reset');
+
+Route::post('/reset-password', [PasswordResetController::class, 'reset'])
+    ->name('password.update');
+
+// Account Dashboard
 Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 
 // Routes that require authentication
@@ -69,6 +88,15 @@ Route::middleware(['auth'])->group(function () {
     // Profile page
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Contact Us Page
+    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+
+    // FAQ / Help Page
+    Route::get('/faq', [FAQController::class, 'index'])->name('faq.index');
+
+    // Support Chat Page
+    Route::get('/support-chat', [SupportController::class, 'index'])->name('support.chat');
+
 });
 
 // Categories
@@ -122,7 +150,13 @@ Route::prefix('admin/orders')->name('admin.orders.')->group(function () {
     Route::delete('/{id}', [AdminOrderController::class, 'destroy'])->name('destroy'); // admin.orders.destroy
     Route::patch('/{id}/status', [AdminOrderController::class, 'updateStatus'])->name('updateStatus'); // admin.orders.updateStatus
     Route::get('/status/{status}', [AdminOrderController::class, 'filter'])->name('filter'); // admin.orders.filter
+
+
+
+
 });
+
+
 
 
 // Settings main overview

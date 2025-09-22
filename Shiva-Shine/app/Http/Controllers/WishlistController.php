@@ -14,11 +14,12 @@ class WishlistController extends Controller
      */
     public function index()
     {
+        // Redirect guests to login page (GET route)
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login to view your wishlist.');
+            return redirect()->route('account.index')->with('error', 'Please login to view your wishlist.');
         }
 
-        // Get wishlist products for logged-in user
+        // Fetch wishlist items with related product data
         $wishlistItems = Wishlist::with('product')
             ->where('user_id', Auth::id())
             ->get();
@@ -54,12 +55,13 @@ class WishlistController extends Controller
     }
 
     /**
-     * Remove item from wishlist (for form submission)
+     * Remove item from wishlist (form submission)
      */
     public function remove($id)
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login to remove items.');
+            // Redirect guests to login page (GET route)
+            return redirect()->route('account.index')->with('error', 'Please login to remove items.');
         }
 
         $wishlistItem = Wishlist::where('user_id', Auth::id())

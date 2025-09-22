@@ -21,6 +21,7 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
+
     /**
      * Show single order details
      */
@@ -85,4 +86,6 @@ class OrderController extends Controller
 
         return redirect()->back()->with('success', '🔄 Return request placed successfully.');
     }
+
+
 }

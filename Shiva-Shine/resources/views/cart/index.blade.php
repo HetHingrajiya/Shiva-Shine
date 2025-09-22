@@ -119,7 +119,7 @@
 
         @else
             <div class="text-center py-20">
-                <img src="{{ asset('images/empty-cart.png') }}" alt="Empty Cart" class="mx-auto w-48 h-48 object-contain mb-6 opacity-90">
+                <img src="{{ asset('https://cdn-icons-png.flaticon.com/512/11329/11329060.png') }}" alt="Empty Cart" class="mx-auto w-48 h-48 object-contain mb-6 opacity-90">
                 <h3 class="text-2xl font-bold text-[#633d2e] mb-2">Your Cart is Empty</h3>
                 <p class="text-gray-600 mb-6">Add items to your cart to see them here 🛒</p>
                 <a href="{{ route('products.all') }}" class="px-6 py-2 bg-[#633d2e] text-white rounded-lg hover:bg-[#4e2f23] transition">Browse Products</a>

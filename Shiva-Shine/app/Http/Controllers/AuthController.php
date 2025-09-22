@@ -11,23 +11,23 @@ use Laravel\Socialite\Facades\Socialite;
 class AuthController extends Controller
 {
     /**
-     * Show Login Form
-     */
-    public function loginForm()
-    {
-        return view('auth.login');
-    }
-
-    /**
      * Handle Login Request
      */
     public function login(Request $request)
     {
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required'
+        ]);
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+
+            // Redirect to intended page if 'redirect' exists, else fallback to home or account page
+            $redirectTo = $request->input('redirect', url('/'));
+            return redirect()->to($redirectTo);
         }
 
         return back()->withErrors([
@@ -36,33 +36,27 @@ class AuthController extends Controller
     }
 
     /**
-     * Show Register Form
-     */
-    public function registerForm()
-    {
-        return view('auth.register');
-    }
-
-    /**
      * Handle Register Request
      */
     public function register(Request $request)
     {
         $request->validate([
-            'name'=>'required|string|max:255',
-            'email'=>'required|email|unique:users,email',
-            'password'=>'required|min:6|confirmed'
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed'
         ]);
 
         $user = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>Hash::make($request->password),
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
         Auth::login($user);
 
-        return redirect('/');
+        // After registration, redirect to intended page if exists, else home
+        $redirectTo = $request->input('redirect', url('/'));
+        return redirect()->to($redirectTo);
     }
 
     /**
@@ -74,14 +68,18 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/account');
+        return redirect('/');
     }
 
     /**
-     * Redirect to Google
+     * Redirect to Google for Authentication
      */
-    public function redirectToGoogle()
+    public function redirectToGoogle(Request $request)
     {
+        // Capture the intended URL, default to home
+        $redirectTo = $request->input('redirect', url('/'));
+        session(['google_redirect' => $redirectTo]);
+
         return Socialite::driver('google')->redirect();
     }
 
@@ -96,16 +94,19 @@ class AuthController extends Controller
             $user = User::firstOrCreate(
                 ['email' => $googleUser->getEmail()],
                 [
-                    'name' => $googleUser->getName(),
+                    'name'     => $googleUser->getName(),
                     'password' => Hash::make(uniqid()), // random password
                 ]
             );
 
             Auth::login($user);
 
-            return redirect('/account');
+            // Redirect to intended page after Google login
+            $redirectTo = session()->pull('google_redirect', url('/'));
+            return redirect()->to($redirectTo);
+
         } catch (\Exception $e) {
-            return redirect('/account')->withErrors(['msg' => 'Google login failed.']);
+            return redirect('/')->withErrors(['msg' => 'Google login failed.']);
         }
     }
 }
