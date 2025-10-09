@@ -57,7 +57,7 @@
                     </p>
                 @endif
 
-                <!-- Action Buttons -->
+                <!-- Action Buttons (Sticky on Mobile) -->
                 <div
                     class="sticky bottom-0 bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-xl sm:rounded-2xl shadow-lg flex flex-col sm:flex-row gap-3 sm:gap-4 z-20">
 
@@ -92,6 +92,7 @@
                         }
                     @endphp
 
+                    <!-- Modern Product Details Section -->
                     <div
                         class="mt-12 sm:mt-16 bg-gradient-to-br from-rose-50 to-white p-6 sm:p-10 rounded-2xl sm:rounded-3xl shadow-lg border border-gray-200 space-y-10">
 
@@ -150,7 +151,7 @@
         const imgContainer = document.getElementById("imgContainer");
         const mainImage = document.getElementById("mainImage");
 
-        imgContainer.addEventListener("mousemove", function(e) {
+        imgContainer.addEventListener("mousemove", function (e) {
             const { left, top, width, height } = imgContainer.getBoundingClientRect();
             const x = ((e.pageX - left) / width) * 100;
             const y = ((e.pageY - top) / height) * 100;
@@ -159,7 +160,7 @@
             mainImage.style.transform = "scale(2)";
         });
 
-        imgContainer.addEventListener("mouseleave", function() {
+        imgContainer.addEventListener("mouseleave", function () {
             mainImage.style.transformOrigin = "center center";
             mainImage.style.transform = "scale(1)";
         });

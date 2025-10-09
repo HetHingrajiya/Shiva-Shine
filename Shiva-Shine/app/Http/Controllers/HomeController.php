@@ -12,32 +12,41 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Fetch categories
+
+        // Categories
         $categories = Category::orderBy('name')->get();
 
-        // Fetch products for homepage sliders or sections
-        $latestProducts = Product::latest()->take(10)->get(); // Latest products
-        $mensProducts = Product::whereHas('category', function($q) {
+        // Latest Products
+        $latestProducts = Product::latest()->take(10)->get();
+
+        // Men's Products
+        $mensProducts = Product::whereHas('category', function ($q) {
             $q->whereRaw("LOWER(gender) = 'male'");
         })->take(10)->get();
 
-        $womensProducts = Product::whereHas('category', function($q) {
+        // Women's Products
+        $womensProducts = Product::whereHas('category', function ($q) {
             $q->whereRaw("LOWER(gender) = 'female'");
         })->take(10)->get();
 
-        // Wishlist for logged-in user
+        // **All products** (avoid undefined $products in blade)
+        $products = Product::latest()->take(10)->get();
+
+        // Wishlist
         $wishlist = [];
         if (Auth::check()) {
             $wishlist = Wishlist::where('user_id', Auth::id())
-                        ->pluck('product_id')
-                        ->toArray();
+                ->pluck('product_id')
+                ->toArray();
         }
 
+        // Pass data to view (note 'products' included)
         return view('welcome', compact(
             'categories',
             'latestProducts',
             'mensProducts',
             'womensProducts',
+            'products',
             'wishlist'
         ));
     }

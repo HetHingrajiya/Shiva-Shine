@@ -14,7 +14,8 @@
             <!-- Contact Form -->
             <div class="lg:col-span-7 bg-white rounded-3xl shadow-xl p-10 flex flex-col">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6">Send a Message</h2>
-                <form action="#" method="POST" class="space-y-6">
+                <form action="#"
+                 class="space-y-6">
                     @csrf
                     <div>
                         <label class="block text-gray-700 mb-2">Name</label>

@@ -134,59 +134,6 @@
                 For Partners in Crime
             </h2>
 
-            @php
-                $products = [
-                    [
-                        'name' => 'His & Her Rings',
-                        'price' => 2499,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Couple Bracelets',
-                        'price' => 2999,
-                        'category' => 'Bracelet',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Lock & Key Pendants',
-                        'price' => 3199,
-                        'category' => 'Pendant',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Name Engraved Rings',
-                        'price' => 2799,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'His & Her Rings',
-                        'price' => 2499,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Couple Bracelets',
-                        'price' => 2999,
-                        'category' => 'Bracelet',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Name Engraved Rings',
-                        'price' => 2799,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Lock & Key Pendants',
-                        'price' => 3199,
-                        'category' => 'Pendant',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                ];
-            @endphp
-
             <div class="relative">
                 <!-- Scroll Buttons -->
                 <button onclick="scrollProduct('left')"
@@ -211,7 +158,7 @@
                             <!-- Image Wrapper with group -->
                             <div class="relative group">
                                 <!-- Product Image -->
-                                <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
+                                <img src="{{ asset('storage/' . $product->image1) }}" alt="{{ $product->name }}"
                                     class="w-full h-full object-cover rounded-lg mb-4 shadow-sm transition-transform duration-300 group-hover:scale-105">
 
                                 <!-- Wishlist Icon (only visible on image hover) -->
@@ -226,7 +173,7 @@
                             </div>
 
                             <!-- Product Details -->
-                            <div class="text-sm text-gray-600 mb-1">{{ $product['category'] }}</div>
+                            <div class="text-sm text-gray-600 mb-1">{{ $product->category->name ?? 'No Category' }}</div>
                             <h3 class="font-semibold text-base text-gray-800 mb-1 hover:text-pink-600">
                                 {{ $product['name'] }}</h3>
 
@@ -240,8 +187,9 @@
                                 <span class="text-sm text-gray-400 ml-2">(100+)</span>
                             </div>
 
-                            <button
-                                class="w-full bg-pink-100 hover:bg-pink-200 text-pink-600 font-semibold py-2 rounded-lg transition duration-200">
+                            <!-- Add to Cart -->
+                            <button data-id="{{ $product->id }}"
+                                class="add-to-cart-btn w-full bg-gradient-to-r from-pink-100 to-pink-200 hover:from-pink-200 hover:to-pink-300 text-pink-600 font-semibold py-2 rounded-xl shadow-md hover:shadow-lg transition duration-300">
                                 Add to Cart
                             </button>
                         </div>
@@ -250,6 +198,7 @@
 
             </div>
         </section>
+
 
         <!-- ===== Men's Collection ===== -->
         <section class="bg-white py-10">
@@ -322,204 +271,8 @@
             </div>
         </section>
 
-        <!-- =====Most Gifted Section ===== -->
-        <section class="px-4 py-5 bg-gradient-to-br from-pink-100 via-rose-50 to-orange-80">
-            <h2 class="text-2xl md:text-3xl font-semibold text-center text-[#633d2e] mb-6">
-                Most Gifted
-            </h2>
 
-            @php
-                $products = [
-                    [
-                        'name' => 'His & Her Rings',
-                        'price' => 2499,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Couple Bracelets',
-                        'price' => 2999,
-                        'category' => 'Bracelet',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Lock & Key Pendants',
-                        'price' => 3199,
-                        'category' => 'Pendant',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Name Engraved Rings',
-                        'price' => 2799,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'His & Her Rings',
-                        'price' => 2499,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Couple Bracelets',
-                        'price' => 2999,
-                        'category' => 'Bracelet',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Name Engraved Rings',
-                        'price' => 2799,
-                        'category' => 'Rings',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                    [
-                        'name' => 'Lock & Key Pendants',
-                        'price' => 3199,
-                        'category' => 'Pendant',
-                        'image' => 'images/files/Untitled-1.jpg',
-                    ],
-                ];
-            @endphp
 
-            <div class="relative">
-                <!-- Scroll Buttons -->
-                <button onclick="scrollProduct('left')"
-                    class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-2 rounded-full">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                    </svg>
-                </button>
-                <button onclick="scrollProduct('right')"
-                    class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow p-2 rounded-full">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                    </svg>
-                </button>
-
-                <!-- Scrollable Product Cards -->
-                <div id="product-scroll" class="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth px-2 py-6">
-                    @foreach ($products as $product)
-                        <div
-                            class="w-[calc(50vw-2rem)] sm:w-[200px] md:w-[300px] flex-shrink-0 bg-white border border-gray-200 rounded-2xl p-4 shadow transition duration-300 relative flex flex-col justify-between">
-
-                            <!-- Image Wrapper with group -->
-                            <div class="relative group">
-                                <!-- Product Image -->
-                                <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}"
-                                    class="w-full h-full object-cover rounded-lg mb-4 shadow-sm transition-transform duration-300 group-hover:scale-105">
-
-                                <!-- Wishlist Icon (only visible on image hover) -->
-                                <button
-                                    class="absolute top-2 right-2 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
-                                    <svg class="w-6 h-6 fill-current hover:text-pink-500 transition-colors duration-200"
-                                        viewBox="0 0 24 24">
-                                        <path
-                                            d="M12.1 8.64l-.1.1-.11-.1C10.14 6.86 7.5 7.22 6.15 9.04c-1.32 1.75-.96 4.32.99 6.29L12 21.35l4.86-6.01c1.94-1.97 2.31-4.54.99-6.29-1.35-1.82-3.99-2.18-5.75-.41z" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <!-- Product Details -->
-                            <div class="text-sm text-gray-600 mb-1">{{ $product['category'] }}</div>
-                            <h3 class="font-semibold text-base text-gray-800 mb-1 hover:text-pink-600">
-                                {{ $product['name'] }}</h3>
-
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="text-pink-600 font-bold text-base">₹{{ $product['price'] }}</span>
-                                <span class="line-through text-gray-400 text-sm">₹{{ $product['price'] + 1000 }}</span>
-                            </div>
-
-                            <div class="flex items-center mb-2">
-                                <span class="text-yellow-400 text-sm">★ 4.8</span>
-                                <span class="text-sm text-gray-400 ml-2">(100+)</span>
-                            </div>
-
-                            <button
-                                class="w-full bg-pink-100 hover:bg-pink-200 text-pink-600 font-semibold py-2 rounded-lg transition duration-200">
-                                Add to Cart
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-
-            </div>
-        </section>
-
-        <!-- ===== Customer Stories/Reviews Section ===== -->
-        <section class="bg-amber-50 py-10">
-            <h2 class="text-2xl md:text-4xl font-bold text-center text-[#633d2e] mb-10">
-                Customer Stories
-            </h2>
-
-            <!-- Review Row (scroll on mobile, inline row on desktop) -->
-            <div class="max-w-6xl mx-auto overflow-x-auto scrollbar-hide">
-                <div class="flex gap-6 px-4 md:justify-center">
-
-                    <!-- Review Card 1 -->
-                    <div
-                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
-                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Virda</h3>
-                        <p class="text-sm text-gray-700 mb-4 leading-relaxed">
-                            A big shout out to you guys for improving my hubby's gifting tastes. Completely in love with my
-                            ring!
-                        </p>
-                        <img src="{{ asset('images/files/review-1.jpg') }}" alt="Virda"
-                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
-                    </div>
-
-                    <!-- Review Card 2 -->
-                    <div
-                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
-                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Harshika</h3>
-                        <p class="text-sm text-gray-700 mb-4 leading-relaxed">
-                            Never thought buying jewellery would be this easy, thanks for helping make my mom's birthday
-                            special.
-                        </p>
-                        <img src="{{ asset('images/files/review-2.jpg') }}" alt="Harshika"
-                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
-                    </div>
-
-                    <!-- Review Card 3 -->
-                    <div
-                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
-                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Priya</h3>
-                        <p class="text-sm text-gray-700 mb-4 leading-relaxed">
-                            Gifted these earrings to my sister on her wedding and she loved them! I am obsessed with buying
-                            gifts
-                            from GIVA.
-                        </p>
-                        <img src="{{ asset('images/files/review-3.jpg') }}" alt="Priya"
-                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
-                    </div>
-
-                    <!-- Review Card 4 -->
-                    <div
-                        class="bg-yellow-100 rounded-xl px-6 py-6 min-w-[260px] md:min-w-[280px] flex-shrink-0 flex flex-col items-center text-center shadow-md">
-                        <h3 class="font-semibold text-lg mb-3 text-gray-800">Rohan</h3>
-                        <p class="text-sm text-gray-700 mb-4 leading-relaxed">
-                            I was looking for a unique gift for my girlfriend and found the perfect bracelet here. She loved
-                            it!
-                        </p>
-                        <img src="{{ asset('images/files/review-4.jpg') }}" alt="Rohan"
-                            class="rounded-full w-14 h-14 object-cover border-4 border-white shadow-md" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hide Scrollbar CSS -->
-            <style>
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-            </style>
-
-            </div>
-        </section>
 
 
     </section>
@@ -636,29 +389,107 @@
                 behavior: 'smooth'
             });
         }
-       window.addEventListener('DOMContentLoaded', () => {
-        const splash = document.getElementById('splashScreen');
-        const mainContent = document.getElementById('mainContent');
+        window.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splashScreen');
+            const mainContent = document.getElementById('mainContent');
 
-        // Show splash for 2 seconds
-        setTimeout(() => {
-            // Fade out splash
-            splash.style.transition = 'opacity 0.8s ease';
-            splash.style.opacity = 0;
-
-            // After fade out, hide splash and show main content
+            // Show splash for 2 seconds
             setTimeout(() => {
-                splash.style.display = 'none';
-                mainContent.classList.remove('hidden');
-            }, 800); // Match fade-out duration
-        }, 2000); // Splash duration (2 seconds)
-    });
+                // Fade out splash
+                splash.style.transition = 'opacity 0.8s ease';
+                splash.style.opacity = 0;
+
+                // After fade out, hide splash and show main content
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                }, 800); // Match fade-out duration
+            }, 2000); // Splash duration (2 seconds)
+        });
+
+        // Wishlist AJAX Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.wishlist-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    @if (Auth::check())
+                        let productId = this.dataset.id;
+                        let btn = this;
+
+                        fetch("{{ route('wishlist.toggle') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'added') {
+                                    btn.classList.remove('text-gray-400');
+                                    btn.classList.add('text-red-500');
+                                } else if (data.status === 'removed') {
+                                    btn.classList.remove('text-red-500');
+                                    btn.classList.add('text-gray-400');
+                                }
+                            })
+                            .catch(err => console.error(err));
+                    @else
+                        window.location.href = "{{ route('account.index') }}";
+                    @endif
+                });
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    let productId = this.dataset.id;
+                    let btn = this;
+
+                    @if (Auth::check())
+                        fetch("{{ route('cart.add') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                body: JSON.stringify({
+                                    product_id: productId,
+                                    quantity: 1
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    btn.innerText = 'Added ✅';
+                                    btn.disabled = true;
+                                    // Optional: update cart count in header
+                                    const cartCountElem = document.getElementById('cartCount');
+                                    if (cartCountElem) cartCountElem.innerText = data
+                                        .cart_count;
+                                } else {
+                                    alert(data.message);
+                                }
+                            })
+                            .catch(err => console.error(err));
+                    @else
+                        window.location.href = "{{ route('account.index') }}";
+                    @endif
+                });
+            });
+        });
     </script>
     <!-- Hide Scrollbar CSS -->
-<style>
-    #splashScreen {
-        opacity: 1;
-        transition: opacity 0.8s ease;
-    }
-</style>
-
+    <style>
+        #splashScreen {
+            opacity: 1;
+            transition: opacity 0.8s ease;
+        }
+    </style>

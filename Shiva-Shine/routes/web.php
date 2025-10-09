@@ -22,12 +22,11 @@ use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\HomeController;
 
 
 // Home
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-shivashine', function () {
     return view('about-shivashine');
 })->name('more');
@@ -96,7 +95,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Support Chat Page
     Route::get('/support-chat', [SupportController::class, 'index'])->name('support.chat');
-
 });
 
 // Categories
