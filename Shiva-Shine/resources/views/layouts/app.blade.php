@@ -35,7 +35,7 @@
     </style>
 </head>
 
-<body class="bg-[#fffaf7] text-[#633d2e]">
+<body class="bg-white text-[#633d2e]">
 
     <!-- Header / Navbar -->
     <nav class="fixed top-0 left-0 w-full z-50 bg-[#fffaf7] shadow-sm border-b border-gray-200" x-data="{ open: false }">
