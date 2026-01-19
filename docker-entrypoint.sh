@@ -1,10 +1,14 @@
 #!/bin/sh
 set -e
 
-# Generate app key if missing
-php artisan key:generate --force
+# Create a .env file from example if it doesn't exist
+# This avoids errors with artisan commands that expect the file to exist,
+# even if we are using system environment variables.
+if [ ! -f .env ]; then
+    cp .env.example .env
+fi
 
-# Cache configuration
+# Cache configuration (uses Render environment variables)
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
