@@ -15,22 +15,43 @@ services:
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
-        value: true
+        value: false
       - key: APP_URL
         fromService:
           type: web
           name: shivashine
           property: url
-      # Add your database credentials here or in the Render Dashboard env vars
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
-        value: host.docker.internal
+        fromService:
+          type: psql
+          name: shivashine-db
+          property: host
       - key: DB_PORT
-        value: 3306
+        fromService:
+          type: psql
+          name: shivashine-db
+          property: port
       - key: DB_DATABASE
-        value: shivashine
+        fromService:
+          type: psql
+          name: shivashine-db
+          property: database
       - key: DB_USERNAME
-        value: root
+        fromService:
+          type: psql
+          name: shivashine-db
+          property: user
       - key: DB_PASSWORD
-        value: 
+        fromService:
+          type: psql
+          name: shivashine-db
+          property: password
+
+databases:
+  - name: shivashine-db
+    plan: free
+    region: ohio
+    databaseName: shivashine
+    user: shivashine

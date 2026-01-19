@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     curl \
     libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    libpq-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip
 
 # Install Node.js (Required for Vite)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
@@ -37,5 +38,9 @@ RUN chmod -R 775 storage bootstrap/cache
 # Expose Render port
 EXPOSE 10000
 
-# Start Laravel
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# Copy and set entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Start Laravel using entrypoint
+ENTRYPOINT ["docker-entrypoint.sh"]
