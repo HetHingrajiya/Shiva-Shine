@@ -2,19 +2,24 @@
 set -e
 
 # Create a .env file from example if it doesn't exist
-# This avoids errors with artisan commands that expect the file to exist,
-# even if we are using system environment variables.
 if [ ! -f .env ]; then
     cp .env.example .env
 fi
 
-# Cache configuration (uses Render environment variables)
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# IMPORTANT: Do NOT use config:cache if you call env() variables outside of config files.
+# Using config:clear ensures the app reads environment variables directly, which fixes issues
+# where env() returns null in Controllers/Models.
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
 
-# Run migrations (force is needed for production)
+# Fix permissions again at runtime to be safe
+chmod -R 777 storage bootstrap/cache
+
+# Run migrations
+echo "Running migrations..."
 php artisan migrate --force
 
 # Start the server
+echo "Starting server..."
 exec php artisan serve --host=0.0.0.0 --port=10000
