@@ -1,57 +1,16 @@
-services:
-  - type: web
-    name: shivashine
-    env: docker
-    plan: free
-    region: ohio
-    dockerContext: .
-    dockerfilePath: Dockerfile
-    healthCheckPath: /
-    envVars:
-      - key: APP_KEY
-        generateValue: true
-      - key: APP_NAME
-        value: ShivaShine
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: false
-      - key: APP_URL
-        fromService:
-          type: web
-          name: shivashine
-          property: url
-      - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        fromService:
-          type: psql
-          name: shivashine-db
-          property: host
-      - key: DB_PORT
-        fromService:
-          type: psql
-          name: shivashine-db
-          property: port
-      - key: DB_DATABASE
-        fromService:
-          type: psql
-          name: shivashine-db
-          property: database
-      - key: DB_USERNAME
-        fromService:
-          type: psql
-          name: shivashine-db
-          property: user
-      - key: DB_PASSWORD
-        fromService:
-          type: psql
-          name: shivashine-db
-          property: password
-
-databases:
-  - name: shivashine-db
-    plan: free
-    region: ohio
-    databaseName: shivashine
-    user: shivashine
+# Exported from Render on 2026-01-19T17:21:32Z
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: Shiva-Shine
+      runtime: docker
+      repo: https://github.com/HetHingrajiya/Shiva-Shine
+      plan: free
+      region: oregon
+      dockerContext: .
+      dockerfilePath: .
+      autoDeployTrigger: commit
