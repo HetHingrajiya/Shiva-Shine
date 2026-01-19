@@ -14,15 +14,32 @@ echo "APP_DEBUG='true'" >> .env
 echo "LOG_CHANNEL='stderr'" >> .env
 
 # Database - Critical Section
-echo "DB_CONNECTION='pgsql'" >> .env
-echo "DB_HOST='$DB_HOST'" >> .env
-echo "DB_PORT='$DB_PORT'" >> .env
-echo "DB_DATABASE='$DB_DATABASE'" >> .env
-echo "DB_USERNAME='$DB_USERNAME'" >> .env
-echo "DB_PASSWORD='$DB_PASSWORD'" >> .env
+# Only write if variables are present, otherwise Laravel will use defaults from config/database.php
+if [ -n "$DB_CONNECTION" ]; then
+    echo "DB_CONNECTION=$DB_CONNECTION" >> .env
+fi
+if [ -n "$DB_HOST" ]; then
+    echo "DB_HOST=$DB_HOST" >> .env
+fi
+if [ -n "$DB_PORT" ]; then
+    echo "DB_PORT=$DB_PORT" >> .env
+fi
+if [ -n "$DB_DATABASE" ]; then
+    echo "DB_DATABASE=$DB_DATABASE" >> .env
+fi
+if [ -n "$DB_USERNAME" ]; then
+    echo "DB_USERNAME=$DB_USERNAME" >> .env
+fi
+if [ -n "$DB_PASSWORD" ]; then
+    echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+fi
 
-echo "APP_KEY='$APP_KEY'" >> .env
-echo "APP_URL='$APP_URL'" >> .env
+if [ -n "$APP_KEY" ]; then
+    echo "APP_KEY=$APP_KEY" >> .env
+fi
+if [ -n "$APP_URL" ]; then
+    echo "APP_URL=$APP_URL" >> .env
+fi
 
 echo "Done generating .env"
 
