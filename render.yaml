@@ -4,7 +4,6 @@ services:
     env: docker
     plan: free
     region: ohio
-    rootDir: Shiva-Shine
     dockerfilePath: Dockerfile
     healthCheckPath: /
     envVars:
