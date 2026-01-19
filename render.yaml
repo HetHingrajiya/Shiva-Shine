@@ -5,7 +5,7 @@ services:
     plan: free
     region: ohio
     dockerContext: .
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: Dockerfile
     healthCheckPath: /
     envVars:
       - key: APP_KEY
