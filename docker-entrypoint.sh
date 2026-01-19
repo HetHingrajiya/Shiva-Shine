@@ -6,16 +6,33 @@ if [ ! -f .env ]; then
     cp .env.example .env
 fi
 
-# IMPORTANT:
-# If APP_KEY is present in the environment (from Render), we must ensure it is in the .env file
-# because 'php artisan serve' sometimes ignores the system environment variables unlike 'php-fpm'.
+# -----------------------------------------------------------------------------
+# INJECT ENVIRONMENT VARIABLES INTO .env
+# This is crucial because 'php artisan serve' reads .env, and the default 
+# .env.example usually forces 'mysql', overriding Render's 'pgsql' setting.
+# -----------------------------------------------------------------------------
+
+# Inject APP_KEY
 if [ ! -z "$APP_KEY" ]; then
-    # Escape special characters in the key if necessary, though base64 is usually safe
-    # We use sed to replace the existing APP_KEY=... or append if not found
     sed -i "s|^APP_KEY=.*|APP_KEY=$APP_KEY|g" .env
 fi
 
-# Do standard clearing
+# Inject Database Credentials
+# We use | as delimiter to avoid issues if valid urls/paths are used, 
+# though passwords with | might still break.
+if [ ! -z "$DB_HOST" ]; then
+    echo "Injecting Database config into .env..."
+    sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=pgsql|g" .env
+    sed -i "s|^DB_HOST=.*|DB_HOST=$DB_HOST|g" .env
+    sed -i "s|^DB_PORT=.*|DB_PORT=$DB_PORT|g" .env
+    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|g" .env
+    sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|g" .env
+    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|g" .env
+fi
+
+# -----------------------------------------------------------------------------
+
+# Clear config caches to ensure fresh load
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
