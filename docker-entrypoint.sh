@@ -1,38 +1,28 @@
 #!/bin/sh
 set -e
 
-# Copy .env.example to .env if missing
+echo "Initializing Docker Entrypoint..."
+
+# Ensure .env exists
 if [ ! -f .env ]; then
+    echo "Creating .env from example..."
     cp .env.example .env
 fi
 
-# -----------------------------------------------------------------------------
-# INJECT ENVIRONMENT VARIABLES INTO .env
-# This is crucial because 'php artisan serve' reads .env, and the default 
-# .env.example usually forces 'mysql', overriding Render's 'pgsql' setting.
-# -----------------------------------------------------------------------------
+# STRATEGY CHANGE:
+# Instead of trying to overwrite values, we DELETE the conflicting keys from .env.
+# This forces Laravel to use the actual Environment Variables provided by Render.
+# This is much safer than 'sed' replacements that might miss or be malformed.
 
-# Inject APP_KEY
-if [ ! -z "$APP_KEY" ]; then
-    sed -i "s|^APP_KEY=.*|APP_KEY=$APP_KEY|g" .env
-fi
+echo "Removing conflicting local config to force Render Environment Variables..."
+sed -i '/^DB_/d' .env       # Remove all DB_ lines (DB_CONNECTION, DB_HOST, etc)
+sed -i '/^APP_KEY=/d' .env  # Remove APP_KEY so it uses the one from Render
+sed -i '/^APP_DEBUG=/d' .env
+sed -i '/^APP_URL=/d' .env
 
-# Inject Database Credentials
-# We use | as delimiter to avoid issues if valid urls/paths are used, 
-# though passwords with | might still break.
-if [ ! -z "$DB_HOST" ]; then
-    echo "Injecting Database config into .env..."
-    sed -i "s|^DB_CONNECTION=.*|DB_CONNECTION=pgsql|g" .env
-    sed -i "s|^DB_HOST=.*|DB_HOST=$DB_HOST|g" .env
-    sed -i "s|^DB_PORT=.*|DB_PORT=$DB_PORT|g" .env
-    sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$DB_DATABASE|g" .env
-    sed -i "s|^DB_USERNAME=.*|DB_USERNAME=$DB_USERNAME|g" .env
-    sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$DB_PASSWORD|g" .env
-fi
+echo "Environment file prepared."
 
-# -----------------------------------------------------------------------------
-
-# Clear config caches to ensure fresh load
+# Clear caches
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
