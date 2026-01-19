@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Generate app key if missing
+php artisan key:generate --force
+
 # Cache configuration
 php artisan config:cache
 php artisan route:cache
