@@ -12,6 +12,10 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
+# Install Node.js (Required for Vite)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -23,6 +27,9 @@ COPY . .
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
+
+# Install JS dependencies and build assets
+RUN npm install && npm run build
 
 # Laravel permissions
 RUN chmod -R 775 storage bootstrap/cache
