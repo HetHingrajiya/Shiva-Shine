@@ -14,10 +14,17 @@ echo "APP_DEBUG='true'" >> .env
 echo "LOG_CHANNEL='stderr'" >> .env
 
 # Database - Critical Section
-# Only write if variables are present, otherwise Laravel will use defaults from config/database.php
-if [ -n "$DB_CONNECTION" ]; then
-    echo "DB_CONNECTION=$DB_CONNECTION" >> .env
+# Default to pgsql if on Render, or mysql if local, if not provided
+if [ -z "$DB_CONNECTION" ]; then
+    export DB_CONNECTION='pgsql'
 fi
+
+# Ensure SQLite file exists just in case Laravel defaults to it
+mkdir -p database
+touch database/database.sqlite
+
+# Only write if variables are present, otherwise Laravel will use defaults from config/database.php
+echo "DB_CONNECTION=$DB_CONNECTION" >> .env
 if [ -n "$DB_HOST" ]; then
     echo "DB_HOST=$DB_HOST" >> .env
 fi
