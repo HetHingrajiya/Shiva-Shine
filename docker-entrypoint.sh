@@ -1,28 +1,50 @@
 #!/bin/sh
 set -e
 
-echo "Initializing Docker Entrypoint..."
-
-# Ensure .env exists
+# Copy .env.example to .env if missing
 if [ ! -f .env ]; then
-    echo "Creating .env from example..."
     cp .env.example .env
 fi
 
-# STRATEGY CHANGE:
-# Instead of trying to overwrite values, we DELETE the conflicting keys from .env.
-# This forces Laravel to use the actual Environment Variables provided by Render.
-# This is much safer than 'sed' replacements that might miss or be malformed.
+# -----------------------------------------------------------------------------
+# HOST/PORT FIX
+# Render provides config variables, but 'php artisan serve' often ignores them
+# if they are not in the .env file. We must FORCE them into the file.
+# -----------------------------------------------------------------------------
 
-echo "Removing conflicting local config to force Render Environment Variables..."
-sed -i '/^DB_/d' .env       # Remove all DB_ lines (DB_CONNECTION, DB_HOST, etc)
-sed -i '/^APP_KEY=/d' .env  # Remove APP_KEY so it uses the one from Render
-sed -i '/^APP_DEBUG=/d' .env
-sed -i '/^APP_URL=/d' .env
+# Helper function to update or append env var
+update_env() {
+    key=$1
+    value=$2
+    if grep -q "^${key}=" .env; then
+        # Use a different delimiter (#) for sed to avoid issues with / or |
+        sed -i "s#^${key}=.*#${key}=${value}#g" .env
+    else
+        echo "${key}=${value}" >> .env
+    fi
+}
 
-echo "Environment file prepared."
+echo "Injecting Render configuration into .env..."
 
-# Clear caches
+if [ ! -z "$APP_KEY" ]; then
+    update_env "APP_KEY" "$APP_KEY"
+fi
+
+if [ ! -z "$DB_HOST" ]; then
+    update_env "DB_CONNECTION" "pgsql"
+    update_env "DB_HOST" "$DB_HOST"
+    update_env "DB_PORT" "5432"  # Force standard PG port if not set, or use $DB_PORT
+    update_env "DB_DATABASE" "$DB_DATABASE"
+    update_env "DB_USERNAME" "$DB_USERNAME"
+    update_env "DB_PASSWORD" "$DB_PASSWORD"
+fi
+
+# Ensure log channel is stderr for Render
+update_env "LOG_CHANNEL" "stderr"
+
+# -----------------------------------------------------------------------------
+
+# Clear config caches
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
