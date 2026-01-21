@@ -4,11 +4,11 @@
 echo "=== DATABASE DIAGNOSTIC ==="
 echo ""
 echo "Environment Variables:"
-echo "DB_CONNECTION: ${DB_CONNECTION}"
-echo "DB_HOST: ${DB_HOST}"
-echo "DB_PORT: ${DB_PORT}"
-echo "DB_DATABASE: ${DB_DATABASE}"
-echo "DB_USERNAME: ${DB_USERNAME}"
+echo "DB_CONNECTION: ${DB_CONNECTION:-pgsql}"
+echo "DB_HOST: ${DB_HOST:-dpg-d5ohbhf5c7fs73d4ah70-a.oregon-postgres.render.com}"
+echo "DB_PORT: ${DB_PORT:-5432}"
+echo "DB_DATABASE: ${DB_DATABASE:-shivashinedb}"
+echo "DB_USERNAME: ${DB_USERNAME:-shivashinedb_user}"
 echo "DB_PASSWORD: ${DB_PASSWORD:+[SET]}"
 echo ""
 echo "=== Laravel Config (after bootstrap) ==="
@@ -24,7 +24,7 @@ echo 'Database: ' . config('database.connections.' . config('database.default') 
 echo ""
 echo "=== Testing PostgreSQL Connection ==="
 if command -v psql > /dev/null 2>&1; then
-    PGPASSWORD="${DB_PASSWORD}" psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USERNAME}" -d "${DB_DATABASE}" -c "SELECT version();" 2>&1
+    PGPASSWORD="${DB_PASSWORD:-Xdo2CHpb2G3kzb5yYXdn7Gscey9VVF18}" psql -h "${DB_HOST:-dpg-d5ohbhf5c7fs73d4ah70-a.oregon-postgres.render.com}" -p "${DB_PORT:-5432}" -U "${DB_USERNAME:-shivashinedb_user}" -d "${DB_DATABASE:-shivashinedb}" -c "SELECT version();" 2>&1
 else
     echo "psql not available, skipping direct connection test"
 fi
