@@ -5,8 +5,18 @@ set -e
 # This ensures Laravel never falls back to the 'mysql' default
 export DB_CONNECTION="${DB_CONNECTION:-pgsql}"
 
+echo "========================================"
+echo "DATABASE CONFIGURATION DIAGNOSTIC"
+echo "========================================"
+echo "DB_CONNECTION: $DB_CONNECTION"
+echo "DB_HOST: ${DB_HOST:-[NOT SET]}"
+echo "DB_PORT: ${DB_PORT:-[NOT SET]}"
+echo "DB_DATABASE: ${DB_DATABASE:-[NOT SET]}"
+echo "DB_USERNAME: ${DB_USERNAME:-[NOT SET]}"
+echo "DB_PASSWORD: ${DB_PASSWORD:+[SET - Hidden]}"
+echo "========================================"
+echo ""
 echo "Initializing..."
-echo "Current DB_CONNECTION Env Var: $DB_CONNECTION"
 
 # Ensure SQLite file exists just in case Laravel defaults to it
 mkdir -p database
