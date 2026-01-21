@@ -55,22 +55,35 @@ echo "SESSION_DRIVER=file" >> .env
 echo "CACHE_STORE=file" >> .env
 
 echo "Done generating .env"
+echo "=== Generated .env file ==="
 cat .env
+echo "==========================="
 
-# CLEAR ALL CACHES - Use force
+# CLEAR ALL CACHES - Critical to remove any cached MySQL config
+echo "Clearing all Laravel caches..."
 php artisan config:clear || true
 php artisan cache:clear || true
 php artisan route:clear || true
 php artisan view:clear || true
 
-# Optimize for production
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+# Remove any bootstrap cache files that might have old config
+rm -f bootstrap/cache/config.php
+rm -f bootstrap/cache/services.php
+rm -f bootstrap/cache/packages.php
 
-# Run migrations
+# Verify database configuration before migrations
+echo "Verifying database configuration..."
+php -r "require 'vendor/autoload.php'; \$app = require_once 'bootstrap/app.php'; \$app->make('Illuminate\Contracts\Console\Kernel')->bootstrap(); echo 'DB Connection: ' . config('database.default') . PHP_EOL;"
+
+# Run migrations WITHOUT cached config (so it reads fresh .env)
 echo "Running migrations..."
 php artisan migrate --force || echo "Migration failed, continuing..."
+
+# NOW cache for production (after migrations succeed with correct DB)
+echo "Caching configuration for production..."
+php artisan config:cache
+php artisan route:cache  
+php artisan view:cache
 
 echo "Starting server..."
 exec php artisan serve --host=0.0.0.0 --port=10000
