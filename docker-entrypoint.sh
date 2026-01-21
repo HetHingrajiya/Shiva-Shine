@@ -1,6 +1,10 @@
 #!/bin/sh
 set -e
 
+# CRITICAL: Force PostgreSQL connection BEFORE anything else
+# This ensures Laravel never falls back to the 'mysql' default
+export DB_CONNECTION="${DB_CONNECTION:-pgsql}"
+
 echo "Initializing..."
 echo "Current DB_CONNECTION Env Var: $DB_CONNECTION"
 
