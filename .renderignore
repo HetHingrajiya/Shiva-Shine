@@ -1,0 +1,15 @@
+# Files to ignore during Render deployment
+.git
+.gitignore
+.env.example
+render.yaml.example
+README.md
+DEPLOYMENT.md
+*.md
+.editorconfig
+.phpstorm.meta.php
+_ide_helper.php
+tests/
+.phpunit.cache
+phpunit.xml
+diagnose-db.sh
