@@ -17,7 +17,7 @@
         <!-- Founder Card -->
         <div class="bg-white rounded-3xl shadow-xl p-10 hover:shadow-2xl transition transform hover:-translate-y-2">
             <div class="bg-indigo-600 text-white w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold mb-6 mx-auto">YG</div>
-            <h2 class="text-xl font-bold text-gray-800 mb-2 text-center">Yuvraj Goasi</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-2 text-center">Het Hingrajiya</h2>
             <p class="text-indigo-600 font-semibold text-center mb-4">Founder & Visionary</p>
             <p class="text-gray-500 text-sm text-center mb-4">
                 Steering Shiva Shine’s vision and ensuring top-quality products and exceptional user experience across the platform.
@@ -32,22 +32,11 @@
         <!-- Main Developer Card -->
         <div class="bg-white rounded-3xl shadow-2xl p-10 hover:shadow-3xl transition transform hover:-translate-y-2">
             <div class="bg-green-600 text-white w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold mb-6 mx-auto">HL</div>
-            <h2 class="text-xl font-bold text-gray-800 mb-2 text-center">Hemang Lakhadiya</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-2 text-center">Het Hingrajiya</h2>
             <p class="text-green-600 font-semibold text-center mb-4">Lead Developer & Full Stack Expert</p>
             <p class="text-gray-500 text-sm text-center mb-4">
                 Responsible for all functionalities, smooth performance, backend systems, and ensuring a seamless user experience across Shiva Shine.
             </p>
-            <div class="space-y-2">
-                <div class="w-full bg-gray-200 h-2 rounded-full">
-                    <div class="bg-green-500 h-2 rounded-full w-100 transition-all duration-500"></div>
-                </div>
-                <div class="w-full bg-gray-200 h-2 rounded-full">
-                    <div class="bg-green-500 h-2 rounded-full w-90 transition-all duration-500"></div>
-                </div>
-                <div class="w-full bg-gray-200 h-2 rounded-full">
-                    <div class="bg-green-500 h-2 rounded-full w-80 transition-all duration-500"></div>
-                </div>
-            </div>
             <div class="flex flex-wrap justify-center gap-2 mt-4">
                 <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Laravel</span>
                 <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">TailwindCSS</span>
@@ -79,11 +68,11 @@
         <h2 class="text-3xl font-bold text-gray-900 mb-6">About Shiva Shine</h2>
         <p class="text-gray-700 text-lg leading-relaxed">
             Shiva Shine is a premium online jewellery platform delivering top-quality products and a seamless shopping experience.
-            Founded by Yuvraj Goasi, and developed with full-stack expertise by Hemang Lakhadiya, our team ensures a modern, secure, and smooth platform.
+            Founded by Het Hingrajiya, and developed with full-stack expertise by Het Hingrajiya, our team ensures a modern, secure, and smooth platform.
             Het Hingariya contributes to design and development support to maintain a clean and elegant UI.
         </p>
         <p class="text-gray-500 text-sm mt-6">
-            Founded by Yuvraj Goasi &nbsp;|&nbsp; Developed by Hemang Lakhadiya & Het Hingariya
+            Founded by Het Hingrajiya &nbsp;|&nbsp; Developed by Het Hingrajiya
         </p>
     </div>
 
