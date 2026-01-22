@@ -152,6 +152,16 @@ php artisan migrate --force || {
 echo "✓ Migrations completed successfully"
 echo ""
 
+# Seed database with admin account
+echo "Seeding database with admin account..."
+php artisan db:seed --class=AdminSeeder --force || echo "⚠ Warning: Seeding failed or admin already exists"
+echo "✓ Database seeding completed"
+echo ""
+echo "   Admin Login Credentials:"
+echo "   Email: admin@shivashine.com"
+echo "   Password: shivashine@108"
+echo ""
+
 # Cache configuration for production performance
 echo "Caching configuration for production..."
 php artisan config:cache
