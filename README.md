@@ -51,10 +51,15 @@ A modern, elegant jewelry e-commerce platform built with Laravel, featuring Goog
 
 4. **Set up database**
    - Update `.env` with your database credentials
-   - Run migrations:
+   - Run migrations and seed admin account:
    ```bash
    php artisan migrate
+   php artisan db:seed --class=AdminSeeder
    ```
+   
+   **Admin credentials:**
+   - Email: `admin@shivashine.com`
+   - Password: `shivashine@108`
 
 5. **Build assets**
    ```bash
