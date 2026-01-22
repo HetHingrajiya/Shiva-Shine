@@ -16,6 +16,8 @@ services:
         value: false
       - key: APP_URL
         value: https://shiva-shine-1.onrender.com
+      - key: APP_KEY
+        value: base64:FPr4GnTMMdmaDjX8B1XL3wWYCamQirxwZlG3uj8oztI=
       - key: LOG_CHANNEL
         value: stderr
       - key: LOG_LEVEL

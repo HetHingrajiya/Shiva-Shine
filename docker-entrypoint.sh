@@ -93,9 +93,33 @@ echo ""
 
 # Verify database configuration
 echo "Verifying database connection..."
-if [ -z "$DB_HOST" ] || [ -z "$DB_DATABASE" ] || [ -z "$DB_USERNAME" ] || [ -z "$DB_PASSWORD" ]; then
+MISSING_VARS=""
+
+if [ -z "$DB_HOST" ]; then
+    MISSING_VARS="${MISSING_VARS}  - DB_HOST\n"
+fi
+if [ -z "$DB_DATABASE" ]; then
+    MISSING_VARS="${MISSING_VARS}  - DB_DATABASE\n"
+fi
+if [ -z "$DB_USERNAME" ]; then
+    MISSING_VARS="${MISSING_VARS}  - DB_USERNAME\n"
+fi
+if [ -z "$DB_PASSWORD" ]; then
+    MISSING_VARS="${MISSING_VARS}  - DB_PASSWORD\n"
+fi
+
+if [ -n "$MISSING_VARS" ]; then
     echo "❌ ERROR: Database credentials are incomplete!"
-    echo "   Please ensure DB_HOST, DB_DATABASE, DB_USERNAME, and DB_PASSWORD are set."
+    echo "   Missing environment variables:"
+    echo -e "$MISSING_VARS"
+    echo ""
+    echo "   Current values:"
+    echo "   DB_HOST=${DB_HOST:-[NOT SET]}"
+    echo "   DB_DATABASE=${DB_DATABASE:-[NOT SET]}"
+    echo "   DB_USERNAME=${DB_USERNAME:-[NOT SET]}"
+    echo "   DB_PASSWORD=${DB_PASSWORD:+[SET]}"
+    echo ""
+    echo "   Please set these in Render Dashboard → Environment"
     exit 1
 fi
 echo "✓ Database credentials verified"
