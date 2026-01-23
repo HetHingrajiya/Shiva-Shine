@@ -244,7 +244,12 @@
 
         form.addEventListener("submit", function(e) {
             e.preventDefault();
+            console.log("Form submitted");
+            console.log("Email value:", email.value);
+            console.log("Password value:", password.value ? "***" : "(empty)");
+            
             let hasError = false;
+            let emptyFields = [];
 
             // Validate inputs
             [email, password].forEach(input => {
@@ -252,14 +257,21 @@
                 if (!input.value.trim()) {
                     input.classList.add("input-error");
                     hasError = true;
+                    emptyFields.push(input.placeholder);
                 }
             });
 
             if (hasError) {
-                showError("Please fill all required fields");
+                const errorMsg = emptyFields.length === 2 
+                    ? "Please fill all required fields" 
+                    : `Please fill: ${emptyFields.join(", ")}`;
+                console.log("Validation error:", errorMsg);
+                showError(errorMsg);
                 return;
             }
 
+            console.log("Validation passed, submitting to server...");
+            
             // Show loader
             loaderOverlay.classList.add("show");
 
@@ -277,15 +289,19 @@
             })
             .then(response => response.json())
             .then(data => {
+                console.log("Server response:", data);
                 loaderOverlay.classList.remove("show");
 
                 if (data.status === "success") {
+                    console.log("Login successful, redirecting...");
                     window.location.href = data.redirect;
                 } else {
+                    console.log("Login failed:", data.message);
                     showError(data.message || "Invalid login details");
                 }
             })
-            .catch(() => {
+            .catch(error => {
+                console.error("Request error:", error);
                 loaderOverlay.classList.remove("show");
                 showError("Something went wrong. Please try again.");
             });
