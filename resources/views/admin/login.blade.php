@@ -198,10 +198,6 @@
                 <i data-feather="mail"></i>
                 <input type="email" id="email" name="email" placeholder="Email Address" class="w-full px-4 py-2 focus:outline-none">
             </div>
-            <div class="input-group">
-                <i data-feather="lock"></i>
-                <input type="password" id="password" name="password" placeholder="Password" class="w-full px-4 py-2 focus:outline-none">
-            </div>
             <div>
                 <button type="submit" id="loginBtn" class="w-full btn-nude flex items-center justify-center gap-2">
                     Login
@@ -240,33 +236,18 @@
         const form = document.getElementById("loginForm");
         const loaderOverlay = document.getElementById("loaderOverlay");
         const email = document.getElementById("email");
-        const password = document.getElementById("password");
 
         form.addEventListener("submit", function(e) {
             e.preventDefault();
             console.log("Form submitted");
             console.log("Email value:", email.value);
-            console.log("Password value:", password.value ? "***" : "(empty)");
             
-            let hasError = false;
-            let emptyFields = [];
-
-            // Validate inputs
-            [email, password].forEach(input => {
-                input.classList.remove("input-error");
-                if (!input.value.trim()) {
-                    input.classList.add("input-error");
-                    hasError = true;
-                    emptyFields.push(input.placeholder);
-                }
-            });
-
-            if (hasError) {
-                const errorMsg = emptyFields.length === 2 
-                    ? "Please fill all required fields" 
-                    : `Please fill: ${emptyFields.join(", ")}`;
-                console.log("Validation error:", errorMsg);
-                showError(errorMsg);
+            // Validate email
+            email.classList.remove("input-error");
+            if (!email.value.trim()) {
+                email.classList.add("input-error");
+                console.log("Validation error: Email is required");
+                showError("Please enter your email address");
                 return;
             }
 
@@ -275,7 +256,7 @@
             // Show loader
             loaderOverlay.classList.add("show");
 
-            // Submit login request
+            // Submit login request (email only)
             fetch("{{ route('admin.login.post') }}", {
                 method: "POST",
                 headers: {
@@ -283,8 +264,7 @@
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
                 body: JSON.stringify({
-                    email: email.value.trim(),
-                    password: password.value
+                    email: email.value.trim()
                 })
             })
             .then(response => response.json())
@@ -297,7 +277,7 @@
                     window.location.href = data.redirect;
                 } else {
                     console.log("Login failed:", data.message);
-                    showError(data.message || "Invalid login details");
+                    showError(data.message || "Invalid email address");
                 }
             })
             .catch(error => {
