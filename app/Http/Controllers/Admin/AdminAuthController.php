@@ -22,15 +22,16 @@ class AdminAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => 'required|email'
+                'email'    => 'required|email',
+                'password' => 'required'
             ]);
 
             $admin = Admin::where('email', $request->email)->first();
 
-            if (!$admin) {
+            if (!$admin || !Hash::check($request->password, $admin->password)) {
                 return response()->json([
                     'status'  => 'error',
-                    'message' => 'Admin account not found'
+                    'message' => 'Invalid email or password'
                 ], 401);
             }
 

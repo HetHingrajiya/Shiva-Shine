@@ -196,7 +196,11 @@
             @csrf
             <div class="input-group">
                 <i data-feather="mail"></i>
-                <input type="email" id="email" name="email" placeholder="Email Address" class="w-full px-4 py-2 focus:outline-none">
+                <input type="email" id="email" name="email" placeholder="Email Address" class="w-full px-4 py-2 focus:outline-none" autocomplete="email">
+            </div>
+            <div class="input-group">
+                <i data-feather="lock"></i>
+                <input type="password" id="password" name="password" placeholder="Password" class="w-full px-4 py-2 focus:outline-none" autocomplete="current-password">
             </div>
             <div>
                 <button type="submit" id="loginBtn" class="w-full btn-nude flex items-center justify-center gap-2">
@@ -236,27 +240,42 @@
         const form = document.getElementById("loginForm");
         const loaderOverlay = document.getElementById("loaderOverlay");
         const email = document.getElementById("email");
+        const password = document.getElementById("password");
 
         form.addEventListener("submit", function(e) {
             e.preventDefault();
             console.log("Form submitted");
-            console.log("Email value:", email.value);
+            console.log("Email:", email.value);
+            console.log("Password:", password.value ? "***" : "(empty)");
             
-            // Validate email
+            // Validate both fields
+            let hasError = false;
+            
             email.classList.remove("input-error");
+            password.classList.remove("input-error");
+            
             if (!email.value.trim()) {
                 email.classList.add("input-error");
-                console.log("Validation error: Email is required");
-                showError("Please enter your email address");
+                hasError = true;
+            }
+            
+            if (!password.value.trim()) {
+                password.classList.add("input-error");
+                hasError = true;
+            }
+
+            if (hasError) {
+                console.log("Validation error: Please fill all fields");
+                showError("Please fill all required fields");
                 return;
             }
 
-            console.log("Validation passed, submitting to server...");
+            console.log("Validation passed, submitting...");
             
             // Show loader
             loaderOverlay.classList.add("show");
 
-            // Submit login request (email only)
+            // Submit login request
             fetch("{{ route('admin.login.post') }}", {
                 method: "POST",
                 headers: {
@@ -264,7 +283,8 @@
                     "X-CSRF-TOKEN": "{{ csrf_token() }}"
                 },
                 body: JSON.stringify({
-                    email: email.value.trim()
+                    email: email.value.trim(),
+                    password: password.value
                 })
             })
             .then(response => response.json())
@@ -273,11 +293,11 @@
                 loaderOverlay.classList.remove("show");
 
                 if (data.status === "success") {
-                    console.log("Login successful, redirecting...");
+                    console.log("Login successful!");
                     window.location.href = data.redirect;
                 } else {
                     console.log("Login failed:", data.message);
-                    showError(data.message || "Invalid email address");
+                    showError(data.message || "Invalid credentials");
                 }
             })
             .catch(error => {
