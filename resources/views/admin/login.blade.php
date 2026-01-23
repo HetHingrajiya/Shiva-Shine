@@ -236,7 +236,7 @@
             }, 3000);
         }
 
-        // Form validation + loader
+        // Form validation + submission
         const form = document.getElementById("loginForm");
         const loaderOverlay = document.getElementById("loaderOverlay");
         const email = document.getElementById("email");
@@ -246,6 +246,7 @@
             e.preventDefault();
             let hasError = false;
 
+            // Validate inputs
             [email, password].forEach(input => {
                 input.classList.remove("input-error");
                 if (!input.value.trim()) {
@@ -262,27 +263,7 @@
             // Show loader
             loaderOverlay.classList.add("show");
 
-        });
-
-        form.addEventListener("submit", function(e) {
-            e.preventDefault();
-            let hasError = false;
-
-            [email, password].forEach(input => {
-                input.classList.remove("input-error");
-                if (!input.value.trim()) {
-                    input.classList.add("input-error");
-                    hasError = true;
-                }
-            });
-
-            if (hasError) {
-                showError("Please fill all required fields");
-                return;
-            }
-
-            loaderOverlay.classList.add("show");
-
+            // Submit login request
             fetch("{{ route('admin.login.post') }}", {
                 method: "POST",
                 headers: {
