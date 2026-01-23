@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Use updateOrCreate to prevent duplicate errors
+        // First Admin - Super Admin
         \App\Models\Admin::updateOrCreate(
             ['email' => 'admin@shivashine.com'],
             [
@@ -25,5 +25,18 @@ class AdminSeeder extends Seeder
         );
         
         echo "✓ Admin account created/updated: admin@shivashine.com\n";
+        
+        // Second Admin - Het Hingrajiya
+        \App\Models\Admin::updateOrCreate(
+            ['email' => 'het@shivashine.com'],
+            [
+                'name' => 'Het Hingrajiya',
+                'password' => Hash::make('het@123'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+        
+        echo "✓ Admin account created/updated: het@shivashine.com\n";
     }
 }

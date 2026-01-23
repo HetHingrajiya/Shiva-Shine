@@ -205,13 +205,18 @@ echo "✓ Migrations completed successfully"
 echo ""
 
 # Seed database with admin account
-echo "Seeding database with admin account..."
-php artisan db:seed --class=AdminSeeder --force || echo "⚠ Warning: Seeding failed or admin already exists"
+echo "Seeding database with admin accounts..."
+php artisan db:seed --class=AdminSeeder --force || echo "⚠ Warning: Seeding failed or admins already exist"
 echo "✓ Database seeding completed"
 echo ""
 echo "   Admin Login Credentials:"
-echo "   Email: admin@shivashine.com"
-echo "   Password: shivashine@108"
+echo "   1. Super Admin"
+echo "      Email: admin@shivashine.com"
+echo "      Password: shivashine@108"
+echo ""
+echo "   2. Het Hingrajiya"
+echo "      Email: het@shivashine.com"
+echo "      Password: het@123"
 echo ""
 
 # Cache configuration for production performance
