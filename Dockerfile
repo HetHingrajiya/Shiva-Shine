@@ -11,7 +11,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     libpq-dev \
-    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip
+    libicu-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring exif pcntl bcmath gd zip intl \
+    && docker-php-ext-configure intl
 
 # Install Node.js (Required for Vite)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \

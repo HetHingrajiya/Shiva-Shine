@@ -139,21 +139,55 @@ echo ""
 
 # Test database connection
 echo "Testing database connection..."
-MAX_RETRIES=5
+echo "  Attempting to connect to: ${DB_HOST}:${DB_PORT}"
+echo "  Database: ${DB_DATABASE}"
+echo "  Username: ${DB_USERNAME}"
+echo ""
+
+MAX_RETRIES=10
 RETRY_COUNT=0
 
 while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-    if php artisan db:show 2>/dev/null; then
+    echo "Attempt $((RETRY_COUNT + 1))/$MAX_RETRIES..."
+    
+    # Try to connect using Laravel's database connection
+    if php -r "
+        require 'vendor/autoload.php';
+        \$app = require_once 'bootstrap/app.php';
+        \$kernel = \$app->make(Illuminate\Contracts\Console\Kernel::class);
+        \$kernel->bootstrap();
+        try {
+            DB::connection()->getPdo();
+            echo 'Connected successfully';
+            exit(0);
+        } catch (Exception \$e) {
+            echo 'Connection failed: ' . \$e->getMessage();
+            exit(1);
+        }
+    " 2>&1; then
         echo "✓ Database connection successful"
         break
     else
         RETRY_COUNT=$((RETRY_COUNT + 1))
         if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
-            echo "⚠ Database connection failed. Retrying in 5 seconds... ($RETRY_COUNT/$MAX_RETRIES)"
-            sleep 5
+            echo "⚠ Database connection failed. Retrying in 10 seconds..."
+            sleep 10
         else
+            echo ""
             echo "❌ ERROR: Could not connect to database after $MAX_RETRIES attempts"
-            echo "   Please verify your database credentials and network connectivity"
+            echo ""
+            echo "Troubleshooting Information:"
+            echo "  1. Verify PostgreSQL database is running on Render"
+            echo "  2. Check if database credentials are correct"
+            echo "  3. Ensure database allows connections from this service"
+            echo "  4. Try using internal hostname if available"
+            echo ""
+            echo "Current Configuration:"
+            echo "  DB_HOST: ${DB_HOST}"
+            echo "  DB_PORT: ${DB_PORT}"
+            echo "  DB_DATABASE: ${DB_DATABASE}"
+            echo "  DB_USERNAME: ${DB_USERNAME}"
+            echo ""
             exit 1
         fi
     fi
