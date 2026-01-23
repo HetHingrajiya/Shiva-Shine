@@ -20,28 +20,48 @@ class AdminAuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'email'    => 'required|email',
+                'password' => 'required'
+            ]);
 
-        $admin = Admin::where('email', $request->email)->first();
+            $admin = Admin::where('email', $request->email)->first();
 
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
+            if (!$admin || !Hash::check($request->password, $admin->password)) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Invalid email or password'
+                ], 401);
+            }
+
+            // Store session
+            session(['admin_id' => $admin->id]);
+
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Login successful',
+                'redirect'=> route('admin.dashboard')
+            ]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Database connection error
+            \Log::error('Admin login database error: ' . $e->getMessage());
+            
             return response()->json([
                 'status'  => 'error',
-                'message' => 'Invalid email or password'
-            ], 401);
+                'message' => 'Database connection error. Please try again later.',
+                'debug'   => config('app.debug') ? $e->getMessage() : null
+            ], 500);
+        } catch (\Exception $e) {
+            // General error
+            \Log::error('Admin login error: ' . $e->getMessage());
+            
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Something went wrong. Please try again.',
+                'debug'   => config('app.debug') ? $e->getMessage() : null
+            ], 500);
         }
-
-        // Store session
-        session(['admin_id' => $admin->id]);
-
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Login successful',
-            'redirect'=> route('admin.dashboard')
-        ]);
     }
 
     public function dashboard()

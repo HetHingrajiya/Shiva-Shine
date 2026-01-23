@@ -139,7 +139,25 @@ echo ""
 
 # Test database connection
 echo "Testing database connection..."
-php artisan db:show || echo "⚠ Warning: Could not display database info (non-critical)"
+MAX_RETRIES=5
+RETRY_COUNT=0
+
+while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+    if php artisan db:show 2>/dev/null; then
+        echo "✓ Database connection successful"
+        break
+    else
+        RETRY_COUNT=$((RETRY_COUNT + 1))
+        if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+            echo "⚠ Database connection failed. Retrying in 5 seconds... ($RETRY_COUNT/$MAX_RETRIES)"
+            sleep 5
+        else
+            echo "❌ ERROR: Could not connect to database after $MAX_RETRIES attempts"
+            echo "   Please verify your database credentials and network connectivity"
+            exit 1
+        fi
+    fi
+done
 echo ""
 
 # Run database migrations

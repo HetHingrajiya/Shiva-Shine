@@ -13,12 +13,17 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('admins')->insert([
-            'name' => 'Super Admin',
-            'email' => 'admin@shivashine.com',
-            'password' => Hash::make('shivashine@108'), // hashed password
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        // Use updateOrCreate to prevent duplicate errors
+        \App\Models\Admin::updateOrCreate(
+            ['email' => 'admin@shivashine.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('shivashine@108'),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+        
+        echo "✓ Admin account created/updated: admin@shivashine.com\n";
     }
 }

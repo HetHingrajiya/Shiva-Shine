@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\CartController;
@@ -25,11 +26,48 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\HomeController;
 
 
+
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-shivashine', function () {
     return view('about-shivashine');
 })->name('more');
+
+// Health Check Endpoint (for debugging database connection)
+Route::get('/health', function () {
+    try {
+        // Test database connection
+        DB::connection()->getPdo();
+        
+        // Count admin accounts
+        $adminCount = \App\Models\Admin::count();
+        
+        // Get database info
+        $dbConnection = config('database.default');
+        $dbHost = config('database.connections.' . $dbConnection . '.host');
+        
+        return response()->json([
+            'status' => 'healthy',
+            'database' => [
+                'connected' => true,
+                'connection' => $dbConnection,
+                'host' => $dbHost,
+                'admin_count' => $adminCount
+            ],
+            'timestamp' => now()->toDateTimeString()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'unhealthy',
+            'database' => [
+                'connected' => false,
+                'error' => $e->getMessage()
+            ],
+            'timestamp' => now()->toDateTimeString()
+        ], 500);
+    }
+});
+
 
 // Login & Register (handled via modal in account page)
 Route::post('/login', [AuthController::class, 'login'])->name('login');
